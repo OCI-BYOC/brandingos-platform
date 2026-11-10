@@ -176,3 +176,68 @@ LINKEDIN_CLIENT_SECRET=...
 
 ## Package Manager
 pnpm (not npm, not yarn). Always `pnpm install`, `pnpm dev`, `pnpm build`.
+
+## graphify
+
+This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
+
+Rules:
+- When graphify-out/graph.json exists, run `graphify query "<question>"` before your first grep, search or source-file read for a codebase question, and put this rule in every subagent prompt that explores code. Read raw files only for lines the graph or an earlier read already located. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
+- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
+- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
+- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
+- A committed graphify-out/graph.json is rewritten whole on every build, so a large diff to it in a pull request is expected. Do not flag it as churn or suggest skipping the graph rebuild or its hooks.
+
+
+## Compound Engineering Skills
+
+37 engineering skills installed in `.claude/skills/`. Config in `.compound-engineering/config.yaml`.
+
+The core loop for every piece of work:
+1. `/ce-brainstorm <what you want to build>` — interactive Q&A, produces a requirements plan
+2. `/ce-plan` — enriches the requirements plan into an implementation plan
+3. `/ce-work` — executes the plan
+4. `/ce-simplify-code` — cleans up what was written before review
+5. `/ce-code-review` — multi-agent review against the plan
+6. `/ce-compound` — saves learnings to `docs/solutions/` for the next loop
+
+Autonomous: `/lfg` runs the whole pipeline after brainstorm.
+
+Key on-demand skills:
+- `/ce-explain <concept>` — understand how something works before touching it
+- `/ce-debug <error>` — structured debugging
+- `/ce-commit` / `/ce-commit-push-pr` — commits with correct format and opens PR
+- `/ce-code-review` — review before every merge
+- `/ce-setup` — run once per session to verify tools and config
+
+Learning accumulates in `docs/solutions/` — always read it before starting a new loop.
+
+## Playwright Skill
+
+Browser automation installed in `.claude/skills/playwright-skill/`. Chromium installed.
+
+Use for:
+- E2E testing of portfolio pages (`http://localhost:3000`)
+- Testing the onboarding wizard flow
+- Verifying payment flows in test mode
+- Screenshot diffing for portfolio themes
+- Testing the booking form
+
+Default: browser visible (`headless: false`), 0ms slow motion.
+Run via: `.claude/skills/playwright-skill/run.js` (handles module resolution).
+
+## 21st MCP — UI Components
+
+MCP server configured in `.claude/settings.json`. Set `API_KEY_21ST` env var before starting Claude Code.
+
+Get a free API key at: https://21st.dev/mcp
+
+Use this for:
+- Searching 10,000+ ready-made React/Tailwind components (`search` tool)
+- Generating new UI components with AI (`generate` tool)
+- Building portfolio section UI (hero, about, projects, testimonials, newsletter)
+- Inspiration for layouts and component patterns (`get_inspiration` tool)
+- Logo search for marketplace listings (`search_logo` tool)
+
+Usage pattern: search 21st first → adapt to BrandingOS Tailwind v4 + Shadcn tokens → iterate.
+Key tools: `search`, `generate`, `get_inspiration`, `search_logo`, `get_usage`.
