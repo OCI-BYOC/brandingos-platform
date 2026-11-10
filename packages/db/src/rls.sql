@@ -93,7 +93,7 @@ ALTER TABLE quiz_question_options      ENABLE ROW LEVEL SECURITY;
 
 -- ─── Helper function ──────────────────────────────────────────────────────────
 CREATE OR REPLACE FUNCTION current_user_id() RETURNS TEXT AS $$
-  SELECT current_setting('app.user_id', TRUE)
+  SELECT current_setting('app.current_user_id', TRUE)
 $$ LANGUAGE SQL STABLE;
 
 -- ─── users ────────────────────────────────────────────────────────────────────
