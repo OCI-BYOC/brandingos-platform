@@ -12,7 +12,7 @@ export const mcpSessions = pgTable(
     id:            uuid("id").primaryKey().defaultRandom(),
     userId:        text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
     clientId:      text("client_id").notNull(),   // claude | gemini | cursor | custom
-    accessToken:   text("access_token").notNull(), // SHA-256 hashed — never stored plain
+    accessToken:   text("access_token").notNull().unique(), // SHA-256 hashed — never stored plain
     scopes:        text("scopes").array().notNull(),
     // read:portfolio | write:portfolio | write:social | read:analytics | write:commerce etc.
     expiresAt:     timestamp("expires_at", { withTimezone: true }).notNull(),

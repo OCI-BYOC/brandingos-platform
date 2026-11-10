@@ -1,5 +1,6 @@
 import { neon, neonConfig } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
+import { sql } from "drizzle-orm";
 import * as schema from "./schema/index.js";
 
 // Neon connection — serverless HTTP mode (works in Cloudflare Workers)
@@ -48,8 +49,8 @@ export async function withRLS<T>(
   // We use a transaction to scope the setting to this request only
   // Multiple concurrent requests each get their own setting scope
   return db.transaction(async (tx) => {
-    // Set the user context for RLS policies
-    await tx.execute(`SET LOCAL app.current_user_id = '${userId}'`);
+    // set_config supports parameterized queries; true = transaction-local (same as SET LOCAL)
+    await tx.execute(sql`SELECT set_config('app.current_user_id', ${userId}, true)`);
     // Run the actual query
     return callback(tx as unknown as ReturnType<typeof createDb>);
   });
