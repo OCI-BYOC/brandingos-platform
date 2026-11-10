@@ -1,0 +1,33 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null)
+echo "Pre-push checks for branch: $BRANCH"
+
+[ "$BRANCH" = "main" ] && echo "BLOCKED: Direct push to main not allowed. Use PR." && exit 1
+
+if [[ "$BRANCH" != "develop" && ! "$BRANCH" =~ ^dependabot/ ]]; then
+  PATTERN="^(feature|fix|chore|refactor|perf|test|docs|infra|ai|db|sec|ai-exp)\/(satyam|aditya|soumyadip)-[0-9]+-[a-z0-9][a-z0-9-]*[a-z0-9]$"
+  if [[ ! "$BRANCH" =~ $PATTERN ]]; then
+    echo "BLOCKED: Branch '$BRANCH' does not follow naming convention"
+    echo "Required: type/name-issue-description"
+    echo "Example:  feature/satyam-23-github-sync"
+    exit 1
+  fi
+fi
+
+echo "Running TypeScript check..."
+pnpm type-check || (echo "BLOCKED: TypeScript errors found" && exit 1)
+echo "TypeScript clean"
+
+echo "Running ESLint..."
+pnpm lint --quiet || (echo "BLOCKED: ESLint errors found" && exit 1)
+echo "ESLint clean"
+
+echo "Checking for console.log..."
+if grep -rn "console\.log" apps/ packages/ --include="*.ts" --include="*.tsx" --exclude-dir=node_modules --exclude="*.test.*" 2>/dev/null; then
+  echo "BLOCKED: Remove console.log before pushing" && exit 1
+fi
+echo "No console.log found"
+
+echo "All pre-push checks passed"

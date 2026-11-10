@@ -1,0 +1,42 @@
+name: Branch Name Enforcement
+
+on:
+  push:
+    branches-ignore: [main, develop]
+  pull_request:
+    branches: [develop, main]
+
+jobs:
+  validate-branch:
+    name: Validate Branch Name
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch name format
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BRANCH="${{ github.head_ref }}"
+          else
+            BRANCH="${GITHUB_REF#refs/heads/}"
+          fi
+          echo "Branch: $BRANCH"
+          if [[ "$BRANCH" == "main" || "$BRANCH" == "develop" || "$BRANCH" == dependabot/* ]]; then
+            echo "Protected/Dependabot branch — skipping check" && exit 0
+          fi
+          PATTERN="^(feature|fix|chore|refactor|perf|test|docs|infra|ai|db|sec|ai-exp)\/(satyam|aditya|soumyadip)-[0-9]+-[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          if [[ ! "$BRANCH" =~ $PATTERN ]]; then
+            echo ""
+            echo "BLOCKED: Branch '$BRANCH' does not follow naming convention"
+            echo "Required: <type>/<name>-<issue-number>-<description>"
+            echo "Examples:"
+            echo "  feature/satyam-23-github-live-sync"
+            echo "  fix/aditya-89-razorpay-webhook"
+            echo "  infra/soumyadip-12-nomad-arm-jobs"
+            echo "  ai-exp/satyam-67-llama-prompt-test"
+            exit 1
+          fi
+          TYPE=$(echo "$BRANCH" | cut -d'/' -f1)
+          REST=$(echo "$BRANCH" | cut -d'/' -f2)
+          MEMBER=$(echo "$REST" | cut -d'-' -f1)
+          ISSUE=$(echo "$REST" | cut -d'-' -f2)
+          DESC=$(echo "$REST" | cut -d'-' -f3-)
+          echo "Branch valid: Type=$TYPE | Member=$MEMBER | Issue=#$ISSUE | Desc=$DESC"

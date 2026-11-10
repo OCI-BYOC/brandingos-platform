@@ -1,0 +1,40 @@
+# OCI-BYOC CODEOWNERS
+# Every PR needs at least 1 approval.
+# Replace with actual GitHub usernames once team accounts are linked.
+
+# Global default
+*                                   @satyamraj2101
+
+# Infrastructure and AI (Soumyadip)
+infrastructure/                     @soumyadip-oci
+infrastructure/terraform/           @soumyadip-oci
+infrastructure/nomad/               @soumyadip-oci
+infrastructure/docker/              @soumyadip-oci
+.github/workflows/                  @soumyadip-oci
+apps/ai-service/                    @soumyadip-oci
+apps/worker/                        @soumyadip-oci
+.github/ai-agent-registry.json      @soumyadip-oci @satyamraj2101
+
+# Core App / Portfolio / MCP (Satyam)
+apps/web/                           @satyamraj2101
+apps/api/src/auth/                  @satyamraj2101
+apps/api/src/portfolio/             @satyamraj2101
+apps/api/src/mcp/                   @satyamraj2101
+apps/mcp-server/                    @satyamraj2101
+
+# Commerce / Payments / LMS (Aditya)
+apps/api/src/commerce/              @aditya-oci
+apps/api/src/payments/              @aditya-oci
+apps/api/src/marketplace/           @aditya-oci
+apps/api/src/orders/                @aditya-oci
+apps/api/src/lms/                   @aditya-oci
+apps/web/app/(commerce)/            @aditya-oci
+
+# Shared — all three must approve
+packages/                           @satyamraj2101 @aditya-oci @soumyadip-oci
+packages/db/                        @satyamraj2101 @aditya-oci @soumyadip-oci
+packages/db/migrations/             @satyamraj2101 @aditya-oci @soumyadip-oci
+
+# Security critical — all three
+apps/api/src/middleware/            @satyamraj2101 @aditya-oci @soumyadip-oci
+infrastructure/vault/               @satyamraj2101 @aditya-oci @soumyadip-oci

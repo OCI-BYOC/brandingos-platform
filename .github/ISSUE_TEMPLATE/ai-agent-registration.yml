@@ -1,0 +1,71 @@
+name: "🤖 Register New AI Agent"
+description: AUTO-CREATED by CI when an unregistered AI agent is detected in a commit
+title: "chore(config): register new AI agent — <agent-name>"
+labels: ["ai-agent-registration", "chore"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        CI detected a commit using an AI agent not in `.github/ai-agent-registry.json`.
+        Fill this in and submit a PR adding the agent to the registry.
+  - type: input
+    id: agent_id
+    attributes:
+      label: Agent ID (lowercase, used in commit messages)
+      placeholder: cursor
+    validations:
+      required: true
+  - type: input
+    id: agent_name
+    attributes:
+      label: Full Name
+      placeholder: Cursor
+    validations:
+      required: true
+  - type: input
+    id: vendor
+    attributes:
+      label: Vendor
+      placeholder: Anysphere
+    validations:
+      required: true
+  - type: dropdown
+    id: agent_type
+    attributes:
+      label: Type
+      options:
+        - "agentic-ide"
+        - "agentic-cli"
+        - "ide-extension"
+        - "chat-assistant"
+        - "autocomplete"
+    validations:
+      required: true
+  - type: textarea
+    id: models
+    attributes:
+      label: Models Available
+      placeholder: "- gpt-4o\n- gpt-4o-mini"
+    validations:
+      required: true
+  - type: input
+    id: default_model
+    attributes:
+      label: Default Model
+      placeholder: gpt-4o
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: What is this agent best at?
+      placeholder: Best for large refactors, UI work. Cost $20/month on Pro plan.
+    validations:
+      required: true
+  - type: input
+    id: registered_by
+    attributes:
+      label: Registered By
+      placeholder: Aditya
+    validations:
+      required: true

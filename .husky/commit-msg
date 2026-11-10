@@ -1,0 +1,45 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npx --no -- commitlint --edit "$1"
+COMMITLINT_EXIT=$?
+[ $COMMITLINT_EXIT -ne 0 ] && echo "Commit blocked by commitlint. See .github/COMMIT_CONVENTION.md" && exit 1
+
+COMMIT_MSG=$(cat "$1")
+echo "$COMMIT_MSG" | grep -qE "^(Merge|fixup!|squash!|Revert)" && exit 0
+
+ERRORS=0
+
+check() {
+  if ! echo "$COMMIT_MSG" | grep -qP "$2"; then
+    echo "  Missing: $1 — Example: $3"
+    ERRORS=$((ERRORS + 1))
+  fi
+}
+
+check "AI-Agent"    "^AI-Agent:\s*\S+"                              "AI-Agent: claude-code/claude-sonnet-4-6"
+check "Built-By"    "^Built-By:\s*(Satyam|Aditya|Soumyadip)$"      "Built-By: Satyam"
+check "Why"         "^Why:\s*\S+"                                   "Why: reason this was needed"
+check "How"         "^How:\s*\S+"                                   "How: technical approach"
+check "Time-Spent"  "^Time-Spent:\s*[0-9]+(h|m|h[0-9]+m)$"        "Time-Spent: 2h"
+check "Refs"        "^Refs:\s*#[0-9]+"                              "Refs: #23"
+
+if [ $ERRORS -gt 0 ]; then
+  echo ""
+  echo "COMMIT BLOCKED — $ERRORS field(s) missing or invalid"
+  echo ""
+  echo "Required format:"
+  echo "  feat(scope): description"
+  echo ""
+  echo "  AI-Agent: claude-code/claude-sonnet-4-6"
+  echo "  Built-By: Satyam"
+  echo "  Why: reason"
+  echo "  How: approach"
+  echo "  Time-Spent: 2h"
+  echo "  Refs: #23"
+  echo ""
+  echo "Full docs: .github/COMMIT_CONVENTION.md"
+  exit 1
+fi
+
+echo "Commit message valid — AI attribution complete"

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "OCI-BYOC AI Agent Registry. All AI tools must be registered here.",
+  "version": "1.0.0",
+  "last_updated": "2026-11-10",
+  "maintainers": ["satyam", "aditya", "soumyadip"],
+  "agents": {
+    "claude-code": {
+      "id": "claude-code",
+      "name": "Claude Code",
+      "vendor": "Anthropic",
+      "type": "agentic-cli",
+      "website": "https://claude.ai/code",
+      "models": ["claude-sonnet-4-6","claude-opus-4-6","claude-haiku-4-6"],
+      "default_model": "claude-sonnet-4-6",
+      "commit_id": "claude-code",
+      "registered_by": "satyam",
+      "registered_on": "2026-11-10",
+      "notes": "Primary agentic CLI. Excels at complex refactors and architecture decisions."
+    },
+    "antigravity": {
+      "id": "antigravity",
+      "name": "Google Antigravity",
+      "vendor": "Google",
+      "type": "agentic-ide",
+      "website": "https://antigravity.dev",
+      "models": ["gemini-3.1-pro","gemini-3-flash","claude-opus-4-6"],
+      "default_model": "gemini-3.1-pro",
+      "commit_id": "antigravity",
+      "registered_by": "satyam",
+      "registered_on": "2026-11-10",
+      "notes": "Agent-first IDE with Manager View. Good for large feature implementations."
+    }
+  },
+  "commit_id_map": {
+    "claude-code": "claude-code",
+    "antigravity": "antigravity",
+    "cursor": "cursor",
+    "windsurf": "windsurf",
+    "copilot": "github-copilot",
+    "none": "none",
+    "manual": "none"
+  }
+}

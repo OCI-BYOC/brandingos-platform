@@ -1,0 +1,64 @@
+name: "✨ Feature"
+description: New feature or capability to build
+title: "feat(<scope>): <short description>"
+labels: ["feature", "needs-triage"]
+body:
+  - type: dropdown
+    id: phase
+    attributes:
+      label: Phase
+      options:
+        - "Phase 1 — Foundation"
+        - "Phase 2 — Commerce MVP"
+        - "Phase 3 — AI Layer"
+        - "Phase 4 — Marketplace"
+        - "Phase 5 — Full Platform"
+    validations:
+      required: true
+  - type: dropdown
+    id: assignee
+    attributes:
+      label: Assign To
+      options:
+        - "Satyam — Portfolio, Auth, API Core, MCP"
+        - "Aditya — Commerce, Payments, Marketplace, LMS"
+        - "Soumyadip — AI Service, Infra, Nomad, DevOps"
+        - "Any"
+    validations:
+      required: true
+  - type: dropdown
+    id: size
+    attributes:
+      label: Size
+      options:
+        - "XS — 1-2 hours"
+        - "S — Half day"
+        - "M — Full day"
+        - "L — 2-3 days"
+        - "XL — 1 week+"
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What needs to be built
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why this is needed
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      placeholder: "- [ ] Criterion 1\n- [ ] Criterion 2"
+    validations:
+      required: true
+  - type: textarea
+    id: technical
+    attributes:
+      label: Technical Notes
+      placeholder: "Files, APIs, DB tables, Oracle account, dependencies"

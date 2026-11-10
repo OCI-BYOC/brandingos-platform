@@ -1,0 +1,56 @@
+name: "🐛 Bug"
+description: Something is broken
+title: "fix(<scope>): <what is broken>"
+labels: ["bug", "needs-triage"]
+body:
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - "P0 — Production down or data loss"
+        - "P1 — Major feature broken, no workaround"
+        - "P2 — Feature broken, workaround exists"
+        - "P3 — Minor / cosmetic"
+    validations:
+      required: true
+  - type: dropdown
+    id: assignee
+    attributes:
+      label: Assign To
+      options:
+        - "Satyam"
+        - "Aditya"
+        - "Soumyadip"
+        - "Needs discussion"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What is broken
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to Reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Errors
+      render: shell
