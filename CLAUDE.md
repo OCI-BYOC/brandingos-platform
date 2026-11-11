@@ -12,9 +12,9 @@ An AI-native personal branding platform. Users connect GitHub, LinkedIn, deploy 
 ## Team
 | Person | GitHub | Owns |
 |--------|--------|------|
-| Satyam | satyamraj2101 | Portfolio, Auth, API Core, MCP server |
-| Aditya | (pending invite) | Commerce, Payments, Marketplace, LMS |
-| Soumyadip | (pending invite) | AI Service, Infra, Nomad, DevOps |
+| Satyam | satyamraj2101 | Portfolio · Store · Commerce · Analytics · MCP server |
+| Aditya | Aditya2149 | Frontend · LMS migration (spotclm academy) · Booking UI · Marketing · QA |
+| Soumyadip | Soumyadip012 | Infra · Edge API · Video pipeline · Search · AI service · Lago billing |
 
 ## Branch naming (enforced by CI)
 `type/name-issuenumber-description`
@@ -35,9 +35,9 @@ Refs: #4
 ## Tech Stack
 | Layer | Technology |
 |-------|-----------|
-| Frontend | Next.js 14+ App Router, TypeScript, Tailwind CSS v4, Shadcn/UI |
-| Edge API | Hono on Cloudflare Workers |
-| Compute API | Fastify on Fly.io / Oracle (Node.js 22) |
+| Frontend | Next.js 15 App Router, TypeScript, Tailwind CSS v4, Shadcn/UI |
+| Edge API | Hono on Cloudflare Workers (apps/edge) |
+| Commerce API | Medusa v2 on Oracle Account 4 via Nomad (apps/api → apps/commerce) |
 | Internal API | tRPC + Zod |
 | Database | Neon (Postgres serverless), Drizzle ORM |
 | Cache | Upstash Redis (edge-compatible) |
@@ -61,20 +61,24 @@ Refs: #4
 ## Monorepo Structure
 ```
 apps/
-  web/          → Next.js 14 frontend (App Router)
-  api/          → Hono on Cloudflare Workers (tRPC)
-  worker/       → Trigger.dev background jobs
-  ai-service/   → AI router, Ollama, agent orchestration
-  mcp-server/   → MCP server (Claude/Gemini control plane)
+  web/          → Next.js 15 frontend — dashboard, auth, creator portal
+  api/          → Medusa v2 commerce engine (rename → apps/commerce in Phase 2 · issue #219)
+  edge/         → Hono on Cloudflare Workers — tRPC, Clerk auth middleware, rate limiting [Phase 1 · issue #213]
+  store/        → Next.js 15 public storefront — /{username}/store, product pages
+  worker/       → Trigger.dev jobs — HLS transcode, AI generation, email [Phase 2+]
+  ai-service/   → Hono AI router — Ollama + Anthropic fallback [Phase 4]
+  mcp-server/   → MCP server for Claude Desktop / Cursor [Phase 4]
+  booking/      → Cal.com git subtree — self-hosted scheduling [Phase 3 · issue #167]
 packages/
-  db/           → Drizzle schema, migrations, RLS policies
+  db/           → Drizzle schema (88 tables), migrations, RLS policies
   types/        → Shared TypeScript types
   ui/           → Shared Shadcn/UI components
   config/       → Shared ESLint, Tailwind, TypeScript configs
   utils/        → Shared utility functions
+  cal/          → Cal.com embed SDK + booking webhook handler [Phase 3 · issue #171]
 infrastructure/
-  terraform/    → Terraform for Oracle Cloud
-  nomad/        → Nomad job definitions
+  terraform/    → Terraform for Oracle Cloud (7 accounts)
+  nomad/        → Nomad job definitions (one .hcl per service)
   docker/       → Dockerfiles (ARM64 for Oracle)
 ```
 
@@ -87,11 +91,18 @@ infrastructure/
 - Neon branching for dev/staging (branch per developer, branch per CI run)
 - Never use Drizzle's `db.transaction()` without RLS set inside it
 
-### API (apps/api)
-- Auth middleware MUST run first on every route
-- Sets `SET app.current_user_id = $userId` before any DB query
-- Never pass raw user IDs from query params — always from JWT
-- Rate limits enforced in Upstash Redis before hitting DB
+### Edge API (apps/edge)
+- Hono on Cloudflare Workers — handles all tRPC calls from apps/web and apps/store
+- Auth middleware (Clerk JWT verification) MUST run first on every route
+- Sets `SET app.current_user_id = $userId` via Neon HTTP driver before any DB query
+- Rate limits enforced with Upstash sliding-window: 100/min per IP, 10/min per AI endpoint
+- Never pass raw user IDs from query params — always read from JWT claims
+
+### Commerce API (apps/api → apps/commerce)
+- Medusa v2 on Oracle Account 4 via Nomad (port 9000)
+- Custom routes live in apps/api/src/api/ — follow Medusa route conventions
+- Digital product delivery: generate R2 presigned GET URLs after order confirmed
+- Two regions: India (INR + Razorpay) and Global (USD + Stripe Connect)
 
 ### AI
 - Free tier: Ollama (self-hosted Oracle ARM) — Llama 3.1 8B, Mistral 7B, Gemma 2 9B
@@ -115,16 +126,23 @@ infrastructure/
 - CSP headers on all responses
 
 ## Current Build Phase
-**Phase 1 — Foundation** (due Feb 2027)
-21 open issues on the project board.
+**Phase 0 — Infrastructure Baseline** (Weeks 1–3)
+226 issues across 6 phases: github.com/orgs/OCI-BYOC/projects/1
 
-**Start order for Phase 1 (dependency order):**
-1. #3 Monorepo Turborepo (Soumyadip) — in progress
-2. #4 Database schema + RLS (Soumyadip) — **start here**
-3. #5 Clerk auth (Satyam) — depends on nothing
-4. #7 Hono API + tRPC (Satyam) — depends on #5
-5. #8 Oracle control plane (Soumyadip) — depends on nothing
-6. Everything else can run in parallel after #3+#4+#5+#7+#8
+**Roadmap (26 weeks to v1.0):**
+- Phase 0 (Wks 1–3): Oracle cluster + Cloudflare setup + apps/edge scaffold — Soumyadip leads
+- Phase 1 (Wks 4–6): Auth + Creator Core (portfolio CRUD, subdomain routing, Hono tRPC)
+- Phase 2 (Wks 7–10): Commerce + Payments (Medusa v2, Razorpay, Stripe Connect)
+- Phase 3 (Wks 11–16): LMS migration (spotclm) + Cal.com booking + HLS video pipeline
+- Phase 4 (Wks 17–21): Typesense search + Ollama AI service + MCP server bootstrap
+- Phase 5 (Wks 22–26): Lago billing + monitoring stack + v1.0 launch
+
+**Phase 0 start now (by GitHub handle):**
+1. Soumyadip012: Provision 7 Oracle ARM64 VMs → Nomad + Consul + Vault cluster
+2. Soumyadip012: Cloudflare R2 buckets, Workers routes, Pages projects
+3. Soumyadip012: Bootstrap apps/edge (issue #213) + deploy to CF Workers
+4. Aditya2149: spotclm academy codebase audit → migration checklist (issue #154)
+5. satyamraj2101: packages/db RLS policy review, architecture decisions
 
 ## Project Board
 github.com/orgs/OCI-BYOC/projects/1
@@ -170,7 +188,8 @@ LINKEDIN_CLIENT_SECRET=...
 2. Check open issues: `gh issue list --repo OCI-BYOC/brandingos-platform --state open`
 3. Check your assigned issues: filter by your name label
 4. Pick the highest-priority unstarted issue
-5. Create branch: `git checkout -b feature/satyam-{number}-{description} develop`
+5. Create branch: `git checkout -b feature/{yourname}-{issue#}-{description} develop`
+   Examples: `feature/satyam-213-hono-edge`, `feature/aditya-155-course-dashboard`, `feature/soumyadip-182-typesense`
 6. Work, commit using the format above
 7. Push and open PR against `develop`
 
