@@ -5,6 +5,9 @@ import { users } from '@brandingos/db'
 import { eq } from 'drizzle-orm'
 import DashboardClient from './_components/DashboardClient'
 
+// Dashboard is per-user — never statically generated at build time
+export const dynamic = 'force-dynamic'
+
 export default async function DashboardPage() {
   const clerkUser = await currentUser()
   if (!clerkUser) redirect('/sign-in')
