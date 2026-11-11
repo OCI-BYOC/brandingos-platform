@@ -2,6 +2,11 @@ import type { Metadata } from 'next'
 import { ClerkProvider } from '@clerk/nextjs'
 import './globals.css'
 
+// Prevents Next.js from pre-rendering any page at build time.
+// All pages are user-specific or use Clerk — static export would
+// validate the publishable key with no real request context.
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'BrandingOS — Own Your Professional Narrative',
   description:

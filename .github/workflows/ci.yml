@@ -80,7 +80,7 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build --filter=!@brandingos/api
+      - run: pnpm build --filter=!@brandingos/api --filter=!@brandingos/store
         env:
           NODE_ENV: production
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
