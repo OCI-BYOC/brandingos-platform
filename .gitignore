@@ -18,3 +18,11 @@ apps/**/.next/
 apps/**/tsconfig.tsbuildinfo
 .env.local
 .env.*.local
+
+# Turbo cache
+.turbo/
+*/.turbo/
+# TypeScript build info
+**/tsconfig.tsbuildinfo
+# Package build output
+packages/*/dist/
