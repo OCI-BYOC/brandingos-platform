@@ -5,7 +5,7 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", ".medusa/**", "dist/**"]
+      "outputs": [".next/**", "!.next/cache/**", ".medusa/**", "dist/**"]
     },
     "dev": {
       "cache": false,
@@ -15,21 +15,25 @@
       "dependsOn": ["^lint"]
     },
     "type-check": {
-      "dependsOn": ["^type-check"]
-    },
-    "test": {
       "dependsOn": ["^build"]
     },
-    "test:integration": {
+    "test": {
       "dependsOn": ["^build"],
-      "cache": false
+      "inputs": ["$TURBO_DEFAULT$", ".env.test*"]
     },
     "test:e2e": {
-      "dependsOn": ["^build"],
+      "cache": false,
+      "dependsOn": ["build"]
+    },
+    "db:generate": {
       "cache": false
     },
-    "clean": {
+    "db:migrate": {
       "cache": false
+    },
+    "db:studio": {
+      "cache": false,
+      "persistent": true
     }
   }
 }

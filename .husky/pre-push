@@ -21,7 +21,7 @@ pnpm type-check || (echo "BLOCKED: TypeScript errors found" && exit 1)
 echo "TypeScript clean"
 
 echo "Running ESLint..."
-pnpm lint --quiet || (echo "BLOCKED: ESLint errors found" && exit 1)
+pnpm lint || (echo "BLOCKED: ESLint errors found" && exit 1)
 echo "ESLint clean"
 
 echo "Checking for console.log..."
