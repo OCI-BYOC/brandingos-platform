@@ -11,9 +11,9 @@ export default async function CreatorStorePage({ params }: Props) {
   let products: any[] = []
   try {
     // Fetch products tagged with this creator's username
-    const { products: list } = await medusa.store.product.list({
-      metadata: { creator_username: username } as any,
-      status: ["published"] as any,
+    const { products: list } = await (medusa.store.product.list as any)({
+      metadata: JSON.stringify({ creator_username: username }),
+      status: ["published"],
     })
     products = list ?? []
   } catch {
