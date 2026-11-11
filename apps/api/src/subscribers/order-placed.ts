@@ -7,7 +7,7 @@ export default async function orderPlacedHandler({
 }: SubscriberArgs<{ id: string }>) {
   const logger = container.resolve("logger")
   logger.info(`Order placed: ${data.id}`)
-  // TODO: wire to BrandingOS analytics via REST or direct Neon call
+  // TODO #7 wire to BrandingOS analytics via REST or direct Neon call
 }
 
 export const config: SubscriberConfig = {
