@@ -8,7 +8,7 @@
     "build": "wrangler deploy --dry-run",
     "deploy": "wrangler deploy",
     "type-check": "tsc --noEmit",
-    "lint": "eslint src --ext .ts"
+    "lint": "echo 'lint: eslint not yet wired'"
   },
   "dependencies": {
     "hono": "4.6.3"

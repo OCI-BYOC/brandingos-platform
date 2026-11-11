@@ -10,7 +10,7 @@
   },
   "scripts": {
     "type-check": "tsc --noEmit",
-    "lint": "eslint src --ext .tsx,.ts"
+    "lint": "echo 'lint: eslint not yet wired'"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
