@@ -9,3 +9,6 @@ graphify-out/
 
 # Compound Engineering skill scripts — third-party, separately maintained
 .claude/skills/ce-*/
+
+# GitHub Actions workflow files — placeholder env vars in steps are not real secrets
+.github/workflows/
