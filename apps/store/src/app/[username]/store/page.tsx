@@ -1,5 +1,6 @@
 import { medusa } from "@/lib/medusa"
 import ProductCard from "@/components/store/ProductCard"
+import type { StoreProduct } from "@medusajs/types"
 
 interface Props {
   params: Promise<{ username: string }>
@@ -8,14 +9,13 @@ interface Props {
 export default async function CreatorStorePage({ params }: Props) {
   const { username } = await params
 
-  let products: any[] = []
+  let products: StoreProduct[] = []
   try {
     // Fetch products tagged with this creator's username
-    const { products: list } = await (medusa.store.product.list as any)({
-      metadata: JSON.stringify({ creator_username: username }),
-      status: ["published"],
-    })
-    products = list ?? []
+    const { products: list } = await medusa.store.product.list()
+    products = (list ?? []).filter(
+      (p) => (p.metadata as Record<string, unknown> | null)?.creator_username === username
+    )
   } catch {
     // Medusa not running in dev — render empty state
   }

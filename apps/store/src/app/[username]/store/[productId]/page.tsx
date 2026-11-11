@@ -1,4 +1,6 @@
 import { medusa } from "@/lib/medusa"
+import Image from "next/image"
+import type { StoreProduct } from "@medusajs/types"
 
 interface Props {
   params: Promise<{ username: string; productId: string }>
@@ -7,7 +9,7 @@ interface Props {
 export default async function ProductPage({ params }: Props) {
   const { username, productId } = await params
 
-  let product: any = null
+  let product: StoreProduct | null = null
   try {
     const { product: p } = await medusa.store.product.retrieve(productId, {
       fields: "id,title,description,thumbnail,variants,variants.prices,metadata",
@@ -25,19 +27,25 @@ export default async function ProductPage({ params }: Props) {
     )
   }
 
-  const price = product.variants?.[0]?.prices?.[0]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const price = (product.variants?.[0] as any)?.prices?.[0] as { amount?: number; currency_code?: string } | undefined
   const displayPrice = price
     ? new Intl.NumberFormat("en-US", { style: "currency", currency: price.currency_code ?? "USD" })
-        .format(price.amount / 100)
+        .format((price.amount ?? 0) / 100)
     : "Free"
 
   return (
     <main className="min-h-screen px-4 py-16 max-w-4xl mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
         {/* Product image */}
-        <div className="aspect-square rounded-2xl overflow-hidden bg-white/5 border border-white/10">
+        <div className="aspect-square rounded-2xl overflow-hidden bg-white/5 border border-white/10 relative">
           {product.thumbnail ? (
-            <img src={product.thumbnail} alt={product.title} className="w-full h-full object-cover" />
+            <Image
+              src={product.thumbnail}
+              alt={product.title ?? ""}
+              fill
+              className="object-cover"
+            />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-white/20 text-6xl">📦</div>
           )}

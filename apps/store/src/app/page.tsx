@@ -8,7 +8,7 @@ export default function StorePage() {
         <p className="text-white/60">Creator storefronts coming soon.</p>
         <p className="text-white/40 text-sm">
           Visit{" "}
-          <code className="text-purple-400">/[username]/store</code> to see a creator's store.
+          <code className="text-purple-400">/[username]/store</code> to see a creator&apos;s store.
         </p>
       </div>
     </main>

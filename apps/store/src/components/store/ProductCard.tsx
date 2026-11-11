@@ -1,30 +1,34 @@
 import Link from "next/link"
+import type { StoreProduct } from "@medusajs/types"
+import Image from "next/image"
 
 interface ProductCardProps {
-  product: any
+  product: StoreProduct
   username: string
 }
 
 export default function ProductCard({ product, username }: ProductCardProps) {
-  const price = product.variants?.[0]?.prices?.[0]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const price = (product.variants?.[0] as any)?.prices?.[0] as { amount?: number; currency_code?: string } | undefined
   const displayPrice = price
     ? new Intl.NumberFormat("en-US", { style: "currency", currency: price.currency_code ?? "USD" })
-        .format(price.amount / 100)
+        .format((price.amount ?? 0) / 100)
     : "Free"
 
-  const isDigital = product.metadata?.type === "digital"
+  const isDigital = (product.metadata as Record<string, unknown> | null)?.type === "digital"
 
   return (
     <Link
       href={`/${username}/store/${product.id}`}
       className="group block rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-purple-500/50 transition-all hover:scale-[1.02]"
     >
-      <div className="aspect-video bg-white/5 overflow-hidden">
+      <div className="aspect-video bg-white/5 overflow-hidden relative">
         {product.thumbnail ? (
-          <img
+          <Image
             src={product.thumbnail}
-            alt={product.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            alt={product.title ?? ""}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-white/20 text-5xl">
