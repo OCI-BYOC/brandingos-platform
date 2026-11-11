@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "brandingos-web",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "@brandingos/web", "dev"],
+      "port": 3000
+    }
+  ]
+}
