@@ -15,7 +15,7 @@ export default async function DashboardPage() {
   // Fetch the user's DB row (includes AI credits, tier, etc.)
   let dbUser = null
   try {
-    const rows = await withRLS(db, clerkUser.id, (tx) =>
+    const rows = await withRLS(db(), clerkUser.id, (tx) =>
       tx.select().from(users).where(eq(users.id, clerkUser.id)).limit(1)
     )
     dbUser = rows[0] ?? null
