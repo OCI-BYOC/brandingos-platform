@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+.next/
+.turbo/
+dist/
+.medusa/
+out/
+
+# Env files — never commit real secrets
+.env
+.env.local
+.env*.local
+!.env.example
+
+# Neon
+.neon
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# Misc
+uploads/
+graphify-out/
