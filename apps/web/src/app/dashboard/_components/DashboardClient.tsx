@@ -107,7 +107,7 @@ export default function DashboardClient({ user }: Props) {
           <h1 className="text-2xl font-bold">
             Welcome back, {displayName} 👋
           </h1>
-          <p className="text-white/50 text-sm mt-1">Here's what's happening with your brand.</p>
+          <p className="text-white/50 text-sm mt-1">Here&apos;s what&apos;s happening with your brand.</p>
         </div>
 
         {/* Stats */}
