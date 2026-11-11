@@ -83,6 +83,9 @@ jobs:
       - run: pnpm build
         env:
           NODE_ENV: production
+          DATABASE_URL: postgresql://localhost/ci_placeholder
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_placeholder
+          CLERK_SECRET_KEY: sk_test_placeholder
 
   security:
     name: Security Scan
