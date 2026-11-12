@@ -118,7 +118,7 @@ async function main() {
   console.log("Seeding test users…");
 
   // Insert all users first (outside RLS — seed runs with service role)
-  await db.insert(users).values(TEST_USERS).onConflictDoNothing();
+  await db.insert(users).values([...TEST_USERS]).onConflictDoNothing();
   console.log(`  ✓ ${TEST_USERS.length} users upserted`);
 
   // Seed per-user data inside RLS context
