@@ -107,32 +107,36 @@ async function seedUser(db: ReturnType<typeof createDb>, userId: string, index: 
   });
 }
 
+function log(msg: string) {
+  process.stdout.write(msg + "\n");
+}
+
 async function main() {
   const url = process.env.DATABASE_URL;
   if (!url) {
-    console.error("DATABASE_URL is not set — add it to packages/db/.env.local");
+    process.stderr.write("DATABASE_URL is not set — add it to packages/db/.env.local\n");
     process.exit(1);
   }
 
   const db = createDb(url);
-  console.log("Seeding test users…");
+  log("Seeding test users…");
 
   // Insert all users first (outside RLS — seed runs with service role)
   await db.insert(users).values([...TEST_USERS]).onConflictDoNothing();
-  console.log(`  ✓ ${TEST_USERS.length} users upserted`);
+  log(`  ✓ ${TEST_USERS.length} users upserted`);
 
   // Seed per-user data inside RLS context
   for (let i = 0; i < TEST_USERS.length; i++) {
     const user = TEST_USERS[i];
     await seedUser(db, user.id, i);
-    console.log(`  ✓ ${user.fullName} (${user.tier}) — portfolio, 2 products, 1 course`);
+    log(`  ✓ ${user.fullName} (${user.tier}) — portfolio, 2 products, 1 course`);
   }
 
-  console.log("Seed complete.");
+  log("Seed complete.");
   process.exit(0);
 }
 
 main().catch((err) => {
-  console.error(err);
+  process.stderr.write(String(err) + "\n");
   process.exit(1);
 });
