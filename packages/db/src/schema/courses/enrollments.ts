@@ -1,8 +1,8 @@
 import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, jsonb, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
-import { courses, cohorts, lessons } from "./courses.js";
+import { users } from "../users";
+import { courses, cohorts, lessons } from "./courses";
 
 export const quizQuestionTypeEnum = pgEnum("quiz_question_type", ["multiple_choice","true_false","short_answer"]);
 

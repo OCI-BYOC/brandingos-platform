@@ -1,9 +1,9 @@
 import "dotenv/config";
-import { createDb, withRLS } from "./index.js";
-import { users } from "./schema/users.js";
-import { portfolios, portfolioSections } from "./schema/portfolios.js";
-import { products } from "./schema/commerce/products.js";
-import { courses } from "./schema/courses/courses.js";
+import { createDb, withRLS } from "./index";
+import { users } from "./schema/users";
+import { portfolios, portfolioSections } from "./schema/portfolios";
+import { products } from "./schema/commerce/products";
+import { courses } from "./schema/courses/courses";
 
 const TEST_USERS = [
   {
