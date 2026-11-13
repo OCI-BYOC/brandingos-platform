@@ -17,9 +17,12 @@ const NAV = [
   { icon: Settings,        label: "Settings",   href: "/dashboard/settings" },
 ]
 
-interface Props { children: React.ReactNode }
+interface Props {
+  children: React.ReactNode
+  user?: { firstName: string; email: string; imageUrl: string }
+}
 
-export default function DashboardShell({ children }: Props) {
+export default function DashboardShell({ children, user }: Props) {
   const path = usePathname()
 
   return (
@@ -76,9 +79,11 @@ export default function DashboardShell({ children }: Props) {
 
         {/* Bottom */}
         <div className="border-t border-slate-100 p-3 flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-400 to-indigo-500 text-white text-xs font-bold flex items-center justify-center shrink-0">A</div>
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-400 to-indigo-500 text-white text-xs font-bold flex items-center justify-center shrink-0">
+            {(user?.firstName?.[0] ?? user?.email?.[0] ?? "U").toUpperCase()}
+          </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-semibold text-slate-900 truncate">Alex Chen</p>
+            <p className="text-xs font-semibold text-slate-900 truncate">{user?.firstName || user?.email?.split("@")[0] || "User"}</p>
             <p className="text-[10px] text-slate-400 truncate">Free plan</p>
           </div>
           <button className="p-1.5 rounded-lg hover:bg-slate-100 transition-colors">
