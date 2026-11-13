@@ -1,10 +1,10 @@
 import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, numeric, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
-import { products } from "./products.js";
-import { orders } from "./orders.js";
-import { portfolios } from "../portfolios.js";
+import { users } from "../users";
+import { products } from "./products";
+import { orders } from "./orders";
+import { portfolios } from "../portfolios";
 
 export const reviewStatusEnum  = pgEnum("review_status",  ["pending","approved","hidden"]);
 

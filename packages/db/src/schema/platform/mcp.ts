@@ -1,7 +1,7 @@
 import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, jsonb, index
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
+import { users } from "../users";
 
 export const mcpCallStatusEnum = pgEnum("mcp_call_status", ["success","failed","permission_denied"]);
 

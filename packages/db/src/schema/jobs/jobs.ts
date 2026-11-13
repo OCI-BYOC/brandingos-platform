@@ -1,7 +1,7 @@
 import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, jsonb, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
+import { users } from "../users";
 
 // Resume stored as LaTeX source + compiled PDF (PDF generated on demand via latexmk/tectonic)
 export const resumeCompileStatusEnum = pgEnum("resume_compile_status", ["pending","compiling","compiled","failed"]);

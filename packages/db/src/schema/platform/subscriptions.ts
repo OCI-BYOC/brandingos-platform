@@ -1,7 +1,7 @@
 import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, jsonb, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
+import { users } from "../users";
 
 export const subscriptionProviderEnum = pgEnum("subscription_provider", ["stripe","razorpay"]);
 export const subscriptionStatusEnum   = pgEnum("subscription_status",   ["active","past_due","cancelled","trialing","paused"]);

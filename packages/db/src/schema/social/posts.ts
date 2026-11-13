@@ -1,7 +1,7 @@
 import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, jsonb, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
+import { users } from "../users";
 
 export const socialPlatformEnum = pgEnum("social_platform", [
   "linkedin","twitter","instagram","youtube","threads","bluesky","devto","hashnode",
