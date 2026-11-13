@@ -31,7 +31,7 @@ export default function DashboardShell({ children, user }: Props) {
       <aside className="w-60 bg-white border-r border-slate-100 flex flex-col shrink-0">
         {/* Logo */}
         <div className="h-16 flex items-center px-5 border-b border-slate-100">
-          <Link href="/dashboard" className="text-lg font-bold gradient-text tracking-tight">BrandingOS</Link>
+          <Link href="/dashboard" className="text-lg font-bold text-slate-900 tracking-tight" style={{ fontFamily: "var(--font-display, 'Space Grotesk', system-ui)" }}>BrandingOS</Link>
         </div>
 
         {/* Nav */}

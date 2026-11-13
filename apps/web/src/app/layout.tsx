@@ -1,6 +1,14 @@
 import type { Metadata } from 'next'
 import { ClerkProvider } from '@clerk/nextjs'
+import { Space_Grotesk } from 'next/font/google'
 import './globals.css'
+
+const displayFont = Space_Grotesk({
+  subsets: ['latin'],
+  weight: ['500', '600', '700', '800'],
+  variable: '--font-display',
+  display: 'swap',
+})
 
 // Prevents Next.js from pre-rendering any page at build time.
 // All pages are user-specific or use Clerk — static export would
@@ -21,7 +29,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={displayFont.variable} suppressHydrationWarning>
       <body>
         <ClerkProvider
           afterSignInUrl="/dashboard"

@@ -158,31 +158,32 @@ export default function DashboardClient({ user }: Props) {
 
   return (
     <div className="px-6 py-8 max-w-[1400px]">
-      {/* ─── Welcome banner ──────────────────────────────────────────── */}
+      {/* ─── Editorial header ────────────────────────────────────────── */}
       <motion.div
-        initial={{ opacity: 0, y: -10 }}
+        initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="relative mb-8 rounded-2xl overflow-hidden"
-        style={{ background: "linear-gradient(130deg, #7c3aed 0%, #4f46e5 60%, #0891b2 100%)" }}
+        transition={{ duration: 0.4 }}
+        className="mb-8 flex items-start justify-between gap-4"
       >
-        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, #fff 0%, transparent 50%), radial-gradient(circle at 80% 20%, #fff 0%, transparent 40%)" }} />
-        <div className="relative px-7 py-7 flex items-center justify-between gap-4">
-          <div>
-            <p className="text-violet-200 text-sm font-medium mb-1">Welcome back</p>
-            <h1 className="text-2xl font-bold text-white mb-1">Hey {displayName}! 👋</h1>
-            <p className="text-violet-200 text-sm">Here&apos;s what&apos;s happening with your brand today.</p>
+        <div>
+          <p className="text-xs font-semibold tracking-[0.12em] text-slate-400 uppercase mb-2">Overview</p>
+          <h1
+            className="text-2xl font-bold text-slate-900 tracking-tight"
+            style={{ fontFamily: "var(--font-display, 'Space Grotesk', system-ui)" }}
+          >
+            Good morning, {displayName}.
+          </h1>
+          <p className="text-slate-400 mt-1 text-sm">Your brand is active — here&apos;s what&apos;s happening today.</p>
+        </div>
+        <div className="hidden md:flex items-start gap-5 pt-1">
+          <div className="text-right">
+            <p className="text-xl font-bold text-slate-900">{user.viewsLast30d.toLocaleString()}</p>
+            <p className="text-xs text-slate-400 mt-0.5">views this month</p>
           </div>
-          <div className="hidden md:flex gap-4">
-            <div className="text-center">
-              <p className="text-2xl font-bold text-white">{user.viewsLast30d.toLocaleString()}</p>
-              <p className="text-xs text-violet-300">Views today</p>
-            </div>
-            <div className="w-px h-10 bg-white/20 self-center" />
-            <div className="text-center">
-              <p className="text-2xl font-bold text-white">{user.aiCredits}</p>
-              <p className="text-xs text-violet-300">AI credits left</p>
-            </div>
+          <div className="w-px h-10 bg-slate-100 self-center" />
+          <div className="text-right">
+            <p className="text-xl font-bold text-slate-900">{user.aiCredits}</p>
+            <p className="text-xs text-slate-400 mt-0.5">AI credits left</p>
           </div>
         </div>
       </motion.div>

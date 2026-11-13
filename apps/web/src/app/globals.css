@@ -45,6 +45,10 @@ body {
   line-height: 1.6;
 }
 
+h1, h2, h3 {
+  font-family: var(--font-display, 'Space Grotesk', system-ui, sans-serif);
+}
+
 /* ─── Utility classes ────────────────────────────────────────────────────── */
 .card {
   background: var(--bg-card);
