@@ -14,7 +14,7 @@ const PRODUCTS = [
     sales: 47,
     revenue: 93953,
     status: "active",
-    gradient: "from-purple-500/20 to-pink-500/20",
+    iconClass: "from-violet-100 to-pink-100",
   },
   {
     id: "2",
@@ -24,17 +24,17 @@ const PRODUCTS = [
     sales: 23,
     revenue: 68977,
     status: "active",
-    gradient: "from-blue-500/20 to-cyan-500/20",
+    iconClass: "from-blue-100 to-cyan-100",
   },
   {
     id: "3",
     title: "Portfolio Review — 1 Hour Call",
-    type: "digital",
+    type: "service",
     price: 4999,
     sales: 8,
     revenue: 39992,
     status: "active",
-    gradient: "from-emerald-500/20 to-teal-500/20",
+    iconClass: "from-emerald-100 to-teal-100",
   },
 ]
 
@@ -46,10 +46,10 @@ export default function StorePage() {
     <div className="px-8 py-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold">Creator Store</h1>
-          <p className="text-white/40 text-sm mt-1">Sell digital products and services globally</p>
+          <h1 className="text-2xl font-bold text-slate-900">Creator Store</h1>
+          <p className="text-slate-400 text-sm mt-1">Sell digital products and services globally</p>
         </div>
-        <Link href="/dashboard/store/new" className="btn-aurora flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium">
+        <Link href="/dashboard/store/new" className="btn-primary flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm">
           <Plus size={16} /> Add Product
         </Link>
       </div>
@@ -58,17 +58,17 @@ export default function StorePage() {
       <FadeUp>
         <div className="grid grid-cols-3 gap-4 mb-8">
           {[
-            { label: "Total Revenue", value: `₹${(totalRevenue / 100).toLocaleString("en-IN")}`, icon: IndianRupee, color: "text-emerald-400" },
-            { label: "Total Sales",   value: totalSales.toString(),                              icon: ShoppingBag, color: "text-purple-400" },
-            { label: "Products Live", value: PRODUCTS.length.toString(),                         icon: Package,     color: "text-cyan-400"   },
+            { label: "Total Revenue", value: `₹${(totalRevenue / 100).toLocaleString("en-IN")}`, icon: IndianRupee, iconClass: "bg-emerald-50 text-emerald-600" },
+            { label: "Total Sales",   value: totalSales.toString(),                              icon: ShoppingBag, iconClass: "bg-violet-50 text-violet-600" },
+            { label: "Products Live", value: PRODUCTS.length.toString(),                         icon: Package,     iconClass: "bg-cyan-50 text-cyan-600"    },
           ].map((s) => (
-            <div key={s.label} className="glass-card rounded-2xl p-5 flex items-center gap-4">
-              <div className={`w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center ${s.color}`}>
+            <div key={s.label} className="card p-5 flex items-center gap-4">
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${s.iconClass}`}>
                 <s.icon size={18} />
               </div>
               <div>
-                <p className="text-xs text-white/40">{s.label}</p>
-                <p className="text-2xl font-bold mt-0.5">{s.value}</p>
+                <p className="text-xs text-slate-400">{s.label}</p>
+                <p className="text-2xl font-bold text-slate-900 mt-0.5">{s.value}</p>
               </div>
             </div>
           ))}
@@ -77,33 +77,33 @@ export default function StorePage() {
 
       {/* Products table */}
       <ShimmerCard className="overflow-hidden mb-8">
-        <div className="px-6 py-4 border-b border-white/[0.06] flex items-center justify-between">
-          <h2 className="font-semibold text-sm">Products</h2>
-          <span className="text-xs text-white/40">{PRODUCTS.length} items</span>
+        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+          <h2 className="font-semibold text-sm text-slate-900">Products</h2>
+          <span className="text-xs text-slate-400">{PRODUCTS.length} items</span>
         </div>
         <motion.div variants={staggerContainer} initial="hidden" animate="show">
           {PRODUCTS.map((p) => (
             <motion.div
               key={p.id}
               variants={staggerItem}
-              className="px-6 py-4 border-b border-white/[0.04] last:border-0 flex items-center gap-4 hover:bg-white/[0.02] transition-colors group"
+              className="px-6 py-4 border-b border-slate-50 last:border-0 flex items-center gap-4 hover:bg-slate-50 transition-colors group"
             >
-              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${p.gradient} flex items-center justify-center shrink-0`}>
-                <Download size={16} className="text-white/70" />
+              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${p.iconClass} flex items-center justify-center shrink-0`}>
+                <Download size={16} className="text-slate-500" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium truncate">{p.title}</p>
-                <p className="text-xs text-white/40 mt-0.5 capitalize">{p.type} · ₹{p.price}</p>
+                <p className="text-sm font-medium text-slate-900 truncate">{p.title}</p>
+                <p className="text-xs text-slate-400 mt-0.5 capitalize">{p.type} · ₹{p.price}</p>
               </div>
               <div className="text-right shrink-0">
-                <p className="text-sm font-semibold text-emerald-400">₹{(p.revenue / 100).toLocaleString("en-IN")}</p>
-                <p className="text-xs text-white/40 mt-0.5">{p.sales} sales</p>
+                <p className="text-sm font-semibold text-emerald-600">₹{(p.revenue / 100).toLocaleString("en-IN")}</p>
+                <p className="text-xs text-slate-400 mt-0.5">{p.sales} sales</p>
               </div>
-              <span className="text-xs px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+              <span className="text-xs px-2 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600">
                 {p.status}
               </span>
-              <button className="p-1.5 rounded-lg opacity-0 group-hover:opacity-100 hover:bg-white/10 transition-all">
-                <MoreHorizontal size={15} className="text-white/50" />
+              <button className="p-1.5 rounded-lg opacity-0 group-hover:opacity-100 hover:bg-slate-100 transition-all">
+                <MoreHorizontal size={15} className="text-slate-400" />
               </button>
             </motion.div>
           ))}
@@ -111,15 +111,15 @@ export default function StorePage() {
       </ShimmerCard>
 
       {/* Payout info */}
-      <div className="glass-card rounded-2xl p-6 flex items-center gap-4">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center">
-          <TrendingUp size={18} className="text-emerald-400" />
+      <div className="card p-6 flex items-center gap-4">
+        <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+          <TrendingUp size={18} className="text-emerald-600" />
         </div>
         <div className="flex-1">
-          <p className="text-sm font-medium">Next payout: ₹2,02,922</p>
-          <p className="text-xs text-white/40 mt-0.5">Auto-deposited to your bank account on the 1st via Razorpay</p>
+          <p className="text-sm font-medium text-slate-900">Next payout: ₹2,02,922</p>
+          <p className="text-xs text-slate-400 mt-0.5">Auto-deposited to your bank account on the 1st via Razorpay</p>
         </div>
-        <button className="text-sm text-purple-400 hover:text-purple-300 transition-colors">View payouts →</button>
+        <button className="text-sm text-violet-600 hover:text-violet-700 transition-colors font-medium">View payouts →</button>
       </div>
     </div>
   )

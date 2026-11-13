@@ -40,7 +40,7 @@ export function GradientText({
   className?: string
 }) {
   return (
-    <span className={`gradient-animated ${className}`}>{children}</span>
+    <span className={`gradient-text ${className}`}>{children}</span>
   )
 }
 
@@ -97,13 +97,13 @@ export function CountUp({
   return <span ref={ref} className={className}>0{suffix}</span>
 }
 
-// ─── Aurora Orbs background ───────────────────────────────────────────────────
+// ─── Light soft-orb background ───────────────────────────────────────────────
 export function AuroraBackground({ className = "" }: { className?: string }) {
   return (
     <div className={`pointer-events-none select-none ${className}`} aria-hidden>
-      <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full bg-purple-600/20 blur-[120px] animate-blob" />
-      <div className="absolute top-[10%] right-[-5%] w-[400px] h-[400px] rounded-full bg-cyan-500/15 blur-[100px] animate-blob delay-2000" />
-      <div className="absolute bottom-[-10%] left-[20%] w-[450px] h-[450px] rounded-full bg-indigo-600/15 blur-[120px] animate-blob delay-4000" />
+      <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full bg-violet-100 opacity-70 blur-[120px]" />
+      <div className="absolute top-[10%] right-[-5%] w-[400px] h-[400px] rounded-full bg-cyan-100 opacity-50 blur-[100px]" />
+      <div className="absolute bottom-[-10%] left-[20%] w-[450px] h-[450px] rounded-full bg-indigo-100 opacity-50 blur-[120px]" />
     </div>
   )
 }
@@ -118,7 +118,7 @@ export const staggerItem = {
   show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" } },
 }
 
-// ─── Shimmer Card ─────────────────────────────────────────────────────────────
+// ─── Shimmer Card (light) ─────────────────────────────────────────────────────
 export function ShimmerCard({
   children,
   className = "",
@@ -136,8 +136,8 @@ export function ShimmerCard({
       initial={{ opacity: 0, y: 20, scale: 0.97 }}
       animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
       transition={{ duration: 0.5, delay, ease: "easeOut" }}
-      whileHover={{ y: -4, transition: { duration: 0.2 } }}
-      className={`glass-card rounded-2xl ${className}`}
+      whileHover={{ y: -2, transition: { duration: 0.2 } }}
+      className={`card ${className}`}
     >
       {children}
     </motion.div>

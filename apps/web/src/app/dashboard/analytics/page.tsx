@@ -2,9 +2,8 @@
 
 import { motion } from "framer-motion"
 import { TrendingUp, Eye, Users, IndianRupee, Globe, ArrowUpRight, ArrowDownRight } from "lucide-react"
-import { ShimmerCard, FadeUp, GradientText } from "@/components/ui/animations"
+import { ShimmerCard, FadeUp } from "@/components/ui/animations"
 
-// ─── Dummy chart data ─────────────────────────────────────────────────────────
 const VIEWS_DATA = [820, 940, 760, 1100, 1340, 980, 1247, 1420, 1180, 1560, 1340, 1680, 1247, 1890]
 const REV_DATA   = [0, 1999, 0, 4998, 2999, 0, 7997, 1999, 4998, 9996, 2999, 14994, 1999, 7997]
 
@@ -15,7 +14,7 @@ function SparkLine({ data, color }: { data: number[]; color: string }) {
   const w = 100 / (data.length - 1)
   const points = data.map((v, i) => `${i * w},${100 - ((v - min) / range) * 90}`).join(" ")
   return (
-    <svg viewBox={`0 0 100 100`} preserveAspectRatio="none" className="w-full h-14">
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-14">
       <polyline points={points} fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
       <polyline points={`0,100 ${points} 100,100`} fill={`${color}18`} stroke="none" />
     </svg>
@@ -41,47 +40,47 @@ function BarChart({ data, color }: { data: number[]; color: string }) {
 }
 
 const STATS = [
-  { label: "Portfolio Views",    value: "1,247",   change: "+18%", up: true,  icon: Eye,          color: "#7c3aed" },
-  { label: "Unique Visitors",    value: "843",      change: "+12%", up: true,  icon: Users,        color: "#06b6d4" },
-  { label: "Revenue (30d)",      value: "₹47,983", change: "+34%", up: true,  icon: IndianRupee,  color: "#10b981" },
-  { label: "Conversion Rate",    value: "2.4%",     change: "-0.3%", up: false, icon: TrendingUp,   color: "#f59e0b" },
+  { label: "Portfolio Views",  value: "1,247",   change: "+18%", up: true,  icon: Eye,         color: "#7c3aed" },
+  { label: "Unique Visitors",  value: "843",      change: "+12%", up: true,  icon: Users,       color: "#0891b2" },
+  { label: "Revenue (30d)",    value: "₹47,983", change: "+34%", up: true,  icon: IndianRupee, color: "#059669" },
+  { label: "Conversion Rate",  value: "2.4%",     change: "-0.3%", up: false, icon: TrendingUp,  color: "#d97706" },
 ]
 
 const TOP_PAGES = [
-  { path: "/alex-chen",           views: 743, pct: 60 },
-  { path: "/alex-chen/store",     views: 312, pct: 25 },
-  { path: "/alex-chen/courses",   views: 124, pct: 10 },
-  { path: "/alex-chen/contact",   views:  68, pct: 5  },
+  { path: "/alex-chen",          views: 743, pct: 60 },
+  { path: "/alex-chen/store",    views: 312, pct: 25 },
+  { path: "/alex-chen/courses",  views: 124, pct: 10 },
+  { path: "/alex-chen/contact",  views:  68, pct: 5  },
 ]
 
 const TOP_SOURCES = [
-  { source: "Direct",             visits: 480, pct: 55 },
-  { source: "LinkedIn",           visits: 210, pct: 24 },
-  { source: "Twitter / X",        visits:  98, pct: 11 },
-  { source: "Google Search",      visits:  88, pct: 10 },
+  { source: "Direct",      visits: 480, pct: 55 },
+  { source: "LinkedIn",    visits: 210, pct: 24 },
+  { source: "Twitter / X", visits:  98, pct: 11 },
+  { source: "Google Search", visits: 88, pct: 10 },
 ]
 
 export default function AnalyticsPage() {
   return (
     <div className="px-8 py-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold">Analytics</h1>
-        <p className="text-white/40 text-sm mt-1">Last 30 days · All portfolios</p>
+        <h1 className="text-2xl font-bold text-slate-900">Analytics</h1>
+        <p className="text-slate-400 text-sm mt-1">Last 30 days · All portfolios</p>
       </div>
 
       {/* KPI cards */}
       <FadeUp>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {STATS.map((s) => (
-            <div key={s.label} className="glass-card rounded-2xl p-5">
+            <div key={s.label} className="card p-5">
               <div className="flex items-center justify-between mb-3">
                 <s.icon size={16} style={{ color: s.color }} />
-                <span className={`text-xs font-medium flex items-center gap-0.5 ${s.up ? "text-emerald-400" : "text-red-400"}`}>
+                <span className={`text-xs font-medium flex items-center gap-0.5 ${s.up ? "stat-up" : "stat-down"}`}>
                   {s.up ? <ArrowUpRight size={12} /> : <ArrowDownRight size={12} />}{s.change}
                 </span>
               </div>
-              <p className="text-2xl font-bold mb-1">{s.value}</p>
-              <p className="text-xs text-white/40">{s.label}</p>
+              <p className="text-2xl font-bold text-slate-900 mb-1">{s.value}</p>
+              <p className="text-xs text-slate-400">{s.label}</p>
             </div>
           ))}
         </div>
@@ -91,22 +90,22 @@ export default function AnalyticsPage() {
       <div className="grid md:grid-cols-2 gap-5 mb-6">
         <ShimmerCard className="p-6">
           <div className="flex items-center justify-between mb-5">
-            <h3 className="font-semibold text-sm">Portfolio Views</h3>
-            <span className="text-xs text-emerald-400 flex items-center gap-1"><ArrowUpRight size={12} />+18% vs last month</span>
+            <h3 className="font-semibold text-sm text-slate-900">Portfolio Views</h3>
+            <span className="text-xs text-emerald-600 flex items-center gap-1 font-medium"><ArrowUpRight size={12} />+18% vs last month</span>
           </div>
           <SparkLine data={VIEWS_DATA} color="#7c3aed" />
-          <div className="flex justify-between text-xs text-white/30 mt-2">
+          <div className="flex justify-between text-xs text-slate-400 mt-2">
             <span>14 days ago</span><span>Today</span>
           </div>
         </ShimmerCard>
 
         <ShimmerCard className="p-6">
           <div className="flex items-center justify-between mb-5">
-            <h3 className="font-semibold text-sm">Revenue</h3>
-            <span className="text-xs text-emerald-400 flex items-center gap-1"><ArrowUpRight size={12} />+34% vs last month</span>
+            <h3 className="font-semibold text-sm text-slate-900">Revenue</h3>
+            <span className="text-xs text-emerald-600 flex items-center gap-1 font-medium"><ArrowUpRight size={12} />+34% vs last month</span>
           </div>
-          <BarChart data={REV_DATA} color="#10b981" />
-          <div className="flex justify-between text-xs text-white/30 mt-2">
+          <BarChart data={REV_DATA} color="#059669" />
+          <div className="flex justify-between text-xs text-slate-400 mt-2">
             <span>14 days ago</span><span>Today</span>
           </div>
         </ShimmerCard>
@@ -115,36 +114,36 @@ export default function AnalyticsPage() {
       {/* Tables row */}
       <div className="grid md:grid-cols-2 gap-5">
         <ShimmerCard className="overflow-hidden">
-          <div className="px-6 py-4 border-b border-white/[0.06]">
-            <h3 className="font-semibold text-sm">Top Pages</h3>
+          <div className="px-6 py-4 border-b border-slate-100">
+            <h3 className="font-semibold text-sm text-slate-900">Top Pages</h3>
           </div>
           {TOP_PAGES.map((p) => (
-            <div key={p.path} className="px-6 py-3 border-b border-white/[0.03] last:border-0 flex items-center gap-4">
-              <Globe size={14} className="text-white/30 shrink-0" />
-              <span className="text-sm font-mono text-white/70 flex-1 truncate">{p.path}</span>
+            <div key={p.path} className="px-6 py-3 border-b border-slate-50 last:border-0 flex items-center gap-4">
+              <Globe size={14} className="text-slate-300 shrink-0" />
+              <span className="text-sm font-mono text-slate-600 flex-1 truncate">{p.path}</span>
               <div className="flex items-center gap-3 shrink-0">
-                <div className="w-20 h-1.5 rounded-full bg-white/10 overflow-hidden">
-                  <div className="h-full rounded-full bg-purple-500" style={{ width: `${p.pct}%` }} />
+                <div className="w-20 h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                  <div className="h-full rounded-full bg-violet-500" style={{ width: `${p.pct}%` }} />
                 </div>
-                <span className="text-xs text-white/40 w-8 text-right">{p.views}</span>
+                <span className="text-xs text-slate-400 w-8 text-right">{p.views}</span>
               </div>
             </div>
           ))}
         </ShimmerCard>
 
         <ShimmerCard className="overflow-hidden">
-          <div className="px-6 py-4 border-b border-white/[0.06]">
-            <h3 className="font-semibold text-sm">Traffic Sources</h3>
+          <div className="px-6 py-4 border-b border-slate-100">
+            <h3 className="font-semibold text-sm text-slate-900">Traffic Sources</h3>
           </div>
           {TOP_SOURCES.map((s) => (
-            <div key={s.source} className="px-6 py-3 border-b border-white/[0.03] last:border-0 flex items-center gap-4">
+            <div key={s.source} className="px-6 py-3 border-b border-slate-50 last:border-0 flex items-center gap-4">
               <div className="w-2 h-2 rounded-full bg-cyan-400 shrink-0" />
-              <span className="text-sm text-white/70 flex-1">{s.source}</span>
+              <span className="text-sm text-slate-600 flex-1">{s.source}</span>
               <div className="flex items-center gap-3 shrink-0">
-                <div className="w-20 h-1.5 rounded-full bg-white/10 overflow-hidden">
+                <div className="w-20 h-1.5 rounded-full bg-slate-100 overflow-hidden">
                   <div className="h-full rounded-full bg-cyan-500" style={{ width: `${s.pct}%` }} />
                 </div>
-                <span className="text-xs text-white/40 w-8 text-right">{s.visits}</span>
+                <span className="text-xs text-slate-400 w-8 text-right">{s.visits}</span>
               </div>
             </div>
           ))}

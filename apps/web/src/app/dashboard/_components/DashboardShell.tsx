@@ -3,10 +3,9 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { UserButton } from "@clerk/nextjs"
 import {
   LayoutDashboard, Briefcase, ShoppingBag, BookOpen,
-  BarChart2, Settings, Zap, ChevronRight,
+  BarChart2, Settings, Zap, LogOut, Bell,
 } from "lucide-react"
 
 const NAV = [
@@ -18,85 +17,110 @@ const NAV = [
   { icon: Settings,        label: "Settings",   href: "/dashboard/settings" },
 ]
 
-interface Props {
-  user: { firstName: string; email: string; imageUrl: string }
-  children: React.ReactNode
-}
+interface Props { children: React.ReactNode }
 
-export default function DashboardShell({ user, children }: Props) {
+export default function DashboardShell({ children }: Props) {
   const path = usePathname()
-  const displayName = user.firstName || user.email.split("@")[0]
 
   return (
-    <div className="min-h-screen bg-[#06060f] text-white flex">
+    <div className="flex h-screen bg-slate-50 overflow-hidden">
       {/* Sidebar */}
-      <aside className="w-60 shrink-0 border-r border-white/[0.06] flex flex-col py-6 px-3 sticky top-0 h-screen">
-        <Link href="/" className="mb-8 px-3">
-          <span className="font-bold text-xl bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-            BrandingOS
-          </span>
-        </Link>
+      <aside className="w-60 bg-white border-r border-slate-100 flex flex-col shrink-0">
+        {/* Logo */}
+        <div className="h-16 flex items-center px-5 border-b border-slate-100">
+          <Link href="/dashboard" className="text-lg font-bold gradient-text tracking-tight">BrandingOS</Link>
+        </div>
 
-        <nav className="flex-1 space-y-0.5">
-          {NAV.map((nav) => {
-            const active = path === nav.href || (nav.href !== "/dashboard" && path.startsWith(nav.href))
+        {/* Nav */}
+        <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+          {NAV.map((item) => {
+            const active = path === item.href || (item.href !== "/dashboard" && path.startsWith(item.href))
             return (
-              <Link
-                key={nav.href}
-                href={nav.href}
-                className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group
-                  ${active ? "text-white" : "text-white/50 hover:text-white/80 hover:bg-white/5"}`}
-              >
+              <Link key={item.href} href={item.href} className="relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors group">
                 {active && (
                   <motion.div
                     layoutId="sidebar-active"
-                    className="absolute inset-0 rounded-xl bg-white/8 border border-white/10"
+                    className="absolute inset-0 bg-violet-50 rounded-xl"
                     transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
                   />
                 )}
-                <nav.icon size={17} className={`relative z-10 transition-colors ${active ? "text-purple-400" : ""}`} />
-                <span className="relative z-10">{nav.label}</span>
-                {active && <ChevronRight size={14} className="relative z-10 ml-auto text-white/30" />}
+                <item.icon
+                  size={16}
+                  className={`relative z-10 transition-colors ${active ? "text-violet-600" : "text-slate-400 group-hover:text-slate-600"}`}
+                />
+                <span className={`relative z-10 font-medium transition-colors ${active ? "text-violet-700" : "text-slate-600 group-hover:text-slate-900"}`}>
+                  {item.label}
+                </span>
               </Link>
             )
           })}
         </nav>
 
-        {/* AI Credits pill */}
-        <div className="mx-2 mb-4 p-3 rounded-xl bg-gradient-to-br from-purple-500/10 to-cyan-500/10 border border-purple-500/20">
-          <div className="flex items-center gap-2 mb-2">
-            <Zap size={13} className="text-purple-400" />
-            <span className="text-xs font-medium text-white/70">AI Credits</span>
+        {/* AI Credits */}
+        <div className="px-4 pb-4">
+          <div className="bg-violet-50 rounded-2xl p-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-semibold text-violet-700 flex items-center gap-1.5">
+                <Zap size={11} /> AI Credits
+              </span>
+              <span className="text-xs text-violet-500 font-medium">31 / 50</span>
+            </div>
+            <div className="h-1.5 bg-violet-100 rounded-full overflow-hidden">
+              <div className="h-full bg-violet-500 rounded-full" style={{ width: "62%" }} />
+            </div>
+            <Link href="/dashboard/settings?tab=plan" className="mt-3 block text-center text-xs text-violet-600 hover:text-violet-800 font-semibold transition-colors">
+              Upgrade for more →
+            </Link>
           </div>
-          <div className="w-full h-1.5 rounded-full bg-white/10">
-            <div className="h-full w-[62%] rounded-full bg-gradient-to-r from-purple-500 to-cyan-500" />
-          </div>
-          <p className="text-xs text-white/40 mt-1.5">31 / 50 remaining</p>
         </div>
 
-        <div className="flex items-center gap-3 px-3 pt-4 border-t border-white/[0.06]">
-          <UserButton />
-          <div className="min-w-0">
-            <p className="text-sm font-medium truncate">{displayName}</p>
-            <p className="text-xs text-white/35 truncate">{user.email}</p>
+        {/* Bottom */}
+        <div className="border-t border-slate-100 p-3 flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-400 to-indigo-500 text-white text-xs font-bold flex items-center justify-center shrink-0">A</div>
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-semibold text-slate-900 truncate">Alex Chen</p>
+            <p className="text-[10px] text-slate-400 truncate">Free plan</p>
           </div>
+          <button className="p-1.5 rounded-lg hover:bg-slate-100 transition-colors">
+            <LogOut size={13} className="text-slate-400" />
+          </button>
         </div>
       </aside>
 
-      {/* Page content */}
-      <main className="flex-1 overflow-y-auto min-w-0">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={path}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.25 }}
-          >
-            {children}
-          </motion.div>
-        </AnimatePresence>
-      </main>
+      {/* Main */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Top bar */}
+        <header className="h-16 bg-white border-b border-slate-100 flex items-center justify-between px-6 shrink-0">
+          <div>
+            <h1 className="text-sm font-semibold text-slate-900">
+              {NAV.find((n) => path === n.href || (n.href !== "/dashboard" && path.startsWith(n.href)))?.label ?? "Dashboard"}
+            </h1>
+          </div>
+          <div className="flex items-center gap-2">
+            <button className="p-2 rounded-xl hover:bg-slate-100 transition-colors relative">
+              <Bell size={16} className="text-slate-500" />
+              <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-violet-500" />
+            </button>
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-400 to-indigo-500 text-white text-xs font-bold flex items-center justify-center cursor-pointer">A</div>
+          </div>
+        </header>
+
+        {/* Page content */}
+        <main className="flex-1 overflow-y-auto">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={path}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2 }}
+              className="h-full"
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
+        </main>
+      </div>
     </div>
   )
 }
