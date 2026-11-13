@@ -181,12 +181,11 @@ const LOGOS = [
 /* ─── Dashboard preview component ──────────────────────────────────────── */
 function DashboardPreview() {
   const kpiData = [
-    { color: "#7c3aed", bars: [4, 6, 5, 8, 7, 9, 8, 10], val: "1,247" },
-    { color: "#0891b2", bars: [5, 7, 6, 9, 8, 10, 9, 11], val: "843" },
-    { color: "#059669", bars: [3, 5, 4, 7, 6, 8, 7, 9],  val: "₹47K" },
-    { color: "#d97706", bars: [7, 6, 8, 5, 7, 6, 8, 7],  val: "2.4%" },
+    { color: "#7c3aed", bars: [4, 6, 5, 8, 7, 9, 8, 10] },
+    { color: "#0891b2", bars: [5, 7, 6, 9, 8, 10, 9, 11] },
+    { color: "#059669", bars: [3, 5, 4, 7, 6, 8, 7, 9] },
+    { color: "#d97706", bars: [7, 6, 8, 5, 7, 6, 8, 7] },
   ]
-  const kpiLabels = ["Views", "Visitors", "Revenue", "Conv %"]
   const linePoints = "0,42 9,36 18,40 27,28 36,22 45,18 54,20 63,13 72,16 81,8 90,10 100,5"
 
   return (
