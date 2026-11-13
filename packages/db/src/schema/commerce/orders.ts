@@ -1,9 +1,9 @@
 import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, jsonb, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
-import { portfolios } from "../portfolios.js";
-import { products, productVariants } from "./products.js";
+import { users } from "../users";
+import { portfolios } from "../portfolios";
+import { products, productVariants } from "./products";
 
 export const orderStatusEnum   = pgEnum("order_status",   ["pending","confirmed","processing","shipped","delivered","cancelled","refunded"]);
 export const paymentMethodEnum = pgEnum("payment_method", ["razorpay","stripe","cod"]);

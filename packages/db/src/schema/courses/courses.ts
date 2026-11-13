@@ -1,7 +1,7 @@
 import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, numeric, jsonb, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
+import { users } from "../users";
 
 export const courseLevelEnum    = pgEnum("course_level",    ["beginner","intermediate","advanced"]);
 export const courseStatusEnum   = pgEnum("course_status",   ["draft","published","archived"]);

@@ -1,8 +1,8 @@
 import {
   pgTable, text, timestamp, uuid, integer, boolean, jsonb, index
 } from "drizzle-orm/pg-core";
-import { users } from "./users.js";
-import { portfolios } from "./portfolios.js";
+import { users } from "./users";
+import { portfolios } from "./portfolios";
 
 // ─── Portfolio view + engagement events (no soft delete — raw analytics log) ──
 // Partitioned by month in production via Postgres table inheritance.

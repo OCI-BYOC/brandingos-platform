@@ -1,7 +1,7 @@
 import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, date, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
+import { users } from "../users";
 
 export const availabilityExceptionTypeEnum = pgEnum("availability_exception_type", ["unavailable","custom_hours"]);
 export const bookingStatusEnum             = pgEnum("booking_status",              ["pending","confirmed","cancelled","completed","no_show"]);

@@ -1,7 +1,7 @@
 import { neon, neonConfig } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import { sql } from "drizzle-orm";
-import * as schema from "./schema/index.js";
+import * as schema from "./schema/index";
 
 // Neon connection — serverless HTTP mode (works in Cloudflare Workers)
 // For long-running servers (Nomad jobs), use neon-pool instead
@@ -57,5 +57,5 @@ export async function withRLS<T>(
 }
 
 // Re-export everything so app code only imports from @brandingos/db
-export * from "./schema/index.js";
+export * from "./schema/index";
 export { createDb };

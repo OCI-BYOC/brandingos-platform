@@ -1,7 +1,7 @@
 import {
   pgTable, pgEnum, text, boolean, timestamp, uuid, jsonb, integer, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "./users.js";
+import { users } from "./users";
 
 export const themeEnum = pgEnum("portfolio_theme", ["minimal", "modern", "creative"]);
 

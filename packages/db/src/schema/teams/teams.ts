@@ -1,7 +1,7 @@
 import {
   pgTable, pgEnum, text, boolean, timestamp, uuid, jsonb, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
+import { users } from "../users";
 
 export const teamTypeEnum       = pgEnum("team_type",       ["personal","agency"]);
 export const teamMemberRoleEnum = pgEnum("team_member_role", ["owner","admin","editor","viewer"]);

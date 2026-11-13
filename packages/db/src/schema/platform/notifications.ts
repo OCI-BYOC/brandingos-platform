@@ -1,7 +1,7 @@
 import {
   pgTable, pgEnum, text, boolean, timestamp, uuid, jsonb, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
+import { users } from "../users";
 
 // ─── In-app notifications ─────────────────────────────────────────────────────
 // No soft delete — notifications are event logs.

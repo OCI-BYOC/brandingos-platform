@@ -1,7 +1,7 @@
 import {
   pgTable, text, timestamp, uuid, jsonb, index
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
+import { users } from "../users";
 
 // ─── Full append-only audit log — GDPR-ready ─────────────────────────────────
 // No UPDATE, no DELETE ever. Hard-coded constraint enforced at DB level via trigger.

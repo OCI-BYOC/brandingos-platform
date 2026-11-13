@@ -1,7 +1,7 @@
 import {
   pgTable, pgEnum, text, boolean, timestamp, uuid, jsonb, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "./users.js";
+import { users } from "./users";
 
 export const integrationProviderEnum = pgEnum("integration_provider", [
   "github", "linkedin", "twitter", "instagram", "youtube",
