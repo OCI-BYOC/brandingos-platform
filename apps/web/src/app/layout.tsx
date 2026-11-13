@@ -5,7 +5,7 @@ import './globals.css'
 
 const displayFont = Space_Grotesk({
   subsets: ['latin'],
-  weight: ['500', '600', '700', '800'],
+  weight: ['500', '600', '700'],
   variable: '--font-display',
   display: 'swap',
 })
