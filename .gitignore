@@ -1,0 +1,32 @@
+# Environment files — never commit secrets
+.env
+.env.local
+.env*.local
+.env.production
+
+# Skills node_modules
+.claude/skills/playwright-skill/node_modules/
+
+# Graphify cache
+graphify-out/cache/
+graphify-out/.graphify_analysis.json
+graphify-out/.graphify_build.json
+.neon
+node_modules/
+
+apps/**/.next/
+apps/**/tsconfig.tsbuildinfo
+
+# Turbo cache
+.turbo/
+*/.turbo/
+
+# TypeScript build info
+**/tsconfig.tsbuildinfo
+
+# Package build output
+packages/*/dist/
+
+# Medusa build output
+apps/api/.medusa/
+apps/api/uploads/

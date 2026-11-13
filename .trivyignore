@@ -1,0 +1,14 @@
+# .trivyignore — paths excluded from Trivy security scan
+
+# Playwright skill ships its own package.json but node_modules are gitignored;
+# scanning it produces false positives about missing packages
+.claude/skills/playwright-skill/
+
+# Graphify knowledge graph output — not production code
+graphify-out/
+
+# Compound Engineering skill scripts — third-party, separately maintained
+.claude/skills/ce-*/
+
+# GitHub Actions workflow files — placeholder env vars in steps are not real secrets
+.github/workflows/

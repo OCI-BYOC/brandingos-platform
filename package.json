@@ -34,5 +34,17 @@
     "node": ">=22.0.0",
     "pnpm": ">=9.0.0"
   },
-  "packageManager": "pnpm@9.0.0"
+  "packageManager": "pnpm@9.0.0",
+  "pnpm": {
+    "overrides": {
+      "drizzle-orm": "^0.45.2",
+      "postcss": "^8.5.18",
+      "@mikro-orm/core": "^6.6.14",
+      "@mikro-orm/knex": "^6.6.14"
+    }
+  },
+  "dependencies": {
+    "@neon/config": "^1.14.0",
+    "@neon/env": "^2.1.3"
+  }
 }

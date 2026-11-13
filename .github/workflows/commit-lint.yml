@@ -21,9 +21,10 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Run commitlint
-        uses: wagoid/commitlint-github-action@v5
+        uses: wagoid/commitlint-github-action@v6
         with:
           configFile: commitlint.config.ts
+          failOnWarnings: false
       - name: Validate AI attribution
         run: |
           COMMITS=$(git log origin/develop..HEAD --format="%H")

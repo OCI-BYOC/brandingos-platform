@@ -1,0 +1,31 @@
+# Compound Engineering config for BrandingOS monorepo
+# Docs: https://github.com/everyinc/compound-engineering-plugin/blob/main/docs/configuration.md
+
+# Artifact root — all CE output lives under docs/
+docs_root: docs
+
+# Reviewer config (for ce-code-review)
+review:
+  reviewers: 2
+  focus:
+    - security
+    - performance
+    - drizzle-orm-correctness
+    - rls-policies
+    - type-safety
+
+# Branch strategy
+git:
+  default_branch: develop
+  branch_prefix: "feature/satyam-"
+
+# Custom conventions for this project
+conventions:
+  commit_format: "conventional-commits"
+  pr_template: ".github/PULL_REQUEST_TEMPLATE.md"
+
+# Knowledge base paths
+compound:
+  solutions_dir: docs/solutions
+  plans_dir: docs/plans
+  architecture_dir: docs/architecture

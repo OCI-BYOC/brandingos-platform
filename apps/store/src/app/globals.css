@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+  --color-aurora-purple: #7c3aed;
+  --color-aurora-blue: #3b82f6;
+  --color-aurora-cyan: #06b6d4;
+  --color-surface: rgba(15, 12, 30, 0.9);
+}
+
+body {
+  background: #0a0a0f;
+}

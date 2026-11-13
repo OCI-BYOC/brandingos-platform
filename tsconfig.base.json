@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "incremental": true,
+    "paths": {
+      "@brandingos/db": ["./packages/db/src/index.ts"],
+      "@brandingos/types": ["./packages/types/src/index.ts"],
+      "@brandingos/ui": ["./packages/ui/src/index.ts"],
+      "@brandingos/config": ["./packages/config/src/index.ts"],
+      "@brandingos/utils": ["./packages/utils/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules"]
+}
