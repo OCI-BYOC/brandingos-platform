@@ -57,13 +57,15 @@ export default async function OrderConfirmationPage({ params }: Props) {
           Items ordered
         </h2>
         <div className="space-y-4">
-          {order.items?.map(item => (
+          {order.items?.map(item => {
+            const itemAny = item as unknown as Record<string, unknown>
+            return (
             <div key={item.id} className="flex gap-4">
               <div className="w-14 h-14 rounded-xl bg-white/10 flex-shrink-0 overflow-hidden">
-                {(item as Record<string, unknown>).thumbnail && (
+                {!!itemAny.thumbnail && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={(item as Record<string, unknown>).thumbnail as string}
+                    src={itemAny.thumbnail as string}
                     alt={item.title ?? ""}
                     className="w-full h-full object-cover"
                   />
@@ -77,7 +79,8 @@ export default async function OrderConfirmationPage({ params }: Props) {
                 {formatPrice((item.unit_price ?? 0) * (item.quantity ?? 1), currencyCode)}
               </span>
             </div>
-          ))}
+            )
+          })}
         </div>
 
         <div className="border-t border-white/10 pt-4 space-y-2">

@@ -97,8 +97,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (!cartId) return
     setIsLoading(true)
     try {
-      const { cart: updated } = await medusa.store.cart.deleteLineItem(cartId, lineItemId)
-      setCart(updated)
+      const { parent: updated } = await medusa.store.cart.deleteLineItem(cartId, lineItemId)
+      if (updated) setCart(updated)
     } finally {
       setIsLoading(false)
     }

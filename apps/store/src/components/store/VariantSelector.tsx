@@ -18,7 +18,7 @@ export default function VariantSelector({ variants, selected, onSelect, currency
       <p className="text-sm text-white/60 font-medium">Options</p>
       <div className="flex flex-wrap gap-2">
         {variants.map((v) => {
-          const price = (v as Record<string, unknown>).calculated_price as { calculated_amount?: number } | undefined
+          const price = (v as unknown as Record<string, unknown>).calculated_price as { calculated_amount?: number } | undefined
           return (
             <button
               key={v.id}

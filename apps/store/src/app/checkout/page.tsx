@@ -43,7 +43,7 @@ export default function CheckoutPage() {
   const items = (cart?.items as StoreCartLineItem[] | undefined) ?? []
   const subtotal = items.reduce((sum, item) => sum + (item.unit_price ?? 0) * (item.quantity ?? 1), 0)
   const currencyCode = items[0]
-    ? ((items[0] as Record<string, unknown>).currency_code as string | undefined) ?? "inr"
+    ? ((items[0] as unknown as Record<string, unknown>).currency_code as string | undefined) ?? "inr"
     : "inr"
 
   async function handleAddressSubmit(e: React.FormEvent) {
@@ -83,7 +83,7 @@ export default function CheckoutPage() {
         (shipping_options ?? []).map((o) => ({
           id: o.id,
           name: o.name ?? "Standard Shipping",
-          amount: (o as Record<string, unknown>).amount as number ?? 0,
+          amount: ((o as unknown as Record<string, unknown>).amount as number) ?? 0,
           currency_code: currencyCode,
         }))
       )
@@ -116,9 +116,11 @@ export default function CheckoutPage() {
     setLoading(true)
     setError("")
     try {
-      const { order } = await medusa.store.cart.complete(cartId)
-      if (order) {
-        router.push(`/order/${order.id}`)
+      const result = await medusa.store.cart.complete(cartId)
+      if (result.type === "order") {
+        router.push(`/order/${result.order.id}`)
+      } else {
+        setError(result.error?.message ?? "Payment failed. Please try again.")
       }
     } catch (err) {
       setError("Payment failed. Please try again.")
@@ -375,13 +377,15 @@ export default function CheckoutPage() {
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6 sticky top-8 space-y-4">
             <h3 className="font-semibold text-lg">Order summary</h3>
             <div className="space-y-3 max-h-64 overflow-y-auto">
-              {items.map(item => (
+              {items.map(item => {
+                const itemAny = item as unknown as Record<string, unknown>
+                return (
                 <div key={item.id} className="flex gap-3">
                   <div className="w-12 h-12 rounded-lg bg-white/10 flex-shrink-0 overflow-hidden relative">
-                    {(item as Record<string, unknown>).thumbnail && (
+                    {!!itemAny.thumbnail && (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
-                        src={(item as Record<string, unknown>).thumbnail as string}
+                        src={itemAny.thumbnail as string}
                         alt={item.title ?? ""}
                         className="w-full h-full object-cover"
                       />
@@ -395,7 +399,8 @@ export default function CheckoutPage() {
                     {formatPrice((item.unit_price ?? 0) * (item.quantity ?? 1), currencyCode)}
                   </span>
                 </div>
-              ))}
+                )
+              })}
             </div>
             <div className="border-t border-white/10 pt-4 space-y-2">
               <div className="flex justify-between text-sm text-white/60">

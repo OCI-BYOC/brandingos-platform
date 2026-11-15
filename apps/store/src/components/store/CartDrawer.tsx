@@ -45,11 +45,13 @@ export default function CartDrawer() {
             </div>
           ) : (
             cart.items.map((item) => {
-              const imgSrc = (item as Record<string, unknown>).thumbnail as string | undefined
-              const title = (item as Record<string, unknown>).title as string ?? "Product"
-              const variantTitle = (item.variant as Record<string, unknown> | undefined)?.title as string | undefined
-              const price = (item as Record<string, unknown>).unit_price as number ?? 0
-              const currency = (cart as Record<string, unknown>).currency_code as string ?? "usd"
+              const itemAny = item as unknown as Record<string, unknown>
+              const cartAny = cart as unknown as Record<string, unknown>
+              const imgSrc = itemAny.thumbnail as string | undefined
+              const title = (itemAny.title as string | undefined) ?? "Product"
+              const variantTitle = (item.variant as unknown as Record<string, unknown> | undefined)?.title as string | undefined
+              const price = (itemAny.unit_price as number | undefined) ?? 0
+              const currency = (cartAny.currency_code as string | undefined) ?? "usd"
               return (
                 <div key={item.id} className="flex gap-3 group">
                   <div className="w-16 h-16 rounded-xl overflow-hidden bg-white/5 flex-shrink-0 relative">
@@ -101,8 +103,8 @@ export default function CartDrawer() {
               <span className="text-white/60">Subtotal</span>
               <span className="font-bold text-lg">
                 {formatPrice(
-                  (cart as Record<string, unknown>).subtotal as number ?? 0,
-                  (cart as Record<string, unknown>).currency_code as string ?? "usd"
+                  ((cart as unknown as Record<string, unknown>).subtotal as number | undefined) ?? 0,
+                  ((cart as unknown as Record<string, unknown>).currency_code as string | undefined) ?? "usd"
                 )}
               </span>
             </div>
