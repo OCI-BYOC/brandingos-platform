@@ -10,14 +10,16 @@
     "db:migrate": "medusa db:migrate"
   },
   "dependencies": {
-    "@medusajs/medusa": "^2.3.3",
     "@medusajs/framework": "^2.3.3",
+    "@medusajs/medusa": "^2.3.3",
+    "@medusajs/payment-stripe": "^2.22.7",
     "@mikro-orm/core": "6.3.13",
     "@mikro-orm/knex": "6.3.13",
     "@mikro-orm/migrations": "6.3.13",
     "@mikro-orm/postgresql": "6.3.13",
     "awilix": "^10.0.2",
-    "pg": "^8.13.1"
+    "pg": "^8.13.1",
+    "razorpay": "^2.9.8"
   },
   "devDependencies": {
     "@medusajs/test-utils": "^2.3.3",

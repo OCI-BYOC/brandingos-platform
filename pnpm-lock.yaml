@@ -54,6 +54,9 @@ importers:
       '@medusajs/medusa':
         specifier: ^2.3.3
         version: 2.22.6(nzu3dxxm7342pvzvdv3vex5w7m)
+      '@medusajs/payment-stripe':
+        specifier: ^2.22.7
+        version: 2.22.7(@medusajs/framework@2.22.6(@medusajs/cli@2.22.6(@types/node@22.20.5))(@types/node@22.20.5)(ioredis@5.11.1)(vite@7.3.8(@types/node@22.20.5)(jiti@1.21.7)(lightningcss@1.33.0)(tsx@4.23.15)(yaml@2.9.1))(zod@4.6.6))(@types/node@22.20.5)
       '@mikro-orm/core':
         specifier: ^6.6.14
         version: 6.6.17
@@ -72,6 +75,9 @@ importers:
       pg:
         specifier: ^8.13.1
         version: 8.23.1
+      razorpay:
+        specifier: ^2.9.8
+        version: 2.9.8
     devDependencies:
       '@medusajs/test-utils':
         specifier: ^2.3.3
@@ -2563,6 +2569,12 @@ packages:
     engines: {node: '>=22.22.0'}
     peerDependencies:
       '@medusajs/framework': 2.22.6
+
+  '@medusajs/payment-stripe@2.22.7':
+    resolution: {integrity: sha512-1sniuR7PPAA31hxMu1opAIEeUTRBnxK9WRH+B+4k5XzL53vjh473MlBcOUPAk/v0aeXSbGmN46HjfkCbN5/K6Q==}
+    engines: {node: '>=22.22.0'}
+    peerDependencies:
+      '@medusajs/framework': 2.22.7
 
   '@medusajs/payment@2.22.6':
     resolution: {integrity: sha512-AuUZfjFjD7eqJQcZZir043AeUQy9aFRJso+m6iSEczGzdRnSLsVHRhzvF+L8gE9u5cYuAewKej58PddgtPRF1w==}
@@ -8033,6 +8045,9 @@ packages:
     resolution: {integrity: sha512-s4VSOf6yN0rvbRZGxs8Om5CWj6seneMwK3oDb4lWDH0UPhWcxwOWw5+qk24bxq87szX1ydrwylIOp2uG1ojUpA==}
     engines: {node: '>= 0.8'}
 
+  razorpay@2.9.8:
+    resolution: {integrity: sha512-Uqv3KV7JAfpLlabGdg8Cw7e7ieGkK/DighFq6iGkNnz0Y+it6+/lFmPCTfkcptc2EagL2Og25VWUxc+Fgp/+nA==}
+
   react-aria@3.53.1:
     resolution: {integrity: sha512-dikisyOjJd3D2fFrIDWmVWzqiLz5B86GzZv1zxs7xI4dVc0JIz/1Wa52I20gYvVL2WXeFXlygYsle/QcOMhtcg==}
     peerDependencies:
@@ -11712,6 +11727,13 @@ snapshots:
       - supports-color
 
   '@medusajs/payment-stripe@2.22.6(@medusajs/framework@2.22.6(@medusajs/cli@2.22.6(@types/node@22.20.5))(@types/node@22.20.5)(ioredis@5.11.1)(vite@7.3.8(@types/node@22.20.5)(jiti@1.21.7)(lightningcss@1.33.0)(tsx@4.23.15)(yaml@2.9.1))(zod@4.6.6))(@types/node@22.20.5)':
+    dependencies:
+      '@medusajs/framework': 2.22.6(@medusajs/cli@2.22.6(@types/node@22.20.5))(@types/node@22.20.5)(ioredis@5.11.1)(vite@7.3.8(@types/node@22.20.5)(jiti@1.21.7)(lightningcss@1.33.0)(tsx@4.23.15)(yaml@2.9.1))(zod@4.6.6)
+      stripe: 23.1.0(@types/node@22.20.5)
+    transitivePeerDependencies:
+      - '@types/node'
+
+  '@medusajs/payment-stripe@2.22.7(@medusajs/framework@2.22.6(@medusajs/cli@2.22.6(@types/node@22.20.5))(@types/node@22.20.5)(ioredis@5.11.1)(vite@7.3.8(@types/node@22.20.5)(jiti@1.21.7)(lightningcss@1.33.0)(tsx@4.23.15)(yaml@2.9.1))(zod@4.6.6))(@types/node@22.20.5)':
     dependencies:
       '@medusajs/framework': 2.22.6(@medusajs/cli@2.22.6(@types/node@22.20.5))(@types/node@22.20.5)(ioredis@5.11.1)(vite@7.3.8(@types/node@22.20.5)(jiti@1.21.7)(lightningcss@1.33.0)(tsx@4.23.15)(yaml@2.9.1))(zod@4.6.6)
       stripe: 23.1.0(@types/node@22.20.5)
@@ -17730,6 +17752,13 @@ snapshots:
       http-errors: 2.0.1
       iconv-lite: 0.4.24
       unpipe: 1.0.0
+
+  razorpay@2.9.8:
+    dependencies:
+      axios: 1.21.1
+    transitivePeerDependencies:
+      - debug
+      - supports-color
 
   react-aria@3.53.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
