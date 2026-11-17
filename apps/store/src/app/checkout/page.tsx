@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useUser } from "@clerk/nextjs"
 import { useCart } from "@/lib/cart"
 import { useRouter } from "next/navigation"
 import { medusa } from "@/lib/medusa"
@@ -32,9 +33,24 @@ const EMPTY_ADDRESS: Address = {
 
 export default function CheckoutPage() {
   const router = useRouter()
+  const { user } = useUser()
   const { cart, cartId } = useCart()
   const [step, setStep] = useState<Step>("address")
   const [address, setAddress] = useState<Address>(EMPTY_ADDRESS)
+
+  // Pre-fill from Clerk when user loads
+  useEffect(() => {
+    if (!user) return
+    const email = user.emailAddresses[0]?.emailAddress ?? ""
+    const firstName = user.firstName ?? ""
+    const lastName = user.lastName ?? ""
+    setAddress(a => ({
+      ...a,
+      email: a.email || email,
+      first_name: a.first_name || firstName,
+      last_name: a.last_name || lastName,
+    }))
+  }, [user])
   const [shippingOptions, setShippingOptions] = useState<{ id: string; name: string; amount: number; currency_code: string }[]>([])
   const [selectedShipping, setSelectedShipping] = useState("")
   const [loading, setLoading] = useState(false)
@@ -102,6 +118,14 @@ export default function CheckoutPage() {
     setError("")
     try {
       await medusa.store.cart.addShippingMethod(cartId, { option_id: selectedShipping })
+      // Initialize payment collection for cart
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const storeAny = medusa.store as any
+      const { payment_collection } = await storeAny.paymentCollection.create({ cart_id: cartId })
+      await storeAny.paymentCollection.initiatePaymentSession(payment_collection.id, {
+        provider_id: "pp_system_default",
+        data: {},
+      })
       setStep("payment")
     } catch (err) {
       setError("Failed to select shipping. Please try again.")

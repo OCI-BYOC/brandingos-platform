@@ -6,6 +6,7 @@ import CartButton from "./CartButton"
 import { Search } from "lucide-react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { SignInButton, UserButton, useUser } from "@clerk/nextjs"
 
 interface StoreHeaderProps {
   username: string
@@ -16,6 +17,7 @@ interface StoreHeaderProps {
 export default function StoreHeader({ username, sellerName, sellerAvatar }: StoreHeaderProps) {
   const [query, setQuery] = useState("")
   const router = useRouter()
+  const { isSignedIn } = useUser()
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -55,8 +57,27 @@ export default function StoreHeader({ username, sellerName, sellerAvatar }: Stor
           </div>
         </form>
 
-        {/* Cart */}
-        <CartButton />
+        {/* Cart + Auth */}
+        <div className="flex items-center gap-2">
+          {isSignedIn ? (
+            <>
+              <Link
+                href="/account/orders"
+                className="text-xs text-white/50 hover:text-white px-3 py-1.5 rounded-lg hover:bg-white/5 transition-colors hidden sm:block"
+              >
+                My Orders
+              </Link>
+              <UserButton afterSignOutUrl="/" appearance={{ elements: { avatarBox: "w-8 h-8" } }} />
+            </>
+          ) : (
+            <SignInButton mode="modal">
+              <button className="text-xs text-white/70 hover:text-white px-3 py-1.5 rounded-lg border border-white/10 hover:border-white/20 transition-colors">
+                Sign In
+              </button>
+            </SignInButton>
+          )}
+          <CartButton />
+        </div>
       </div>
     </header>
   )

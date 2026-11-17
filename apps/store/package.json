@@ -10,6 +10,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.39.9",
     "@medusajs/js-sdk": "^2.3.3",
     "@medusajs/types": "^2.3.3",
     "clsx": "^2.1.1",
