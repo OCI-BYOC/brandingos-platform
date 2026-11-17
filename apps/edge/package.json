@@ -11,7 +11,7 @@
     "lint": "echo 'lint: eslint not yet wired'"
   },
   "dependencies": {
-    "hono": "4.6.3"
+    "hono": "^4.12.25"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20241127.0",

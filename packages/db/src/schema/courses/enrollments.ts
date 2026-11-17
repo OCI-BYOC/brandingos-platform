@@ -1,8 +1,8 @@
-import {
+﻿import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, jsonb, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
-import { courses, cohorts, lessons } from "./courses.js";
+import { users } from "../users";
+import { courses, cohorts, lessons } from "./courses";
 
 export const quizQuestionTypeEnum = pgEnum("quiz_question_type", ["multiple_choice","true_false","short_answer"]);
 
@@ -13,7 +13,7 @@ export const enrollments = pgTable(
     courseId:             uuid("course_id").notNull().references(() => courses.id, { onDelete: "cascade" }),
     cohortId:             uuid("cohort_id").references(() => cohorts.id, { onDelete: "set null" }),
     studentId:            text("student_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-    orderId:              uuid("order_id"),   // FK → orders.id — deferred to avoid circular
+    orderId:              uuid("order_id"),   // FK â†’ orders.id â€” deferred to avoid circular
     status:               text("status").notNull().default("active"),
     completionPercentage: integer("completion_percentage").notNull().default(0),
     completedAt:          timestamp("completed_at", { withTimezone: true }),

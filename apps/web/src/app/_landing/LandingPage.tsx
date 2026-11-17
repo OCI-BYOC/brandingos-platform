@@ -223,11 +223,11 @@ export default function LandingPage() {
                   className="mb-7"
                   style={{
                     fontSize: "clamp(2.8rem, 5.5vw, 4.8rem)",
-                    fontWeight: 700,
-                    letterSpacing: "-0.04em",
-                    lineHeight: 1.0,
+                    fontWeight: 400,
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1.05,
                     color: "#ffffff",
-                    fontFamily: "var(--font-display, 'Space Grotesk', system-ui)",
+                    fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
                   }}
                 >
                   Build a brand<br />
@@ -332,7 +332,7 @@ export default function LandingPage() {
             <motion.h2
               variants={fadeUp}
               className="text-slate-900 max-w-xl"
-              style={{ fontSize: "clamp(1.8rem, 3.5vw, 3rem)", fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.1, fontFamily: "var(--font-display, 'Space Grotesk', system-ui)" }}
+              style={{ fontSize: "clamp(1.8rem, 3.5vw, 3rem)", fontWeight: 400, letterSpacing: "-0.01em", lineHeight: 1.1, fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)" }}
             >
               Everything you need to monetize as a creator.
             </motion.h2>

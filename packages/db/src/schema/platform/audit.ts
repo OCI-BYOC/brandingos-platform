@@ -1,9 +1,9 @@
-import {
+﻿import {
   pgTable, text, timestamp, uuid, jsonb, index
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
+import { users } from "../users";
 
-// ─── Full append-only audit log — GDPR-ready ─────────────────────────────────
+// â”€â”€â”€ Full append-only audit log â€” GDPR-ready â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // No UPDATE, no DELETE ever. Hard-coded constraint enforced at DB level via trigger.
 // Sensitive tables that must be audited:
 //   users, subscriptions, payment_transactions, refunds, payouts, payout_accounts,

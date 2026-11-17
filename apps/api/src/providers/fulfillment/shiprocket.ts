@@ -190,4 +190,6 @@ class ShipRocketFulfillmentProvider extends AbstractFulfillmentProviderService {
   }
 }
 
-export default ShipRocketFulfillmentProvider
+export default {
+  services: [ShipRocketFulfillmentProvider],
+}

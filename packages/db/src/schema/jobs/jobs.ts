@@ -1,7 +1,7 @@
-import {
+﻿import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, jsonb, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
+import { users } from "../users";
 
 // Resume stored as LaTeX source + compiled PDF (PDF generated on demand via latexmk/tectonic)
 export const resumeCompileStatusEnum = pgEnum("resume_compile_status", ["pending","compiling","compiled","failed"]);
@@ -11,7 +11,7 @@ export const resumeVersions = pgTable(
   {
     id:              uuid("id").primaryKey().defaultRandom(),
     userId:          text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-    name:            text("name").notNull(),   // "v1 — Startup CLM", "v2 — Enterprise DocuSign"
+    name:            text("name").notNull(),   // "v1 â€” Startup CLM", "v2 â€” Enterprise DocuSign"
     targetRole:      text("target_role"),
     targetCompany:   text("target_company"),  // null = general purpose
     latexSource:     text("latex_source"),    // Full .tex source stored in DB for fast editing
@@ -68,7 +68,7 @@ export const jobListings = pgTable(
     isRemote:        boolean("is_remote").notNull().default(false),
     postedAt:        timestamp("posted_at", { withTimezone: true }),
     expiresAt:       timestamp("expires_at", { withTimezone: true }),
-    aiMatchScore:    integer("ai_match_score"),    // 0–100
+    aiMatchScore:    integer("ai_match_score"),    // 0â€“100
     aiMatchNotes:    text("ai_match_notes"),
     searchConfigId:  uuid("search_config_id").references(() => jobSearchConfigs.id, { onDelete: "set null" }),
     createdAt:       timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
@@ -88,7 +88,7 @@ export const jobApplications = pgTable(
     jobListingId:     uuid("job_listing_id").references(() => jobListings.id, { onDelete: "set null" }),
     resumeVersionId:  uuid("resume_version_id").references(() => resumeVersions.id, { onDelete: "set null" }),
     stage:            text("stage").notNull().default("bookmarked"),
-    // bookmarked → applied → screening → interview → offer → accepted | rejected | withdrew
+    // bookmarked â†’ applied â†’ screening â†’ interview â†’ offer â†’ accepted | rejected | withdrew
     appliedAt:        timestamp("applied_at", { withTimezone: true }),
     notes:            text("notes"),
     appliedVia:       text("applied_via"),

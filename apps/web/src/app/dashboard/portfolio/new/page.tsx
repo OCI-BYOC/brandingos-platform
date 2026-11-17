@@ -45,25 +45,25 @@ interface PortfolioData {
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const PROFESSIONS = [
-  { id: "developer", label: "Developer", icon: Code2, description: "Web, Mobile, Backend" },
-  { id: "designer", label: "Designer", icon: PenTool, description: "UI/UX, Brand, Motion" },
-  { id: "photographer", label: "Photographer", icon: Camera, description: "Photo & Visual" },
-  { id: "marketer", label: "Marketer", icon: Megaphone, description: "Growth, Content, Brand" },
-  { id: "consultant", label: "Consultant", icon: Handshake, description: "Strategy, Advisory" },
-  { id: "creator", label: "Creator", icon: Video, description: "Video, Social, Content" },
-  { id: "writer", label: "Writer", icon: FileText, description: "Copy, Journalism, Docs" },
-  { id: "other", label: "Other", icon: Sparkles, description: "Something unique" },
+  { id: "developer",    label: "Developer",    icon: Code2,     description: "Web, Mobile, Backend" },
+  { id: "designer",     label: "Designer",     icon: PenTool,   description: "UI/UX, Brand, Motion" },
+  { id: "photographer", label: "Photographer", icon: Camera,    description: "Photo & Visual" },
+  { id: "marketer",     label: "Marketer",     icon: Megaphone, description: "Growth, Content, Brand" },
+  { id: "consultant",   label: "Consultant",   icon: Handshake, description: "Strategy, Advisory" },
+  { id: "creator",      label: "Creator",      icon: Video,     description: "Video, Social, Content" },
+  { id: "writer",       label: "Writer",       icon: FileText,  description: "Copy, Journalism, Docs" },
+  { id: "other",        label: "Other",        icon: Sparkles,  description: "Something unique" },
 ]
 
 const DEFAULT_SECTIONS_FOR_PROFESSION: Record<string, string[]> = {
-  developer: ["about", "skills", "projects", "experience", "contact"],
-  designer: ["about", "projects", "skills", "testimonials", "contact"],
+  developer:    ["about", "skills", "projects", "experience", "contact"],
+  designer:     ["about", "projects", "skills", "testimonials", "contact"],
   photographer: ["about", "projects", "testimonials", "contact"],
-  marketer: ["about", "skills", "experience", "services", "contact"],
-  consultant: ["about", "services", "experience", "testimonials", "contact"],
-  creator: ["about", "projects", "articles", "contact"],
-  writer: ["about", "articles", "projects", "contact"],
-  other: ["about", "skills", "projects", "contact"],
+  marketer:     ["about", "skills", "experience", "services", "contact"],
+  consultant:   ["about", "services", "experience", "testimonials", "contact"],
+  creator:      ["about", "projects", "articles", "contact"],
+  writer:       ["about", "articles", "projects", "contact"],
+  other:        ["about", "skills", "projects", "contact"],
 }
 
 function buildSections(professionId: string): Section[] {
@@ -98,17 +98,7 @@ const ACCENT_COLORS = [
   { id: "slate",   color: "#334155" },
 ]
 
-const STEP_LABELS = [
-  "Your Name",
-  "What You Do",
-  "Your Tagline",
-  "Your Story",
-  "Skills",
-  "Your Work",
-  "Sections",
-  "Visual Style",
-]
-
+const STEP_LABELS = ["Your Name", "What You Do", "Your Tagline", "Your Story", "Skills", "Your Work", "Sections", "Visual Style"]
 const TOTAL_STEPS = STEP_LABELS.length
 
 function emptyProject(): Project {
@@ -133,47 +123,20 @@ function LivePreview({ data }: { data: PortfolioData }) {
       style={{ background: theme.bg, color: theme.text, fontFamily: "var(--font-display, 'Space Grotesk', system-ui, sans-serif)" }}
       className="w-full h-full overflow-y-auto text-[11px] leading-relaxed"
     >
-      {/* Nav */}
-      <div
-        style={{ background: theme.bg, borderBottom: `1px solid ${theme.border}`, color: theme.text }}
-        className="flex items-center justify-between px-5 py-3 sticky top-0 z-10"
-      >
+      <div style={{ background: theme.bg, borderBottom: `1px solid ${theme.border}`, color: theme.text }} className="flex items-center justify-between px-5 py-3 sticky top-0 z-10">
         <span className="font-bold text-[13px]">{name.split(" ")[0]}</span>
-        <div className="flex gap-3 text-[10px] opacity-60">
-          {enabledSections.slice(0, 4).map(s => <span key={s.id}>{s.label}</span>)}
-        </div>
-        <div
-          className="text-[10px] px-2 py-1 rounded font-semibold"
-          style={{ background: accent, color: "#fff" }}
-        >
-          Hire Me
-        </div>
+        <div className="flex gap-3 text-[10px] opacity-60">{enabledSections.slice(0, 4).map(s => <span key={s.id}>{s.label}</span>)}</div>
+        <div className="text-[10px] px-2 py-1 rounded font-semibold" style={{ background: accent, color: "#fff" }}>Hire Me</div>
       </div>
-
-      {/* Hero */}
       <div className="px-5 pt-6 pb-4">
         <div className="text-[10px] font-semibold tracking-widest uppercase opacity-50 mb-2">{title}</div>
-        <h1 className="text-[22px] font-bold leading-tight mb-2" style={{ color: theme.text }}>
-          {name}
-        </h1>
+        <h1 className="text-[22px] font-bold leading-tight mb-2" style={{ color: theme.text }}>{name}</h1>
         <p className="text-[12px] mb-4 opacity-70 leading-relaxed max-w-[260px]">{tagline}</p>
         <div className="flex gap-2">
-          <div
-            className="text-[10px] px-3 py-1.5 rounded-full font-semibold"
-            style={{ background: accent, color: "#fff" }}
-          >
-            View Work ↓
-          </div>
-          <div
-            className="text-[10px] px-3 py-1.5 rounded-full font-semibold"
-            style={{ border: `1px solid ${theme.border}`, color: theme.text }}
-          >
-            Contact
-          </div>
+          <div className="text-[10px] px-3 py-1.5 rounded-full font-semibold" style={{ background: accent, color: "#fff" }}>View Work ↓</div>
+          <div className="text-[10px] px-3 py-1.5 rounded-full font-semibold" style={{ border: `1px solid ${theme.border}`, color: theme.text }}>Contact</div>
         </div>
       </div>
-
-      {/* Sections */}
       {enabledSections.map(s => {
         if (s.id === "about") return (
           <div key={s.id} className="px-5 py-4 border-t" style={{ borderColor: theme.border }}>
@@ -186,9 +149,7 @@ function LivePreview({ data }: { data: PortfolioData }) {
             <div className="text-[9px] font-bold tracking-widest uppercase opacity-40 mb-2">Skills</div>
             <div className="flex flex-wrap gap-1.5">
               {skills.map((sk, i) => (
-                <span key={i} className="text-[9px] px-2 py-0.5 rounded-full" style={{ background: `${accent}18`, color: accent, fontWeight: 600 }}>
-                  {sk}
-                </span>
+                <span key={i} className="text-[9px] px-2 py-0.5 rounded-full" style={{ background: `${accent}18`, color: accent, fontWeight: 600 }}>{sk}</span>
               ))}
             </div>
           </div>
@@ -224,8 +185,6 @@ function LivePreview({ data }: { data: PortfolioData }) {
           </div>
         )
       })}
-
-      {/* Footer */}
       <div className="px-5 py-4 border-t text-center" style={{ borderColor: theme.border }}>
         <div className="text-[9px] opacity-30">© {new Date().getFullYear()} {name} · Made with BrandingOS</div>
       </div>
@@ -235,24 +194,35 @@ function LivePreview({ data }: { data: PortfolioData }) {
 
 // ─── Step components ──────────────────────────────────────────────────────────
 
+const INPUT = "w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 text-slate-900 text-xl placeholder:text-slate-400 outline-none focus:border-violet-400 focus:bg-white transition-colors"
+const INPUT_SM = "w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 placeholder:text-slate-400 outline-none focus:border-violet-400 focus:bg-white transition-colors"
+const INPUT_SM_INLINE = "bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-900 text-sm placeholder:text-slate-400 outline-none focus:border-violet-400 focus:bg-white transition-colors"
+const STEP_NUM = "text-violet-500 text-sm font-semibold mb-1"
+const STEP_H2 = "text-2xl font-bold text-slate-900 mb-2"
+const STEP_SUB = "text-slate-500 text-sm"
+const HINT = "text-slate-400 text-xs"
+
+function optionStyle(selected: boolean) {
+  return {
+    background: selected ? "#F5F3FF" : "#FFFFFF",
+    borderColor: selected ? "#7C3AED" : "#E5E7EB",
+  }
+}
+function iconStyle(selected: boolean) {
+  return { background: selected ? "#EDE9FE" : "#F3F4F6" }
+}
+
 function StepName({ data, onChange, onNext }: { data: PortfolioData; onChange: (k: keyof PortfolioData, v: unknown) => void; onNext: () => void }) {
   const handleKey = (e: KeyboardEvent<HTMLInputElement>) => { if (e.key === "Enter" && data.name.trim()) onNext() }
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <div className="text-violet-400 text-sm font-semibold mb-1">01 / {TOTAL_STEPS}</div>
-        <h2 className="text-3xl font-bold text-white mb-2">What&apos;s your name?</h2>
-        <p className="text-slate-400 text-sm">This will be the headline of your portfolio.</p>
+        <div className={STEP_NUM}>01 / {TOTAL_STEPS}</div>
+        <h2 className={STEP_H2}>What&apos;s your name?</h2>
+        <p className={STEP_SUB}>This will be the headline of your portfolio.</p>
       </div>
-      <input
-        autoFocus
-        value={data.name}
-        onChange={e => onChange("name", e.target.value)}
-        onKeyDown={handleKey}
-        placeholder="e.g. Alex Johnson"
-        className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white text-xl placeholder:text-slate-600 outline-none focus:border-violet-500/60 transition-colors"
-      />
-      <p className="text-slate-600 text-xs">Press Enter to continue ↵</p>
+      <input autoFocus value={data.name} onChange={e => onChange("name", e.target.value)} onKeyDown={handleKey} placeholder="e.g. Alex Johnson" className={INPUT} />
+      <p className={HINT}>Press Enter to continue ↵</p>
     </div>
   )
 }
@@ -261,30 +231,23 @@ function StepProfession({ data, onChange }: { data: PortfolioData; onChange: (k:
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <div className="text-violet-400 text-sm font-semibold mb-1">02 / {TOTAL_STEPS}</div>
-        <h2 className="text-3xl font-bold text-white mb-2">What do you do?</h2>
-        <p className="text-slate-400 text-sm">Pick the category that fits best — you can refine later.</p>
+        <div className={STEP_NUM}>02 / {TOTAL_STEPS}</div>
+        <h2 className={STEP_H2}>What do you do?</h2>
+        <p className={STEP_SUB}>Pick the category that fits best — you can refine later.</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {PROFESSIONS.map(p => {
           const Icon = p.icon
           const selected = data.professionCategory === p.id
           return (
-            <button
-              key={p.id}
-              onClick={() => { onChange("professionCategory", p.id); if (!data.professionTitle) onChange("professionTitle", p.label) }}
-              className="flex items-center gap-3 px-4 py-3 rounded-xl border text-left transition-all"
-              style={{
-                background: selected ? "rgba(124,58,237,0.15)" : "rgba(255,255,255,0.03)",
-                borderColor: selected ? "rgba(124,58,237,0.5)" : "rgba(255,255,255,0.08)",
-              }}
-            >
-              <div className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: selected ? "rgba(124,58,237,0.3)" : "rgba(255,255,255,0.06)" }}>
-                <Icon size={16} className={selected ? "text-violet-300" : "text-slate-400"} />
+            <button key={p.id} onClick={() => { onChange("professionCategory", p.id); if (!data.professionTitle) onChange("professionTitle", p.label) }}
+              className="flex items-center gap-3 px-4 py-3 rounded-xl border text-left transition-all hover:border-violet-300" style={optionStyle(selected)}>
+              <div className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-colors" style={iconStyle(selected)}>
+                <Icon size={16} className={selected ? "text-violet-600" : "text-slate-400"} />
               </div>
               <div>
-                <div className={`text-sm font-semibold ${selected ? "text-violet-200" : "text-slate-300"}`}>{p.label}</div>
-                <div className="text-xs text-slate-500">{p.description}</div>
+                <div className={`text-sm font-semibold ${selected ? "text-violet-700" : "text-slate-700"}`}>{p.label}</div>
+                <div className="text-xs text-slate-400">{p.description}</div>
               </div>
             </button>
           )
@@ -292,14 +255,9 @@ function StepProfession({ data, onChange }: { data: PortfolioData; onChange: (k:
       </div>
       {data.professionCategory && (
         <div>
-          <label className="text-slate-400 text-xs font-medium mb-2 block">Your exact title</label>
-          <input
-            autoFocus
-            value={data.professionTitle}
-            onChange={e => onChange("professionTitle", e.target.value)}
-            placeholder={`e.g. Senior ${PROFESSIONS.find(p => p.id === data.professionCategory)?.label ?? "Professional"}`}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-600 outline-none focus:border-violet-500/60 transition-colors"
-          />
+          <label className="text-slate-600 text-xs font-medium mb-2 block">Your exact title</label>
+          <input autoFocus value={data.professionTitle} onChange={e => onChange("professionTitle", e.target.value)}
+            placeholder={`e.g. Senior ${PROFESSIONS.find(p => p.id === data.professionCategory)?.label ?? "Professional"}`} className={INPUT_SM} />
         </div>
       )}
     </div>
@@ -317,27 +275,18 @@ function StepTagline({ data, onChange, onNext }: { data: PortfolioData; onChange
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <div className="text-violet-400 text-sm font-semibold mb-1">03 / {TOTAL_STEPS}</div>
-        <h2 className="text-3xl font-bold text-white mb-2">Your one-liner.</h2>
-        <p className="text-slate-400 text-sm">A powerful sentence that captures what you do and why it matters.</p>
+        <div className={STEP_NUM}>03 / {TOTAL_STEPS}</div>
+        <h2 className={STEP_H2}>Your one-liner.</h2>
+        <p className={STEP_SUB}>A powerful sentence that captures what you do and why it matters.</p>
       </div>
-      <input
-        autoFocus
-        value={data.tagline}
-        onChange={e => onChange("tagline", e.target.value)}
-        onKeyDown={handleKey}
-        placeholder="I help companies ship faster."
-        className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white text-xl placeholder:text-slate-600 outline-none focus:border-violet-500/60 transition-colors"
-      />
+      <input autoFocus value={data.tagline} onChange={e => onChange("tagline", e.target.value)} onKeyDown={handleKey}
+        placeholder="I help companies ship faster." className={INPUT} />
       <div>
-        <p className="text-slate-600 text-xs mb-3">Need inspiration?</p>
+        <p className={`${HINT} mb-3`}>Need inspiration?</p>
         <div className="flex flex-col gap-2">
           {examples.map((ex, i) => (
-            <button
-              key={i}
-              onClick={() => onChange("tagline", ex)}
-              className="text-left text-sm text-slate-400 hover:text-slate-200 transition-colors px-3 py-2 rounded-lg hover:bg-white/5 border border-transparent hover:border-white/10"
-            >
+            <button key={i} onClick={() => onChange("tagline", ex)}
+              className="text-left text-sm text-slate-500 hover:text-slate-800 transition-colors px-3 py-2 rounded-lg hover:bg-violet-50 border border-transparent hover:border-violet-100">
               &ldquo;{ex}&rdquo;
             </button>
           ))}
@@ -352,24 +301,17 @@ function StepBio({ data, onChange }: { data: PortfolioData; onChange: (k: keyof 
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <div className="text-violet-400 text-sm font-semibold mb-1">04 / {TOTAL_STEPS}</div>
-        <h2 className="text-3xl font-bold text-white mb-2">Tell your story.</h2>
-        <p className="text-slate-400 text-sm">Write a short bio — who you are, what you care about, what drives you.</p>
+        <div className={STEP_NUM}>04 / {TOTAL_STEPS}</div>
+        <h2 className={STEP_H2}>Tell your story.</h2>
+        <p className={STEP_SUB}>Write a short bio — who you are, what you care about, what drives you.</p>
       </div>
       <div className="relative">
-        <textarea
-          autoFocus
-          value={data.bio}
-          onChange={e => onChange("bio", e.target.value.slice(0, charLimit))}
+        <textarea autoFocus value={data.bio} onChange={e => onChange("bio", e.target.value.slice(0, charLimit))}
           placeholder={`Hey, I'm ${data.name || "Alex"} — a ${data.professionTitle || "professional"} with a passion for…`}
-          rows={6}
-          className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-slate-600 outline-none focus:border-violet-500/60 transition-colors resize-none leading-relaxed"
-        />
-        <div className="absolute bottom-3 right-4 text-xs text-slate-600">
-          {data.bio.length} / {charLimit}
-        </div>
+          rows={6} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 text-slate-900 placeholder:text-slate-400 outline-none focus:border-violet-400 focus:bg-white transition-colors resize-none leading-relaxed" />
+        <div className="absolute bottom-3 right-4 text-xs text-slate-400">{data.bio.length} / {charLimit}</div>
       </div>
-      <p className="text-slate-600 text-xs">Keep it conversational — this is your first impression.</p>
+      <p className={HINT}>Keep it conversational — this is your first impression.</p>
     </div>
   )
 }
@@ -382,10 +324,8 @@ function StepSkills({ data, onChange }: { data: PortfolioData; onChange: (k: key
     onChange("skillInput", "")
   }
   const removeSkill = (s: string) => onChange("skills", data.skills.filter(x => x !== s))
-  const handleKey = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" || e.key === ",") { e.preventDefault(); addSkill() }
-  }
-  const suggestions = {
+  const handleKey = (e: KeyboardEvent<HTMLInputElement>) => { if (e.key === "Enter" || e.key === ",") { e.preventDefault(); addSkill() } }
+  const suggestions: Record<string, string[]> = {
     developer:    ["React", "TypeScript", "Node.js", "PostgreSQL", "Docker"],
     designer:     ["Figma", "Prototyping", "Design Systems", "Illustration", "Motion"],
     photographer: ["Portrait", "Lightroom", "Retouching", "Studio Lighting", "Commercial"],
@@ -395,53 +335,37 @@ function StepSkills({ data, onChange }: { data: PortfolioData; onChange: (k: key
     writer:       ["Copywriting", "Storytelling", "Research", "Editing", "SEO Writing"],
     other:        ["Problem Solving", "Leadership", "Communication", "Research", "Strategy"],
   }
-  const sugg = suggestions[data.professionCategory as keyof typeof suggestions] ?? suggestions.other
+  const sugg = suggestions[data.professionCategory] ?? suggestions.other
 
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <div className="text-violet-400 text-sm font-semibold mb-1">05 / {TOTAL_STEPS}</div>
-        <h2 className="text-3xl font-bold text-white mb-2">What are your skills?</h2>
-        <p className="text-slate-400 text-sm">Type a skill and press Enter or comma to add it.</p>
+        <div className={STEP_NUM}>05 / {TOTAL_STEPS}</div>
+        <h2 className={STEP_H2}>What are your skills?</h2>
+        <p className={STEP_SUB}>Type a skill and press Enter or comma to add it.</p>
       </div>
       <div className="flex gap-2">
-        <input
-          autoFocus
-          value={data.skillInput}
-          onChange={e => onChange("skillInput", e.target.value)}
-          onKeyDown={handleKey}
-          placeholder="e.g. React, Figma, Python…"
-          className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-600 outline-none focus:border-violet-500/60 transition-colors"
-        />
-        <button
-          onClick={addSkill}
-          disabled={!data.skillInput.trim()}
-          className="px-4 py-3 rounded-xl bg-violet-600 text-white font-semibold text-sm disabled:opacity-30 hover:bg-violet-500 transition-colors"
-        >
-          Add
-        </button>
+        <input autoFocus value={data.skillInput} onChange={e => onChange("skillInput", e.target.value)} onKeyDown={handleKey}
+          placeholder="e.g. React, Figma, Python…" className={`flex-1 ${INPUT_SM}`} />
+        <button onClick={addSkill} disabled={!data.skillInput.trim()}
+          className="px-4 py-3 rounded-xl bg-violet-600 text-white font-semibold text-sm disabled:opacity-30 hover:bg-violet-700 transition-colors">Add</button>
       </div>
       {data.skills.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {data.skills.map(s => (
-            <span key={s} className="flex items-center gap-1.5 text-sm text-violet-200 bg-violet-500/15 border border-violet-500/25 px-3 py-1.5 rounded-full">
+            <span key={s} className="flex items-center gap-1.5 text-sm text-violet-700 bg-violet-50 border border-violet-200 px-3 py-1.5 rounded-full">
               {s}
-              <button onClick={() => removeSkill(s)} className="text-violet-400 hover:text-white">
-                <X size={12} />
-              </button>
+              <button onClick={() => removeSkill(s)} className="text-violet-400 hover:text-violet-700"><X size={12} /></button>
             </span>
           ))}
         </div>
       )}
       <div>
-        <p className="text-slate-600 text-xs mb-2">Quick add:</p>
+        <p className={`${HINT} mb-2`}>Quick add:</p>
         <div className="flex flex-wrap gap-2">
           {sugg.filter(s => !data.skills.includes(s)).map(s => (
-            <button
-              key={s}
-              onClick={() => onChange("skills", [...data.skills, s])}
-              className="text-xs text-slate-400 border border-white/8 px-3 py-1.5 rounded-full hover:border-violet-500/40 hover:text-violet-300 transition-colors"
-            >
+            <button key={s} onClick={() => onChange("skills", [...data.skills, s])}
+              className="text-xs text-slate-500 border border-slate-200 px-3 py-1.5 rounded-full hover:border-violet-300 hover:text-violet-600 hover:bg-violet-50 transition-colors">
               + {s}
             </button>
           ))}
@@ -452,65 +376,44 @@ function StepSkills({ data, onChange }: { data: PortfolioData; onChange: (k: key
 }
 
 function StepProjects({ data, onChange }: { data: PortfolioData; onChange: (k: keyof PortfolioData, v: unknown) => void }) {
-  const updateProject = (id: string, field: keyof Project, value: string) => {
+  const updateProject = (id: string, field: keyof Project, value: string) =>
     onChange("projects", data.projects.map(p => p.id === id ? { ...p, [field]: value } : p))
-  }
   const addProject = () => onChange("projects", [...data.projects, emptyProject()])
   const removeProject = (id: string) => onChange("projects", data.projects.filter(p => p.id !== id))
 
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <div className="text-violet-400 text-sm font-semibold mb-1">06 / {TOTAL_STEPS}</div>
-        <h2 className="text-3xl font-bold text-white mb-2">Your best work.</h2>
-        <p className="text-slate-400 text-sm">Add 2–4 projects you&apos;re most proud of. You can always add more later.</p>
+        <div className={STEP_NUM}>06 / {TOTAL_STEPS}</div>
+        <h2 className={STEP_H2}>Your best work.</h2>
+        <p className={STEP_SUB}>Add 2–4 projects you&apos;re most proud of. You can always add more later.</p>
       </div>
       <div className="flex flex-col gap-3 max-h-[320px] overflow-y-auto pr-1">
         {data.projects.map((project, idx) => (
-          <div key={project.id} className="bg-white/4 border border-white/8 rounded-xl p-4 flex flex-col gap-3">
+          <div key={project.id} className="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col gap-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-400">Project {idx + 1}</span>
+              <span className="text-xs font-semibold text-slate-500">Project {idx + 1}</span>
               {data.projects.length > 1 && (
-                <button onClick={() => removeProject(project.id)} className="text-slate-600 hover:text-red-400 transition-colors">
-                  <Trash2 size={14} />
-                </button>
+                <button onClick={() => removeProject(project.id)} className="text-slate-400 hover:text-red-500 transition-colors"><Trash2 size={14} /></button>
               )}
             </div>
-            <input
-              value={project.title}
-              onChange={e => updateProject(project.id, "title", e.target.value)}
-              placeholder="Project name"
-              className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm placeholder:text-slate-600 outline-none focus:border-violet-500/50 transition-colors"
-            />
-            <textarea
-              value={project.description}
-              onChange={e => updateProject(project.id, "description", e.target.value)}
-              placeholder="What did you build, design, or solve? (1–2 sentences)"
-              rows={2}
-              className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm placeholder:text-slate-600 outline-none focus:border-violet-500/50 transition-colors resize-none"
-            />
+            <input value={project.title} onChange={e => updateProject(project.id, "title", e.target.value)}
+              placeholder="Project name" className={INPUT_SM_INLINE + " w-full"} />
+            <textarea value={project.description} onChange={e => updateProject(project.id, "description", e.target.value)}
+              placeholder="What did you build, design, or solve? (1–2 sentences)" rows={2}
+              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-900 text-sm placeholder:text-slate-400 outline-none focus:border-violet-400 focus:bg-white transition-colors resize-none" />
             <div className="flex gap-2">
-              <input
-                value={project.tags}
-                onChange={e => updateProject(project.id, "tags", e.target.value)}
-                placeholder="Tags (comma-separated): React, Design, 2024"
-                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm placeholder:text-slate-600 outline-none focus:border-violet-500/50 transition-colors"
-              />
-              <input
-                value={project.url}
-                onChange={e => updateProject(project.id, "url", e.target.value)}
-                placeholder="URL (optional)"
-                className="w-32 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm placeholder:text-slate-600 outline-none focus:border-violet-500/50 transition-colors"
-              />
+              <input value={project.tags} onChange={e => updateProject(project.id, "tags", e.target.value)}
+                placeholder="Tags: React, Design, 2024" className={`flex-1 ${INPUT_SM_INLINE}`} />
+              <input value={project.url} onChange={e => updateProject(project.id, "url", e.target.value)}
+                placeholder="URL (optional)" className={`w-32 ${INPUT_SM_INLINE}`} />
             </div>
           </div>
         ))}
       </div>
       {data.projects.length < 5 && (
-        <button
-          onClick={addProject}
-          className="flex items-center gap-2 text-sm text-violet-400 hover:text-violet-200 transition-colors px-4 py-2 rounded-xl border border-dashed border-violet-500/25 hover:border-violet-500/50"
-        >
+        <button onClick={addProject}
+          className="flex items-center gap-2 text-sm text-violet-600 hover:text-violet-800 transition-colors px-4 py-2 rounded-xl border border-dashed border-violet-300 hover:border-violet-500 hover:bg-violet-50">
           <Plus size={16} /> Add another project
         </button>
       )}
@@ -519,9 +422,7 @@ function StepProjects({ data, onChange }: { data: PortfolioData; onChange: (k: k
 }
 
 function StepSections({ data, onChange }: { data: PortfolioData; onChange: (k: keyof PortfolioData, v: unknown) => void }) {
-  const toggle = (id: string) => {
-    onChange("sections", data.sections.map(s => s.id === id ? { ...s, enabled: !s.enabled } : s))
-  }
+  const toggle = (id: string) => onChange("sections", data.sections.map(s => s.id === id ? { ...s, enabled: !s.enabled } : s))
   const move = (id: string, dir: -1 | 1) => {
     const sorted = [...data.sections].sort((a, b) => a.order - b.order)
     const idx = sorted.findIndex(s => s.id === id)
@@ -533,45 +434,33 @@ function StepSections({ data, onChange }: { data: PortfolioData; onChange: (k: k
     updated[newIdx].order = temp
     onChange("sections", updated)
   }
-
   const sorted = [...data.sections].sort((a, b) => a.order - b.order)
   const enabledCount = sorted.filter(s => s.enabled).length
 
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <div className="text-violet-400 text-sm font-semibold mb-1">07 / {TOTAL_STEPS}</div>
-        <h2 className="text-3xl font-bold text-white mb-2">Build your sections.</h2>
-        <p className="text-slate-400 text-sm">Toggle sections on or off and arrange them in order. {enabledCount} selected.</p>
+        <div className={STEP_NUM}>07 / {TOTAL_STEPS}</div>
+        <h2 className={STEP_H2}>Build your sections.</h2>
+        <p className={STEP_SUB}>Toggle sections on or off and arrange them. {enabledCount} selected.</p>
       </div>
       <div className="flex flex-col gap-2 max-h-[360px] overflow-y-auto pr-1">
         {sorted.map(s => (
-          <div
-            key={s.id}
-            className="flex items-center gap-3 px-4 py-3 rounded-xl border transition-all"
-            style={{
-              background: s.enabled ? "rgba(124,58,237,0.08)" : "rgba(255,255,255,0.03)",
-              borderColor: s.enabled ? "rgba(124,58,237,0.3)" : "rgba(255,255,255,0.07)",
-            }}
-          >
-            <button
-              onClick={() => toggle(s.id)}
+          <div key={s.id} className="flex items-center gap-3 px-4 py-3 rounded-xl border transition-all"
+            style={optionStyle(s.enabled)}>
+            <button onClick={() => toggle(s.id)}
               className="shrink-0 w-5 h-5 rounded-md border flex items-center justify-center transition-all"
-              style={{
-                background: s.enabled ? "#7c3aed" : "transparent",
-                borderColor: s.enabled ? "#7c3aed" : "rgba(255,255,255,0.2)",
-              }}
-            >
+              style={{ background: s.enabled ? "#7c3aed" : "transparent", borderColor: s.enabled ? "#7c3aed" : "#D1D5DB" }}>
               {s.enabled && <Check size={11} className="text-white" />}
             </button>
             <span className="text-lg">{s.icon}</span>
             <div className="flex-1 min-w-0">
-              <div className={`text-sm font-semibold ${s.enabled ? "text-white" : "text-slate-500"}`}>{s.label}</div>
-              <div className="text-xs text-slate-600">{s.description}</div>
+              <div className={`text-sm font-semibold ${s.enabled ? "text-violet-700" : "text-slate-500"}`}>{s.label}</div>
+              <div className="text-xs text-slate-400">{s.description}</div>
             </div>
             <div className="flex flex-col gap-0.5">
-              <button onClick={() => move(s.id, -1)} className="text-slate-600 hover:text-slate-300 transition-colors"><ChevronUp size={14} /></button>
-              <button onClick={() => move(s.id, 1)} className="text-slate-600 hover:text-slate-300 transition-colors"><ChevronDown size={14} /></button>
+              <button onClick={() => move(s.id, -1)} className="text-slate-300 hover:text-slate-600 transition-colors"><ChevronUp size={14} /></button>
+              <button onClick={() => move(s.id, 1)} className="text-slate-300 hover:text-slate-600 transition-colors"><ChevronDown size={14} /></button>
             </div>
           </div>
         ))}
@@ -584,21 +473,17 @@ function StepStyle({ data, onChange }: { data: PortfolioData; onChange: (k: keyo
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <div className="text-violet-400 text-sm font-semibold mb-1">08 / {TOTAL_STEPS}</div>
-        <h2 className="text-3xl font-bold text-white mb-2">Pick your visual vibe.</h2>
-        <p className="text-slate-400 text-sm">Every theme is fully customizable after launch.</p>
+        <div className={STEP_NUM}>08 / {TOTAL_STEPS}</div>
+        <h2 className={STEP_H2}>Pick your visual vibe.</h2>
+        <p className={STEP_SUB}>Every theme is fully customizable after launch.</p>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {THEMES.map(t => {
           const selected = data.theme === t.id
           return (
-            <button
-              key={t.id}
-              onClick={() => onChange("theme", t.id)}
+            <button key={t.id} onClick={() => onChange("theme", t.id)}
               className="text-left rounded-xl border overflow-hidden transition-all"
-              style={{ borderColor: selected ? "rgba(124,58,237,0.6)" : "rgba(255,255,255,0.08)", boxShadow: selected ? "0 0 0 2px rgba(124,58,237,0.3)" : "none" }}
-            >
-              {/* Mini preview */}
+              style={{ borderColor: selected ? "#7C3AED" : "#E5E7EB", boxShadow: selected ? "0 0 0 2px rgba(124,58,237,0.15)" : "none" }}>
               <div className="h-20 p-3 flex flex-col gap-1.5" style={{ background: t.bg }}>
                 <div className="flex items-center justify-between">
                   <div className="w-8 h-1.5 rounded-full" style={{ background: t.text, opacity: 0.8 }} />
@@ -611,28 +496,21 @@ function StepStyle({ data, onChange }: { data: PortfolioData; onChange: (k: keyo
                   <div className="w-8 h-1.5 rounded" style={{ background: t.border }} />
                 </div>
               </div>
-              <div className="px-3 py-2" style={{ background: selected ? "rgba(124,58,237,0.1)" : "rgba(255,255,255,0.03)" }}>
-                <div className={`text-sm font-semibold ${selected ? "text-violet-200" : "text-slate-300"}`}>{t.label}</div>
-                <div className="text-xs text-slate-500">{t.description}</div>
+              <div className="px-3 py-2 bg-white">
+                <div className={`text-sm font-semibold ${selected ? "text-violet-700" : "text-slate-700"}`}>{t.label}</div>
+                <div className="text-xs text-slate-400">{t.description}</div>
               </div>
             </button>
           )
         })}
       </div>
       <div>
-        <p className="text-slate-400 text-xs font-medium mb-3">Accent colour</p>
+        <p className="text-slate-600 text-xs font-medium mb-3">Accent colour</p>
         <div className="flex gap-3">
           {ACCENT_COLORS.map(c => (
-            <button
-              key={c.id}
-              onClick={() => onChange("accentColor", c.color)}
+            <button key={c.id} onClick={() => onChange("accentColor", c.color)}
               className="w-8 h-8 rounded-full border-2 transition-all"
-              style={{
-                background: c.color,
-                borderColor: data.accentColor === c.color ? "white" : "transparent",
-                boxShadow: data.accentColor === c.color ? `0 0 0 1px ${c.color}` : "none",
-              }}
-            />
+              style={{ background: c.color, borderColor: data.accentColor === c.color ? "white" : "transparent", boxShadow: data.accentColor === c.color ? `0 0 0 2px ${c.color}` : "none" }} />
           ))}
         </div>
       </div>
@@ -640,27 +518,21 @@ function StepStyle({ data, onChange }: { data: PortfolioData; onChange: (k: keyo
   )
 }
 
-// ─── Main Page ────────────────────────────────────────────────────────────────
-
-const INITIAL_DATA: PortfolioData = {
-  name: "",
-  professionCategory: "",
-  professionTitle: "",
-  tagline: "",
-  bio: "",
-  skillInput: "",
-  skills: [],
-  projects: [emptyProject()],
-  sections: buildSections("other"),
-  theme: "minimal",
-  accentColor: "#7c3aed",
-}
+// ─── Slide variants ───────────────────────────────────────────────────────────
 
 const slideVariants = {
-  enter: (dir: number) => ({ x: dir > 0 ? 60 : -60, opacity: 0 }),
+  enter:  (dir: number) => ({ x: dir > 0 ? 60 : -60, opacity: 0 }),
   center: { x: 0, opacity: 1 },
-  exit:  (dir: number) => ({ x: dir > 0 ? -60 : 60, opacity: 0 }),
+  exit:   (dir: number) => ({ x: dir > 0 ? -60 : 60, opacity: 0 }),
 }
+
+const INITIAL_DATA: PortfolioData = {
+  name: "", professionCategory: "", professionTitle: "", tagline: "", bio: "",
+  skillInput: "", skills: [], projects: [emptyProject()], sections: buildSections("other"),
+  theme: "minimal", accentColor: "#7c3aed",
+}
+
+// ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function PortfolioNewPage() {
   const [step, setStep] = useState(0)
@@ -671,21 +543,13 @@ export default function PortfolioNewPage() {
   const change = useCallback((key: keyof PortfolioData, value: unknown) => {
     setData(prev => {
       const next = { ...prev, [key]: value } as PortfolioData
-      // Auto-rebuild sections when profession changes
-      if (key === "professionCategory" && typeof value === "string") {
-        next.sections = buildSections(value)
-      }
+      if (key === "professionCategory" && typeof value === "string") next.sections = buildSections(value)
       return next
     })
   }, [])
 
-  const goNext = () => {
-    if (step < TOTAL_STEPS - 1) { setDir(1); setStep(s => s + 1) }
-  }
-  const goBack = () => {
-    if (step > 0) { setDir(-1); setStep(s => s - 1) }
-  }
-
+  const goNext = () => { if (step < TOTAL_STEPS - 1) { setDir(1); setStep(s => s + 1) } }
+  const goBack = () => { if (step > 0) { setDir(-1); setStep(s => s - 1) } }
   const canAdvance = () => {
     if (step === 0) return data.name.trim().length > 0
     if (step === 1) return data.professionCategory.length > 0
@@ -693,194 +557,135 @@ export default function PortfolioNewPage() {
   }
 
   const steps = [
-    <StepName      key="name"       data={data} onChange={change} onNext={goNext} />,
+    <StepName       key="name"       data={data} onChange={change} onNext={goNext} />,
     <StepProfession key="profession" data={data} onChange={change} />,
-    <StepTagline   key="tagline"    data={data} onChange={change} onNext={goNext} />,
-    <StepBio       key="bio"        data={data} onChange={change} />,
-    <StepSkills    key="skills"     data={data} onChange={change} />,
-    <StepProjects  key="projects"   data={data} onChange={change} />,
-    <StepSections  key="sections"   data={data} onChange={change} />,
-    <StepStyle     key="style"      data={data} onChange={change} />,
+    <StepTagline    key="tagline"    data={data} onChange={change} onNext={goNext} />,
+    <StepBio        key="bio"        data={data} onChange={change} />,
+    <StepSkills     key="skills"     data={data} onChange={change} />,
+    <StepProjects   key="projects"   data={data} onChange={change} />,
+    <StepSections   key="sections"   data={data} onChange={change} />,
+    <StepStyle      key="style"      data={data} onChange={change} />,
   ]
 
-  const progress = ((step) / (TOTAL_STEPS - 1)) * 100
+  const progress = (step / (TOTAL_STEPS - 1)) * 100
 
   return (
-    // Full-screen overlay — covers DashboardShell completely
-    <div className="fixed inset-0 z-50 flex flex-col" style={{ background: "#07070a" }}>
+    // Dialog overlay — backdrop + centered white card
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.45)", backdropFilter: "blur(4px)" }}>
+      <div className="bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden w-full max-w-5xl" style={{ height: "88vh" }}>
 
-      {/* Top bar */}
-      <div
-        className="flex items-center justify-between px-6 py-4 shrink-0"
-        style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
-      >
-        <div className="flex items-center gap-4">
-          <span
-            className="text-base font-bold text-white"
-            style={{ fontFamily: "var(--font-display, 'Space Grotesk', system-ui)" }}
-          >
-            BrandingOS
-          </span>
-          <span className="text-xs text-slate-500 hidden sm:block">Portfolio Builder</span>
-        </div>
-
-        {/* Progress */}
-        <div className="flex items-center gap-3">
-          <div className="hidden sm:flex items-center gap-1.5">
-            {Array.from({ length: TOTAL_STEPS }, (_, i) => (
-              <div
-                key={i}
-                className="transition-all duration-300 rounded-full"
-                style={{
-                  width: i === step ? 20 : 6,
-                  height: 6,
-                  background: i < step ? "#7c3aed" : i === step ? "#a78bfa" : "rgba(255,255,255,0.12)",
-                }}
-              />
-            ))}
-          </div>
-          <span className="text-xs text-slate-500">
-            {step + 1} / {TOTAL_STEPS}
-          </span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setShowPreview(v => !v)}
-            className="md:hidden flex items-center gap-1.5 text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded-lg border border-white/8 transition-colors"
-          >
-            <Eye size={14} /> Preview
-          </button>
-          <Link
-            href="/dashboard/portfolio"
-            className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-300 px-3 py-1.5 rounded-lg hover:bg-white/5 transition-colors"
-          >
-            <X size={14} /> Exit
-          </Link>
-        </div>
-      </div>
-
-      {/* Progress bar (mobile) */}
-      <div className="h-0.5 shrink-0 bg-white/5">
-        <div
-          className="h-full bg-violet-500 transition-all duration-500"
-          style={{ width: `${progress}%` }}
-        />
-      </div>
-
-      {/* Body */}
-      <div className="flex flex-1 overflow-hidden">
-
-        {/* Left — Question panel */}
-        <div
-          className={`flex flex-col overflow-hidden transition-all duration-300 ${showPreview ? "hidden" : "flex"} md:flex md:w-[55%]`}
-          style={{ borderRight: "1px solid rgba(255,255,255,0.05)" }}
-        >
-          <div className="flex-1 overflow-y-auto px-10 py-10">
-            <AnimatePresence mode="wait" custom={dir}>
-              <motion.div
-                key={step}
-                custom={dir}
-                variants={slideVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
-              >
-                {steps[step]}
-              </motion.div>
-            </AnimatePresence>
+        {/* Top bar */}
+        <div className="flex items-center justify-between px-6 py-4 shrink-0 border-b border-slate-100">
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-bold text-slate-900">BrandingOS</span>
+            <span className="hidden sm:block text-xs text-slate-400">Portfolio Builder</span>
           </div>
 
-          {/* Nav footer */}
-          <div
-            className="flex items-center justify-between px-10 py-5 shrink-0"
-            style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
-          >
-            <button
-              onClick={goBack}
-              disabled={step === 0}
-              className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-300 disabled:opacity-0 transition-all"
-            >
-              <ArrowLeft size={16} /> Back
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-1.5">
+              {Array.from({ length: TOTAL_STEPS }, (_, i) => (
+                <div key={i} className="transition-all duration-300 rounded-full" style={{
+                  width: i === step ? 20 : 6, height: 6,
+                  background: i < step ? "#7c3aed" : i === step ? "#7c3aed" : "#E5E7EB",
+                }} />
+              ))}
+            </div>
+            <span className="text-xs text-slate-400">{step + 1} / {TOTAL_STEPS}</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button onClick={() => setShowPreview(v => !v)}
+              className="md:hidden flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-800 px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors">
+              <Eye size={14} /> Preview
             </button>
-            <div className="flex items-center gap-3">
-              {step < TOTAL_STEPS - 1 && !canAdvance() && (
-                <span className="text-xs text-slate-600">
-                  {step === 0 ? "Enter your name" : "Make a selection"}
-                </span>
-              )}
-              {step < TOTAL_STEPS - 1 ? (
-                <button
-                  onClick={goNext}
-                  disabled={!canAdvance()}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all disabled:opacity-30"
-                  style={{
-                    background: canAdvance() ? "#7c3aed" : "rgba(124,58,237,0.3)",
-                    color: "white",
-                    boxShadow: canAdvance() ? "0 0 20px rgba(124,58,237,0.4)" : "none",
-                  }}
-                >
-                  {step === TOTAL_STEPS - 2 ? "Finish" : "Continue"}
-                  <ArrowRight size={16} />
-                </button>
-              ) : (
-                <button
-                  className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all"
-                  style={{ background: "#7c3aed", color: "white", boxShadow: "0 0 24px rgba(124,58,237,0.5)" }}
-                >
-                  <Sparkles size={16} /> Launch Portfolio
-                </button>
-              )}
-            </div>
+            <Link href="/dashboard/portfolio"
+              className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-700 px-3 py-1.5 rounded-lg hover:bg-slate-100 transition-colors">
+              <X size={14} /> Exit
+            </Link>
           </div>
         </div>
 
-        {/* Right — Live preview */}
-        <div
-          className={`flex-col overflow-hidden ${showPreview ? "flex flex-1" : "hidden"} md:flex md:flex-1`}
-          style={{ background: "#0a0a0f" }}
-        >
-          <div className="flex items-center justify-between px-6 py-3 shrink-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-            <div className="flex items-center gap-2">
-              <div className="flex gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-red-500/70" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
-                <div className="w-3 h-3 rounded-full bg-green-500/70" />
-              </div>
-              <div className="bg-white/6 border border-white/8 rounded-md px-3 py-1 flex items-center gap-2 ml-2">
-                <div className="w-2 h-2 rounded-full bg-green-500" />
-                <span className="text-xs text-slate-500 font-mono">
-                  {data.name ? data.name.toLowerCase().replace(/\s+/g, "") : "yourname"}.brandingos.in
-                </span>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-600">Live preview</span>
-              <ExternalLink size={12} className="text-slate-700" />
-            </div>
-          </div>
+        {/* Progress bar */}
+        <div className="h-0.5 shrink-0 bg-slate-100">
+          <div className="h-full bg-violet-500 transition-all duration-500" style={{ width: `${progress}%` }} />
+        </div>
 
-          <div className="flex-1 overflow-hidden p-6">
-            <div
-              className="w-full h-full rounded-2xl overflow-hidden border"
-              style={{ borderColor: "rgba(255,255,255,0.08)", boxShadow: "0 0 60px rgba(0,0,0,0.5)" }}
-            >
-              <AnimatePresence mode="sync">
-                <motion.div
-                  key={JSON.stringify({ name: data.name, tagline: data.tagline, theme: data.theme, accentColor: data.accentColor, bio: data.bio.slice(0, 50), skills: data.skills.length, projects: data.projects.filter(p => p.title).length, sections: data.sections.filter(s => s.enabled).map(s => s.id).join() })}
-                  initial={{ opacity: 0.6 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.2 }}
-                  className="w-full h-full"
-                >
-                  <LivePreview data={data} />
+        {/* Body */}
+        <div className="flex flex-1 overflow-hidden">
+
+          {/* Left — Question panel */}
+          <div className={`flex flex-col overflow-hidden transition-all duration-300 border-r border-slate-100 ${showPreview ? "hidden" : "flex"} md:flex md:w-[55%]`}>
+            <div className="flex-1 overflow-y-auto px-10 py-10">
+              <AnimatePresence mode="wait" custom={dir}>
+                <motion.div key={step} custom={dir} variants={slideVariants} initial="enter" animate="center" exit="exit"
+                  transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}>
+                  {steps[step]}
                 </motion.div>
               </AnimatePresence>
             </div>
-          </div>
-        </div>
 
+            {/* Nav footer */}
+            <div className="flex items-center justify-between px-10 py-5 shrink-0 border-t border-slate-100">
+              <button onClick={goBack} disabled={step === 0}
+                className="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-700 disabled:opacity-0 transition-all">
+                <ArrowLeft size={16} /> Back
+              </button>
+              <div className="flex items-center gap-3">
+                {step < TOTAL_STEPS - 1 && !canAdvance() && (
+                  <span className="text-xs text-slate-400">{step === 0 ? "Enter your name" : "Make a selection"}</span>
+                )}
+                {step < TOTAL_STEPS - 1 ? (
+                  <button onClick={goNext} disabled={!canAdvance()}
+                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all disabled:opacity-30"
+                    style={{ background: "#7c3aed", boxShadow: canAdvance() ? "0 4px 16px rgba(124,58,237,0.3)" : "none" }}>
+                    {step === TOTAL_STEPS - 2 ? "Finish" : "Continue"} <ArrowRight size={16} />
+                  </button>
+                ) : (
+                  <button className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white"
+                    style={{ background: "#7c3aed", boxShadow: "0 4px 20px rgba(124,58,237,0.35)" }}>
+                    <Sparkles size={16} /> Launch Portfolio
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Right — Live preview */}
+          <div className={`flex-col overflow-hidden bg-slate-50 ${showPreview ? "flex flex-1" : "hidden"} md:flex md:flex-1`}>
+            <div className="flex items-center justify-between px-6 py-3 shrink-0 bg-white border-b border-slate-200">
+              <div className="flex items-center gap-2">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-red-400/70" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-400/70" />
+                  <div className="w-3 h-3 rounded-full bg-green-400/70" />
+                </div>
+                <div className="bg-slate-100 border border-slate-200 rounded-md px-3 py-1 flex items-center gap-2 ml-2">
+                  <div className="w-2 h-2 rounded-full bg-green-500" />
+                  <span className="text-xs text-slate-400 font-mono">
+                    {data.name ? data.name.toLowerCase().replace(/\s+/g, "") : "yourname"}.brandingos.in
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-slate-400">Live preview</span>
+                <ExternalLink size={12} className="text-slate-300" />
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-hidden p-6">
+              <div className="w-full h-full rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
+                <AnimatePresence mode="sync">
+                  <motion.div
+                    key={JSON.stringify({ name: data.name, tagline: data.tagline, theme: data.theme, accent: data.accentColor, bio: data.bio.slice(0, 50), skills: data.skills.length, sections: data.sections.filter(s => s.enabled).map(s => s.id).join() })}
+                    initial={{ opacity: 0.6 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }} className="w-full h-full">
+                    <LivePreview data={data} />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   )

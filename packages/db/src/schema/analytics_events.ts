@@ -1,10 +1,10 @@
-import {
+﻿import {
   pgTable, text, timestamp, uuid, integer, boolean, jsonb, index
 } from "drizzle-orm/pg-core";
-import { users } from "./users.js";
-import { portfolios } from "./portfolios.js";
+import { users } from "./users";
+import { portfolios } from "./portfolios";
 
-// ─── Portfolio view + engagement events (no soft delete — raw analytics log) ──
+// â”€â”€â”€ Portfolio view + engagement events (no soft delete â€” raw analytics log) â”€â”€
 // Partitioned by month in production via Postgres table inheritance.
 // Retained for 90 days on Free, 2 years on Pro+.
 export const analyticsEvents = pgTable(

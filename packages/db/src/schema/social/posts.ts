@@ -1,7 +1,7 @@
-import {
+﻿import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, jsonb, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
+import { users } from "../users";
 
 export const socialPlatformEnum = pgEnum("social_platform", [
   "linkedin","twitter","instagram","youtube","threads","bluesky","devto","hashnode",
@@ -31,7 +31,7 @@ export const socialAccounts = pgTable(
   })
 );
 
-// ─── Platform-specific post tables ───────────────────────────────────────────
+// â”€â”€â”€ Platform-specific post tables â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Each has common columns + platform-specific extras.
 // A helper reduces repetition for the shared columns.
 
@@ -120,7 +120,7 @@ export const hashnodePosts = pgTable("hashnode_posts", {
   isPublished:    boolean("is_published").notNull().default(false),
 }, (t) => ({ userIdx: index("hashnode_posts_user_idx").on(t.userId) }));
 
-// ─── Voice model training samples ────────────────────────────────────────────
+// â”€â”€â”€ Voice model training samples â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const voiceModelSamples = pgTable(
   "voice_model_samples",
   {
@@ -137,7 +137,7 @@ export const voiceModelSamples = pgTable(
   (t) => ({ userIdx: index("voice_model_samples_user_idx").on(t.userId) })
 );
 
-// ─── Content automation workflows ────────────────────────────────────────────
+// â”€â”€â”€ Content automation workflows â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const contentWorkflows = pgTable(
   "content_workflows",
   {

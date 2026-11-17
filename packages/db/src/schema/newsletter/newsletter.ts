@@ -1,8 +1,8 @@
-import {
+﻿import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, jsonb, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
-import { portfolios } from "../portfolios.js";
+import { users } from "../users";
+import { portfolios } from "../portfolios";
 
 export const subscriberStatusEnum = pgEnum("subscriber_status", ["pending","subscribed","unsubscribed","bounced","complained"]);
 export const campaignStatusEnum   = pgEnum("campaign_status",   ["draft","scheduled","sending","sent","cancelled"]);
@@ -41,7 +41,7 @@ export const newsletterSubscribers = pgTable(
     subscribedAt:       timestamp("subscribed_at", { withTimezone: true }),
     unsubscribedAt:     timestamp("unsubscribed_at", { withTimezone: true }),
     unsubscribeReason:  text("unsubscribe_reason"),
-    referralSource:     text("referral_source"),   // direct | twitter | linkedin | …
+    referralSource:     text("referral_source"),   // direct | twitter | linkedin | â€¦
     tags:               text("tags").array(),
     customFields:       jsonb("custom_fields").default({}),
     createdAt:          timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
@@ -80,7 +80,7 @@ export const newsletterCampaigns = pgTable(
   })
 );
 
-// Per-email event tracking — no soft delete (logs/events)
+// Per-email event tracking â€” no soft delete (logs/events)
 export const newsletterCampaignEvents = pgTable(
   "newsletter_campaign_events",
   {

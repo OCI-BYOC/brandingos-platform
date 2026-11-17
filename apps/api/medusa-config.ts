@@ -2,8 +2,7 @@ import { defineConfig, Modules } from "@medusajs/framework/utils"
 
 export default defineConfig({
   projectConfig: {
-    // Shared Neon DB — Medusa gets its own schema (public) while BrandingOS
-    // platform uses the app schema. Set search_path=public in the URL if needed.
+    // Shared Neon DB — direct endpoint (no pooler) so SSL and all params are accepted.
     databaseUrl: process.env.DATABASE_URL,
     redisUrl: process.env.REDIS_URL,
     http: {

@@ -1,10 +1,10 @@
-import {
+﻿import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, numeric, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
-import { products } from "./products.js";
-import { orders } from "./orders.js";
-import { portfolios } from "../portfolios.js";
+import { users } from "../users";
+import { products } from "./products";
+import { orders } from "./orders";
+import { portfolios } from "../portfolios";
 
 export const reviewStatusEnum  = pgEnum("review_status",  ["pending","approved","hidden"]);
 
@@ -15,7 +15,7 @@ export const productReviews = pgTable(
     productId:          uuid("product_id").notNull().references(() => products.id, { onDelete: "cascade" }),
     orderId:            uuid("order_id").references(() => orders.id, { onDelete: "set null" }),
     reviewerId:         text("reviewer_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-    rating:             integer("rating").notNull(),   // 1–5
+    rating:             integer("rating").notNull(),   // 1â€“5
     title:              text("title"),
     body:               text("body"),
     isVerifiedPurchase: boolean("is_verified_purchase").notNull().default(false),
@@ -41,7 +41,7 @@ export const testimonials = pgTable(
     clientCompany:      text("client_company"),
     clientAvatarUrl:    text("client_avatar_url"),
     body:               text("body").notNull(),
-    rating:             integer("rating"),   // 1–5, optional
+    rating:             integer("rating"),   // 1â€“5, optional
     verificationEmail:  text("verification_email"),
     verificationToken:  text("verification_token"),
     verifiedAt:         timestamp("verified_at", { withTimezone: true }),

@@ -1,43 +1,86 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #7c3aed;
-  --color-primary-glow: rgba(124, 58, 237, 0.4);
-  --color-cyan: #06b6d4;
-  --color-cyan-glow: rgba(6, 182, 212, 0.3);
+  /* ── BrandingOS Design System ────────────────────────────────────── */
+  --color-primary:        #7C3AED;
+  --color-primary-70:     #A78BFA;
+  --color-primary-20:     #EDE9FE;
+  --color-primary-dark:   #5B21B6;
 
-  --color-background: #06060f;
-  --color-foreground: #f1f5f9;
-  --color-muted-foreground: #94a3b8;
-  --color-border: rgba(255, 255, 255, 0.07);
+  --color-surface:        #FFFFFF;
+  --color-surface-muted:  #F9FAFB;
+  --color-surface-hover:  #F3F4F6;
+  --color-on-surface:     #0A0A0A;
 
-  --radius-sm: 0.5rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1rem;
-  --radius-xl: 1.25rem;
-  --radius-2xl: 1.75rem;
+  --color-border:         #E5E7EB;
+  --color-border-strong:  #D1D5DB;
+  --color-muted:          #6B7280;
+  --color-positive:       #059669;
+  --color-error:          #DC2626;
 
-  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* ── Typography ──────────────────────────────────────────────────── */
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-sans:    "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+
+  /* ── Rounded ─────────────────────────────────────────────────────── */
+  --radius-sm:   0.25rem;
+  --radius-md:   0.5rem;
+  --radius-lg:   0.75rem;
+  --radius-xl:   1.25rem;
+  --radius-2xl:  1.75rem;
+  --radius-full: 9999px;
+
+  /* ── Shadows ─────────────────────────────────────────────────────── */
+  --shadow-sm:    0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md:    0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg:    0 8px 32px rgba(0,0,0,0.10);
+  --shadow-focus: 0 0 0 3px #EDE9FE;
 }
 
 @layer base {
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
   body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
     font-family: var(--font-sans);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
+
+  h1, h2, h3 { text-wrap: balance; }
 }
 
 @layer utilities {
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-primary);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: background 0.15s, box-shadow 0.15s;
+  }
+  .btn-primary:hover { background: var(--color-primary-dark); box-shadow: 0 4px 16px rgba(124,58,237,0.35); }
+
+  .input-base {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-on-surface);
+    font-size: 0.875rem;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .input-base:focus { outline: none; border-color: var(--color-primary); box-shadow: var(--shadow-focus); }
+
+  /* Legacy aurora button — LandingPage CTA */
   .btn-aurora {
     background: linear-gradient(90deg, #7c3aed, #06b6d4, #7c3aed);
     background-size: 200% auto;
@@ -45,12 +88,12 @@
     color: #fff;
     font-weight: 600;
   }
-
   .btn-aurora:hover {
     animation-duration: 1.5s;
     box-shadow: 0 0 24px rgba(124, 58, 237, 0.5), 0 0 48px rgba(6, 182, 212, 0.2);
   }
 
+  /* Glass (dashboard dark panels) */
   .glass-card {
     background: rgba(15, 12, 30, 0.55);
     backdrop-filter: blur(28px);
@@ -58,28 +101,48 @@
     border: 1px solid rgba(255, 255, 255, 0.07);
   }
 
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .badge-primary {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.625rem;
+    border-radius: var(--radius-full);
+    background: var(--color-primary-20);
+    color: var(--color-primary);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  /* Legacy aurora input */
   .input-aurora {
     background: rgba(255, 255, 255, 0.05) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     color: #f1f5f9 !important;
     transition: border-color 0.2s, box-shadow 0.2s !important;
   }
-
-  .input-aurora:focus,
-  .input-aurora:focus-within {
+  .input-aurora:focus, .input-aurora:focus-within {
     border-color: rgba(124, 58, 237, 0.6) !important;
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15), 0 0 20px rgba(124, 58, 237, 0.1) !important;
-    background: rgba(255, 255, 255, 0.07) !important;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15) !important;
     outline: none !important;
   }
 }
 
 @keyframes shimmer-move {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
 }
-
 @keyframes orb-pulse {
   0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.08); }
+  50%       { opacity: 1;   transform: scale(1.08); }
 }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-marquee { animation: marquee 28s linear infinite; }

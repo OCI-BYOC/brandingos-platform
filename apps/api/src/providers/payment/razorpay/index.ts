@@ -239,4 +239,6 @@ class RazorpayPaymentProvider extends AbstractPaymentProvider<RazorpayOptions> {
   }
 }
 
-export default RazorpayPaymentProvider
+export default {
+  services: [RazorpayPaymentProvider],
+}

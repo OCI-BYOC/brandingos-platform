@@ -1,18 +1,18 @@
-import {
+﻿import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, jsonb, index
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
+import { users } from "../users";
 
 export const mcpCallStatusEnum = pgEnum("mcp_call_status", ["success","failed","permission_denied"]);
 
-// MCP server sessions (OAuth 2.0 PKCE — one session per client connection)
+// MCP server sessions (OAuth 2.0 PKCE â€” one session per client connection)
 export const mcpSessions = pgTable(
   "mcp_sessions",
   {
     id:            uuid("id").primaryKey().defaultRandom(),
     userId:        text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
     clientId:      text("client_id").notNull(),   // claude | gemini | cursor | custom
-    accessToken:   text("access_token").notNull().unique(), // SHA-256 hashed — never stored plain
+    accessToken:   text("access_token").notNull().unique(), // SHA-256 hashed â€” never stored plain
     scopes:        text("scopes").array().notNull(),
     // read:portfolio | write:portfolio | write:social | read:analytics | write:commerce etc.
     expiresAt:     timestamp("expires_at", { withTimezone: true }).notNull(),
@@ -28,7 +28,7 @@ export const mcpSessions = pgTable(
   })
 );
 
-// Full audit log of every MCP tool call — security + debugging
+// Full audit log of every MCP tool call â€” security + debugging
 export const mcpToolCalls = pgTable(
   "mcp_tool_calls",
   {

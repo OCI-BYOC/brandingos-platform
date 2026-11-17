@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   LayoutDashboard, Briefcase, ShoppingBag, BookOpen,
-  BarChart2, Settings, Zap, LogOut, Bell,
+  BarChart2, Settings, Zap, LogOut, Bell, Target,
 } from "lucide-react"
 
 const NAV = [
@@ -13,6 +13,7 @@ const NAV = [
   { icon: Briefcase,       label: "Portfolio",  href: "/dashboard/portfolio" },
   { icon: ShoppingBag,     label: "Store",      href: "/dashboard/store" },
   { icon: BookOpen,        label: "Courses",    href: "/dashboard/courses" },
+  { icon: Target,          label: "Jobs",       href: "/dashboard/jobs" },
   { icon: BarChart2,       label: "Analytics",  href: "/dashboard/analytics" },
   { icon: Settings,        label: "Settings",   href: "/dashboard/settings" },
 ]

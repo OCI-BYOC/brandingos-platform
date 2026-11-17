@@ -1,12 +1,12 @@
-import {
+﻿import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, jsonb, date, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
+import { users } from "../users";
 
-// ─── AI Credit Ledger (append-only, source of truth) ─────────────────────────
+// â”€â”€â”€ AI Credit Ledger (append-only, source of truth) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Hybrid model: monthly allocation (expires at billing cycle end) + never-expiring top-up packs.
 // Balance = SUM of active ledger entries where (expiresAt IS NULL OR expiresAt > NOW())
-// Cached on users.ai_credits_remaining for fast reads — updated transactionally.
+// Cached on users.ai_credits_remaining for fast reads â€” updated transactionally.
 export const creditLedgerTypeEnum = pgEnum("credit_ledger_type", [
   "monthly_allocation",   // credited at billing cycle start
   "topup_purchase",       // purchased top-up pack (never expires)
@@ -40,13 +40,13 @@ export const aiCreditLedger = pgTable(
   })
 );
 
-// Top-up packs — purchased with real money, never expire
+// Top-up packs â€” purchased with real money, never expire
 export const aiTopupPacks = pgTable(
   "ai_topup_packs",
   {
     id:               uuid("id").primaryKey().defaultRandom(),
     userId:           text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-    orderId:          uuid("order_id"),    // FK → orders.id — deferred
+    orderId:          uuid("order_id"),    // FK â†’ orders.id â€” deferred
     credits:          integer("credits").notNull(),
     price:            integer("price").notNull(),
     remainingCredits: integer("remaining_credits").notNull(),
@@ -56,7 +56,7 @@ export const aiTopupPacks = pgTable(
   (t) => ({ userIdx: index("ai_topup_packs_user_idx").on(t.userId) })
 );
 
-// ─── AI Usage Logs (no soft delete — analytics) ───────────────────────────────
+// â”€â”€â”€ AI Usage Logs (no soft delete â€” analytics) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const aiProviderEnum    = pgEnum("ai_provider",    ["ollama","anthropic","openai"]);
 export const aiCallStatusEnum  = pgEnum("ai_call_status", ["success","failed","timeout"]);
 
@@ -86,7 +86,7 @@ export const aiUsageLogs = pgTable(
   })
 );
 
-// ─── AI Agents & Workflows ────────────────────────────────────────────────────
+// â”€â”€â”€ AI Agents & Workflows â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const aiAgentTypeEnum = pgEnum("ai_agent_type", ["social","job","research","brand","custom"]);
 
 export const aiWorkflows = pgTable(
@@ -120,7 +120,7 @@ export const aiWorkflowRuns = pgTable("ai_workflow_runs", {
   createdAt:    timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
-// ─── Oracle BYOC Private AI connections ──────────────────────────────────────
+// â”€â”€â”€ Oracle BYOC Private AI connections â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const oracleConnectionStatusEnum = pgEnum("oracle_connection_status", [
   "pending","provisioning","active","failed","disconnected",
 ]);
@@ -150,7 +150,7 @@ export const oracleConnections = pgTable(
   (t) => ({ userIdx: index("oracle_connections_user_idx").on(t.userId) })
 );
 
-// ─── Brand health scores (weekly snapshots) ───────────────────────────────────
+// â”€â”€â”€ Brand health scores (weekly snapshots) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const brandHealthScores = pgTable(
   "brand_health_scores",
   {
@@ -173,7 +173,7 @@ export const brandHealthScores = pgTable(
   })
 );
 
-// ─── Research reports ─────────────────────────────────────────────────────────
+// â”€â”€â”€ Research reports â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const researchReports = pgTable(
   "research_reports",
   {
