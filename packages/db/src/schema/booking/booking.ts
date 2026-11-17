@@ -1,7 +1,7 @@
-import {
+﻿import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, date, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
+import { users } from "../users";
 
 export const availabilityExceptionTypeEnum = pgEnum("availability_exception_type", ["unavailable","custom_hours"]);
 export const bookingStatusEnum             = pgEnum("booking_status",              ["pending","confirmed","cancelled","completed","no_show"]);
@@ -37,14 +37,14 @@ export const meetingTypes = pgTable(
   })
 );
 
-// Fully flexible availability — recurring rules
+// Fully flexible availability â€” recurring rules
 export const availabilityRules = pgTable(
   "availability_rules",
   {
     id:          uuid("id").primaryKey().defaultRandom(),
     userId:      text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
     meetingTypeId: uuid("meeting_type_id").references(() => meetingTypes.id, { onDelete: "cascade" }), // null = all meeting types
-    dayOfWeek:   integer("day_of_week").array().notNull(),   // [0=Sun … 6=Sat]
+    dayOfWeek:   integer("day_of_week").array().notNull(),   // [0=Sun â€¦ 6=Sat]
     startTime:   text("start_time").notNull(),   // "09:00"
     endTime:     text("end_time").notNull(),     // "17:00"
     timezone:    text("timezone").notNull().default("Asia/Kolkata"),
@@ -57,7 +57,7 @@ export const availabilityRules = pgTable(
   (t) => ({ userIdx: index("availability_rules_user_idx").on(t.userId) })
 );
 
-// Exceptions override rules — days off, extra slots, public holiday overrides
+// Exceptions override rules â€” days off, extra slots, public holiday overrides
 export const availabilityExceptions = pgTable(
   "availability_exceptions",
   {

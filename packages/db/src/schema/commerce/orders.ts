@@ -1,9 +1,9 @@
-import {
+﻿import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, jsonb, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
-import { portfolios } from "../portfolios.js";
-import { products, productVariants } from "./products.js";
+import { users } from "../users";
+import { portfolios } from "../portfolios";
+import { products, productVariants } from "./products";
 
 export const orderStatusEnum   = pgEnum("order_status",   ["pending","confirmed","processing","shipped","delivered","cancelled","refunded"]);
 export const paymentMethodEnum = pgEnum("payment_method", ["razorpay","stripe","cod"]);
@@ -70,7 +70,7 @@ export const orderItems = pgTable(
     orderId:   uuid("order_id").notNull().references(() => orders.id, { onDelete: "cascade" }),
     productId: uuid("product_id").references(() => products.id, { onDelete: "set null" }),
     variantId: uuid("variant_id").references(() => productVariants.id, { onDelete: "set null" }),
-    courseId:  uuid("course_id"),   // FK → courses.id — added after courses table
+    courseId:  uuid("course_id"),   // FK â†’ courses.id â€” added after courses table
     title:     text("title").notNull(),   // snapshot at purchase time
     price:     integer("price").notNull(),
     quantity:  integer("quantity").notNull().default(1),

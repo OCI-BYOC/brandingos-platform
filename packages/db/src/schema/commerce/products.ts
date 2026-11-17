@@ -1,8 +1,8 @@
-import {
+﻿import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, jsonb, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
-import { portfolios } from "../portfolios.js";
+import { users } from "../users";
+import { portfolios } from "../portfolios";
 
 export const productTypeEnum   = pgEnum("product_type",   ["digital", "physical", "printful"]);
 export const productStatusEnum = pgEnum("product_status", ["draft", "active", "archived"]);
@@ -44,7 +44,7 @@ export const products = pgTable(
   })
 );
 
-// Attribute definitions per product — fully flexible (size, colour, material, finish…)
+// Attribute definitions per product â€” fully flexible (size, colour, material, finishâ€¦)
 export const productAttributeDefinitions = pgTable(
   "product_attribute_definitions",
   {

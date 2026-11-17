@@ -1,10 +1,10 @@
-import {
+﻿import {
   pgTable, pgEnum, text, boolean, timestamp, uuid, jsonb, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
+import { users } from "../users";
 
-// ─── In-app notifications ─────────────────────────────────────────────────────
-// No soft delete — notifications are event logs.
+// â”€â”€â”€ In-app notifications â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// No soft delete â€” notifications are event logs.
 export const notifications = pgTable(
   "notifications",
   {
@@ -61,8 +61,8 @@ export const pushSubscriptions = pgTable(
   (t) => ({ userIdx: index("push_subscriptions_user_idx").on(t.userId) })
 );
 
-// ─── Incoming webhook delivery log (Clerk, Razorpay, Stripe, Shiprocket) ─────
-// No soft delete — these are immutable event receipts for idempotency + replay.
+// â”€â”€â”€ Incoming webhook delivery log (Clerk, Razorpay, Stripe, Shiprocket) â”€â”€â”€â”€â”€
+// No soft delete â€” these are immutable event receipts for idempotency + replay.
 export const webhookStatusEnum = pgEnum("webhook_status", ["received","processed","failed","duplicate"]);
 
 export const webhookDeliveries = pgTable(

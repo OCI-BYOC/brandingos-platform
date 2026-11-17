@@ -1,9 +1,9 @@
-import { neon, neonConfig } from "@neondatabase/serverless";
+﻿import { neon, neonConfig } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import { sql } from "drizzle-orm";
-import * as schema from "./schema/index.js";
+import * as schema from "./schema/index";
 
-// Neon connection — serverless HTTP mode (works in Cloudflare Workers)
+// Neon connection â€” serverless HTTP mode (works in Cloudflare Workers)
 // For long-running servers (Nomad jobs), use neon-pool instead
 neonConfig.fetchConnectionCache = true;
 
@@ -27,7 +27,7 @@ export function getDb(databaseUrl?: string) {
 }
 
 /**
- * withRLS — wraps a database operation with Row Level Security context.
+ * withRLS â€” wraps a database operation with Row Level Security context.
  *
  * MUST be called on every user-initiated database operation.
  * Sets the app.current_user_id Postgres setting before the query runs,
@@ -57,5 +57,5 @@ export async function withRLS<T>(
 }
 
 // Re-export everything so app code only imports from @brandingos/db
-export * from "./schema/index.js";
+export * from "./schema/index";
 export { createDb };

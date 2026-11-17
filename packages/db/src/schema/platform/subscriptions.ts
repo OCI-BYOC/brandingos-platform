@@ -1,7 +1,7 @@
-import {
+﻿import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, jsonb, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users.js";
+import { users } from "../users";
 
 export const subscriptionProviderEnum = pgEnum("subscription_provider", ["stripe","razorpay"]);
 export const subscriptionStatusEnum   = pgEnum("subscription_status",   ["active","past_due","cancelled","trialing","paused"]);
@@ -45,7 +45,7 @@ export const subscriptionEvents = pgTable(
   })
 );
 
-// ─── Referral system ──────────────────────────────────────────────────────────
+// â”€â”€â”€ Referral system â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const referralCodes = pgTable(
   "referral_codes",
   {
@@ -80,7 +80,7 @@ export const referrals = pgTable(
   })
 );
 
-// ─── Creator verifications ────────────────────────────────────────────────────
+// â”€â”€â”€ Creator verifications â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const verificationTypeEnum   = pgEnum("verification_type",   ["creator","skill","income"]);
 export const verificationStatusEnum = pgEnum("verification_status", ["pending","approved","rejected","revoked"]);
 
