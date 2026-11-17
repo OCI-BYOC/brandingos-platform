@@ -1,9 +1,12 @@
-import { redirect } from "next/navigation"
-import { currentUser } from "@clerk/nextjs/server"
-import LandingPage from "./_landing/LandingPage"
+import { redirect } from 'next/navigation'
+import { currentUser } from '@clerk/nextjs/server'
 
 export default async function HomePage() {
   const user = await currentUser()
-  if (user) redirect("/dashboard")
-  return <LandingPage />
+
+  if (user) {
+    redirect('/dashboard')
+  }
+
+  redirect('/sign-in')
 }

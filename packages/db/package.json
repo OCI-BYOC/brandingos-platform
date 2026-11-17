@@ -11,7 +11,6 @@
     "db:migrate": "node --require tsx/cjs ./node_modules/drizzle-kit/bin.cjs migrate",
     "db:push": "node --require tsx/cjs ./node_modules/drizzle-kit/bin.cjs push",
     "db:studio": "node --require tsx/cjs ./node_modules/drizzle-kit/bin.cjs studio",
-    "db:seed": "tsx src/seed.ts",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {

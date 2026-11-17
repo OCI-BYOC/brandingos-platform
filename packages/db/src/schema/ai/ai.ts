@@ -1,7 +1,7 @@
 import {
   pgTable, pgEnum, text, integer, boolean, timestamp, uuid, jsonb, date, index, uniqueIndex
 } from "drizzle-orm/pg-core";
-import { users } from "../users";
+import { users } from "../users.js";
 
 // ─── AI Credit Ledger (append-only, source of truth) ─────────────────────────
 // Hybrid model: monthly allocation (expires at billing cycle end) + never-expiring top-up packs.
