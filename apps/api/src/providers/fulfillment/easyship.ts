@@ -156,4 +156,6 @@ class EasyShipFulfillmentProvider extends AbstractFulfillmentProviderService {
   }
 }
 
-export default EasyShipFulfillmentProvider
+export default {
+  services: [EasyShipFulfillmentProvider],
+}

@@ -164,4 +164,6 @@ class SellerCourierFulfillmentProvider extends AbstractFulfillmentProviderServic
   }
 }
 
-export default SellerCourierFulfillmentProvider
+export default {
+  services: [SellerCourierFulfillmentProvider],
+}
