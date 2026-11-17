@@ -1,0 +1,22 @@
+name = "brandingos-edge"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ENVIRONMENT = "development"
+
+# KV namespace for rate limiting
+# Create with: wrangler kv:namespace create RATE_LIMITS
+# Then uncomment and fill the id below
+# [[kv_namespaces]]
+# binding = "RATE_LIMITS"
+# id = ""
+
+[env.production]
+name = "brandingos-edge-production"
+vars = { ENVIRONMENT = "production" }
+
+[env.staging]
+name = "brandingos-edge-staging"
+vars = { ENVIRONMENT = "staging" }
