@@ -15,23 +15,25 @@ export default function VariantSelector({ variants, selected, onSelect, currency
 
   return (
     <div className="space-y-2">
-      <p className="text-sm text-white/60 font-medium">Options</p>
+      <p className="text-sm font-semibold text-[#6B7280] uppercase tracking-wide">Options</p>
       <div className="flex flex-wrap gap-2">
         {variants.map((v) => {
           const price = (v as unknown as Record<string, unknown>).calculated_price as { calculated_amount?: number } | undefined
+          const optionValues = (v.options as Array<{ value?: string }> | undefined)?.map(o => o.value).filter(Boolean).join(" / ")
+          const label = (v.title && v.title !== "Default Title") ? v.title : (optionValues || "Default")
           return (
             <button
               key={v.id}
               onClick={() => onSelect(v.id)}
               className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-all ${
                 selected === v.id
-                  ? "border-purple-500 bg-purple-500/20 text-white"
-                  : "border-white/10 bg-white/5 text-white/60 hover:border-white/30"
+                  ? "border-[#7C3AED] bg-[#EDE9FE] text-[#7C3AED]"
+                  : "border-[#E5E7EB] bg-white text-[#6B7280] hover:border-[#A78BFA] hover:text-[#7C3AED]"
               }`}
             >
-              {v.title ?? "Default"}
+              {label}
               {price?.calculated_amount !== undefined && (
-                <span className="ml-1.5 text-xs text-white/40">
+                <span className="ml-1.5 text-xs opacity-70" style={{ fontFamily: "var(--font-mono)" }}>
                   {formatPrice(price.calculated_amount, currencyCode)}
                 </span>
               )}

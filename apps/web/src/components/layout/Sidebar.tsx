@@ -72,8 +72,9 @@ export default function Sidebar({ tier = 'free', aiCredits = 50, aiCreditsTotal 
       className="hidden lg:flex flex-col shrink-0 border-r relative z-20"
       style={{
         borderColor: 'rgba(255,255,255,0.06)',
-        background: 'rgba(10,6,24,0.85)',
+        background: 'rgba(7,7,10,0.92)',
         backdropFilter: 'blur(20px)',
+        fontFamily: 'var(--font-sans)',
       }}
     >
       {/* Logo */}
@@ -81,7 +82,7 @@ export default function Sidebar({ tier = 'free', aiCredits = 50, aiCreditsTotal 
         <Link href="/dashboard" className="flex items-center gap-2.5 group shrink-0">
           <div
             className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
-            style={{ background: 'linear-gradient(135deg, #7c3aed, #06b6d4)', boxShadow: '0 0 14px rgba(124,58,237,0.5)' }}
+            style={{ background: 'linear-gradient(135deg, #7c3aed, #A78BFA)', boxShadow: '0 0 14px rgba(124,58,237,0.4)' }}
           >
             <svg viewBox="0 0 24 24" fill="none" className="w-3.5 h-3.5">
               <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />

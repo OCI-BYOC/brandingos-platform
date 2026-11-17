@@ -6,6 +6,12 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["--filter", "@brandingos/web", "dev"],
       "port": 3000
+    },
+    {
+      "name": "brandingos-store",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "@brandingos/store", "dev"],
+      "port": 3001
     }
   ]
 }
