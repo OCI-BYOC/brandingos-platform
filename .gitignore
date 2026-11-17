@@ -30,3 +30,6 @@ packages/*/dist/
 # Medusa build output
 apps/api/.medusa/
 apps/api/uploads/
+
+# Compound Engineering local scratch
+.context/compound-engineering/
