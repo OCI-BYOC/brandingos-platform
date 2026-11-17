@@ -66,7 +66,7 @@ export default function CoursesPage() {
           {[
             { label: "Total Students",    value: totalStudents.toLocaleString(),                                              icon: Users,     iconClass: "bg-violet-50 text-violet-600" },
             { label: "Course Revenue",    value: `₹${(totalRevenue / 100).toLocaleString("en-IN")}`,                        icon: BookOpen,  iconClass: "bg-emerald-50 text-emerald-600" },
-            { label: "Published Courses", value: COURSES.filter((c) => c.status === "published").length.toString(),         icon: Video,     iconClass: "bg-cyan-50 text-cyan-600" },
+            { label: "Published Courses", value: COURSES.filter((c) => c.status === "published").length.toString(),         icon: Video,     iconClass: "bg-violet-50 text-violet-600" },
           ].map((s) => (
             <div key={s.label} className="card p-5 flex items-center gap-4">
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${s.iconClass}`}>
@@ -129,9 +129,9 @@ export default function CoursesPage() {
         {/* New course CTA */}
         <motion.div variants={staggerItem}>
           <Link href="/dashboard/courses/new" className="block h-full min-h-[240px]">
-            <div className="h-full rounded-2xl border border-dashed border-slate-200 hover:border-cyan-300 hover:bg-cyan-50/50 transition-all flex flex-col items-center justify-center gap-3 group">
-              <div className="w-10 h-10 rounded-full bg-slate-100 group-hover:bg-cyan-100 transition-colors flex items-center justify-center">
-                <Plus size={20} className="text-slate-300 group-hover:text-cyan-500 transition-colors" />
+            <div className="h-full rounded-2xl border border-dashed border-slate-200 hover:border-violet-300 hover:bg-violet-50/50 transition-all flex flex-col items-center justify-center gap-3 group">
+              <div className="w-10 h-10 rounded-full bg-slate-100 group-hover:bg-violet-100 transition-colors flex items-center justify-center">
+                <Plus size={20} className="text-slate-300 group-hover:text-violet-500 transition-colors" />
               </div>
               <span className="text-sm text-slate-400 group-hover:text-slate-600 transition-colors">Create New Course</span>
             </div>

@@ -35,7 +35,7 @@ const QUICK_ACTIONS = [
   { icon: ShoppingBag, label: "Add Product", href: "/dashboard/store/new", color: "from-cyan-500 to-teal-600" },
   { icon: Zap, label: "AI Generate", href: "/dashboard/content/ai", color: "from-amber-500 to-orange-600" },
   { icon: Star, label: "Upgrade Plan", href: "/dashboard/billing", color: "from-pink-500 to-rose-600" },
-  { icon: Eye, label: "View Store", href: `${process.env.NEXT_PUBLIC_STORE_URL ?? "http://localhost:3001"}/${undefined}/store`, color: "from-violet-500 to-purple-600" },
+  { icon: Eye, label: "View Store", href: `${process.env.NEXT_PUBLIC_STORE_URL ?? "http://localhost:3001"}/store`, color: "from-violet-500 to-purple-600" },
 ]
 
 function makeStats(user: User) {

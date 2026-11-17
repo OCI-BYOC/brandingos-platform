@@ -179,7 +179,7 @@ function ActiveStore() {
           {[
             { label: "Total Revenue", value: `₹${(totalRevenue / 100).toLocaleString("en-IN")}`, icon: IndianRupee, iconClass: "bg-emerald-50 text-emerald-600", change: "+34%", sub: "vs last month", accentColor: "#059669" },
             { label: "Total Sales",   value: totalSales.toString(),                                icon: ShoppingBag, iconClass: "bg-violet-50 text-violet-600",  change: "+18%", sub: "vs last month", accentColor: "#7c3aed" },
-            { label: "Products Live", value: PRODUCTS.length.toString(),                          icon: Package,     iconClass: "bg-cyan-50 text-cyan-600",    change: "Active", sub: "all selling",   accentColor: "#0891b2" },
+            { label: "Products Live", value: PRODUCTS.length.toString(),                          icon: Package,     iconClass: "bg-violet-50 text-violet-600", change: "Active", sub: "all selling",   accentColor: "#7c3aed" },
           ].map(s => (
             <div key={s.label} className="card p-5">
               <div className="flex items-start justify-between mb-4">
