@@ -30,14 +30,23 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
       id: s.id,
       slug: s.slug,
       name: s.name,
+      bio: s.bio,
+      logo_url: s.logo_url,
+      banner_url: s.banner_url,
       store_name: s.store_name ?? s.name,
       store_tagline: s.store_tagline,
       store_theme: s.store_theme,
       accent_color: s.accent_color,
+      store_type: s.store_type,
+      categories: s.categories,
+      audience: s.audience,
+      currency_code: s.currency_code,
+      pricing_model: s.pricing_model,
+      payment_provider: s.payment_provider,
+      fulfillment_provider: s.fulfillment_provider,
       is_active: s.is_active,
       store_launched_at: s.store_launched_at,
       medusa_sales_channel_id: s.medusa_sales_channel_id,
-      currency_code: s.currency_code,
     },
   })
 }
@@ -125,4 +134,46 @@ export async function POST(req: MedusaRequest, res: MedusaResponse) {
   })
 
   return res.status(201).json({ seller })
+}
+
+/**
+ * PATCH /store/sellers
+ * Updates seller settings for the current Clerk user.
+ * Body must include clerk_user_id for auth.
+ */
+export async function PATCH(req: MedusaRequest, res: MedusaResponse) {
+  const body = req.body as {
+    clerk_user_id?: string
+    store_name?: string
+    store_tagline?: string
+    slug?: string
+    bio?: string
+    logo_url?: string
+    banner_url?: string
+    store_theme?: string
+    accent_color?: string
+    store_type?: string
+    categories?: string
+    audience?: string
+    currency_code?: string
+    pricing_model?: string
+    payment_provider?: string
+    fulfillment_provider?: string
+  }
+
+  const { clerk_user_id, ...updates } = body
+
+  if (!clerk_user_id) {
+    return res.status(400).json({ message: "clerk_user_id is required" })
+  }
+
+  const sellerService = req.scope.resolve<SellerModuleService>(SELLER_MODULE)
+  const existing = await sellerService.listSellers({ clerk_user_id })
+
+  if (!existing.length) {
+    return res.status(404).json({ message: "Seller not found" })
+  }
+
+  const seller = await sellerService.updateSellers(existing[0].id, updates)
+  return res.json({ seller })
 }

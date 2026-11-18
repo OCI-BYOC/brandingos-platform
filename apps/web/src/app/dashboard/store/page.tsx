@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import {
   Plus, Package, TrendingUp, ShoppingBag, Download, IndianRupee,
-  MoreHorizontal, ArrowUpRight, Store, Sparkles, Zap, Star,
+  MoreHorizontal, ArrowUpRight, Store, Sparkles, Zap, Star, Settings2,
 } from "lucide-react"
 import { FadeUp, staggerContainer, staggerItem } from "@/components/ui/animations"
 
@@ -143,12 +143,18 @@ function ActiveStore({ products }: { products: DashboardProduct[] }) {
           </h1>
           <p className="text-slate-400 text-sm mt-1">Sell digital products and services globally</p>
         </div>
-        <Link
-          href="/dashboard/store/product/new"
-          className="btn-primary flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm shadow-md shadow-violet-200"
-        >
-          <Plus size={16} /> Add Product
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link href="/dashboard/store/settings"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 transition-colors">
+            <Settings2 size={15} /> Settings
+          </Link>
+          <Link
+            href="/dashboard/store/product/new"
+            className="btn-primary flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm shadow-md shadow-violet-200"
+          >
+            <Plus size={16} /> Add Product
+          </Link>
+        </div>
       </div>
 
       {/* Stats — revenue/sales are ₹0 until orders are wired */}
