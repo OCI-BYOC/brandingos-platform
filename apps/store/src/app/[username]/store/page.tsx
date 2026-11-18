@@ -53,7 +53,6 @@ export default async function CreatorStorePage({ params, searchParams }: Props) 
       // Seller has a Sales Channel — use it to scope products correctly
       const { products: list } = await medusa.store.product.list({
         limit: 100,
-        // @ts-expect-error — Medusa v2 store SDK typings lag behind; param is valid
         sales_channel_id: seller.medusa_sales_channel_id,
         fields: "+metadata",
       })
