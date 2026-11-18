@@ -144,7 +144,7 @@ function ActiveStore({ products }: { products: DashboardProduct[] }) {
           <p className="text-slate-400 text-sm mt-1">Sell digital products and services globally</p>
         </div>
         <Link
-          href="/dashboard/store/new"
+          href="/dashboard/store/product/new"
           className="btn-primary flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm shadow-md shadow-violet-200"
         >
           <Plus size={16} /> Add Product

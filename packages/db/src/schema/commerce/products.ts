@@ -12,7 +12,7 @@ export const products = pgTable(
   {
     id:                uuid("id").primaryKey().defaultRandom(),
     userId:            text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-    portfolioId:       uuid("portfolio_id").notNull().references(() => portfolios.id, { onDelete: "cascade" }),
+    portfolioId:       uuid("portfolio_id").references(() => portfolios.id, { onDelete: "cascade" }),
     type:              productTypeEnum("type").notNull(),
     title:             text("title").notNull(),
     description:       text("description"),
