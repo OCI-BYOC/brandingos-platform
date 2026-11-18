@@ -36,8 +36,7 @@ export async function POST(
   }
 
   if (!process.env.RESEND_API_KEY) {
-    // Dev fallback — log instead of error so forms work before Resend is configured
-    console.log("[contact] skipping email (RESEND_API_KEY not set)", { from: email, to: ownerEmail, slug })
+    // Dev fallback — accept form submissions silently before Resend is configured
     return Response.json({ ok: true })
   }
 
