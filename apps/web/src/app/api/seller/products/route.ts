@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs/server"
-import { db, rls } from "@/lib/db"
+import { rls } from "@/lib/db"
 import { products } from "@brandingos/db"
 import { and, eq, isNull, desc } from "drizzle-orm"
 import { NextRequest } from "next/server"
