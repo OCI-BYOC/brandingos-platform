@@ -26,6 +26,8 @@ type CartContextType = {
   isLoading: boolean
   /** Called by per-seller pages to set the checkout currency. */
   setRegionByCurrency: (currencyCode: string) => void
+  /** Called by per-seller pages to scope the cart to their Sales Channel. */
+  setSalesChannelId: (id: string) => void
 }
 
 const CartContext = createContext<CartContextType | null>(null)
@@ -55,9 +57,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(false)
   // Defaults to INR; seller pages call setRegionByCurrency to override
   const currencyRef = useRef<string>("inr")
+  const salesChannelIdRef = useRef<string | null>(null)
 
   const setRegionByCurrency = useCallback((currencyCode: string) => {
     currencyRef.current = currencyCode.toLowerCase()
+  }, [])
+
+  const setSalesChannelId = useCallback((id: string) => {
+    salesChannelIdRef.current = id
   }, [])
 
   const getOrCreateCart = useCallback(async (): Promise<string> => {
@@ -78,9 +85,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     // Resolve region for the current seller's currency
     const regionId = await resolveRegionId(currencyRef.current)
 
-    const { cart: newCart } = await medusa.store.cart.create(
-      regionId ? { region_id: regionId } : {}
-    )
+    const { cart: newCart } = await medusa.store.cart.create({
+      ...(regionId ? { region_id: regionId } : {}),
+      ...(salesChannelIdRef.current ? { sales_channel_id: salesChannelIdRef.current } : {}),
+    } as Parameters<typeof medusa.store.cart.create>[0])
     try { localStorage.setItem("bos_cart_id", newCart.id) } catch {}
     setCart(newCart)
     setCartId(newCart.id)
@@ -142,7 +150,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       closeCart: () => setIsOpen(false),
       toggleCart: () => setIsOpen(prev => !prev),
       addItem, updateItem, removeItem,
-      setRegionByCurrency,
+      setRegionByCurrency, setSalesChannelId,
     }}>
       {children}
     </CartContext.Provider>

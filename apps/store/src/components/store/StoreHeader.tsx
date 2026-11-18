@@ -6,7 +6,7 @@ import CartButton from "./CartButton"
 import { Search } from "lucide-react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { SignInButton, UserButton, useUser } from "@clerk/nextjs"
+import { UserButton, useUser } from "@clerk/nextjs"
 
 interface StoreHeaderProps {
   username: string
@@ -63,19 +63,20 @@ export default function StoreHeader({ username, sellerName, sellerAvatar }: Stor
           {isSignedIn ? (
             <>
               <Link
-                href="/account/orders"
+                href={`/${username}/store/account`}
                 className="text-xs text-[#6B7280] hover:text-[#7C3AED] px-3 py-1.5 rounded-lg hover:bg-[#EDE9FE] transition-colors hidden sm:block"
               >
                 My Orders
               </Link>
-              <UserButton afterSignOutUrl="/" appearance={{ elements: { avatarBox: "w-8 h-8" } }} />
+              <UserButton afterSignOutUrl={`/${username}/store`} appearance={{ elements: { avatarBox: "w-8 h-8" } }} />
             </>
           ) : (
-            <SignInButton mode="modal">
-              <button className="text-xs font-medium text-[#7C3AED] px-3 py-1.5 rounded-lg border border-[#7C3AED] hover:bg-[#EDE9FE] transition-colors">
-                Sign In
-              </button>
-            </SignInButton>
+            <Link
+              href={`/${username}/store/sign-in`}
+              className="text-xs font-medium text-[#7C3AED] px-3 py-1.5 rounded-lg border border-[#7C3AED] hover:bg-[#EDE9FE] transition-colors"
+            >
+              Sign In
+            </Link>
           )}
           <CartButton />
         </div>

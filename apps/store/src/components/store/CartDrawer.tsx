@@ -1,6 +1,7 @@
 "use client"
 
 import { useCart } from "@/lib/cart"
+import { usePathname } from "next/navigation"
 import { X, ShoppingBag, Trash2, Plus, Minus } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -8,6 +9,10 @@ import { formatPrice } from "@/lib/format"
 
 export default function CartDrawer() {
   const { cart, isOpen, closeCart, updateItem, removeItem, isLoading } = useCart()
+  const pathname = usePathname()
+  // Derive per-store checkout URL: /{username}/store/* → /{username}/store/checkout
+  const storeMatch = pathname.match(/^\/([^/]+)\/store/)
+  const checkoutHref = storeMatch ? `/${storeMatch[1]}/store/checkout` : "/checkout"
 
   return (
     <>
@@ -112,7 +117,7 @@ export default function CartDrawer() {
               </span>
             </div>
             <Link
-              href="/checkout"
+              href={checkoutHref}
               onClick={closeCart}
               className="block w-full py-3.5 rounded-xl font-semibold text-center text-white transition-all hover:opacity-90"
               style={{ background: "#7C3AED", boxShadow: "0 4px 16px rgba(124,58,237,0.35)" }}

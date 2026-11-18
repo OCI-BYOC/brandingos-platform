@@ -97,7 +97,7 @@ export default async function CreatorStorePage({ params, searchParams }: Props) 
 
   return (
     <>
-      <CartCurrencySync currencyCode={seller?.currency_code} />
+      <CartCurrencySync currencyCode={seller?.currency_code} salesChannelId={seller?.medusa_sales_channel_id} />
       <StoreHeader username={username} sellerName={displayName} sellerAvatar={seller?.avatar_url} />
       <main className="min-h-screen bg-white">
       {/* Store banner */}

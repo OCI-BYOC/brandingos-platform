@@ -4,14 +4,20 @@ import { useEffect } from "react"
 import { useCart } from "@/lib/cart"
 
 /**
- * Dropped into the per-seller store server component to sync the seller's
- * currency code into CartProvider so new carts use the right Medusa region.
- * Renders nothing.
+ * Syncs seller currency and Sales Channel into CartProvider so new carts
+ * are scoped to this creator's store. Renders nothing.
  */
-export function CartCurrencySync({ currencyCode }: { currencyCode?: string }) {
-  const { setRegionByCurrency } = useCart()
+export function CartCurrencySync({
+  currencyCode,
+  salesChannelId,
+}: {
+  currencyCode?: string
+  salesChannelId?: string
+}) {
+  const { setRegionByCurrency, setSalesChannelId } = useCart()
   useEffect(() => {
     if (currencyCode) setRegionByCurrency(currencyCode)
-  }, [currencyCode, setRegionByCurrency])
+    if (salesChannelId) setSalesChannelId(salesChannelId)
+  }, [currencyCode, salesChannelId, setRegionByCurrency, setSalesChannelId])
   return null
 }
