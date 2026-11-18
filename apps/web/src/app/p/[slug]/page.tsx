@@ -2,7 +2,7 @@ import { notFound } from "next/navigation"
 import { db } from "@/lib/db"
 import { portfolios, portfolioSections } from "@brandingos/db"
 import { and, eq, isNull, asc } from "drizzle-orm"
-import PortfolioRenderer from "./PortfolioRenderer"
+import PortfolioRenderer from "@/components/portfolio/PortfolioRenderer"
 
 export const dynamic = "force-dynamic"
 
