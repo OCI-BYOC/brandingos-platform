@@ -1,6 +1,7 @@
 import { medusa } from "@/lib/medusa"
 import ProductCard from "@/components/store/ProductCard"
 import StoreHeader from "@/components/store/StoreHeader"
+import { CartCurrencySync } from "./CartCurrencySync"
 import type { StoreProduct } from "@medusajs/types"
 import Image from "next/image"
 import { notFound } from "next/navigation"
@@ -17,6 +18,8 @@ type SellerProfile = {
   description?: string
   avatar_url?: string
   banner_url?: string
+  currency_code?: string
+  medusa_sales_channel_id?: string
   products?: StoreProduct[]
 }
 
@@ -46,10 +49,19 @@ export default async function CreatorStorePage({ params, searchParams }: Props) 
   try {
     if (seller?.products) {
       products = seller.products
-    } else {
+    } else if (seller?.medusa_sales_channel_id) {
+      // Seller has a Sales Channel — use it to scope products correctly
       const { products: list } = await medusa.store.product.list({
         limit: 100,
-        region_id: "reg_01M7JGBEPKE7F7NFSHH5CXFNYR",
+        // @ts-expect-error — Medusa v2 store SDK typings lag behind; param is valid
+        sales_channel_id: seller.medusa_sales_channel_id,
+        fields: "+metadata",
+      })
+      products = list ?? []
+    } else {
+      // Legacy fallback: metadata filter for sellers without a Sales Channel
+      const { products: list } = await medusa.store.product.list({
+        limit: 100,
         fields: "+metadata",
       })
       products = (list ?? []).filter(
@@ -86,6 +98,7 @@ export default async function CreatorStorePage({ params, searchParams }: Props) 
 
   return (
     <>
+      <CartCurrencySync currencyCode={seller?.currency_code} />
       <StoreHeader username={username} sellerName={displayName} sellerAvatar={seller?.avatar_url} />
       <main className="min-h-screen bg-white">
       {/* Store banner */}

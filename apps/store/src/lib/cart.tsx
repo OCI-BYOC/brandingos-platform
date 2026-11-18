@@ -6,6 +6,7 @@ import {
   useEffect,
   useState,
   useCallback,
+  useRef,
   type ReactNode,
 } from "react"
 import { medusa } from "./medusa"
@@ -23,21 +24,45 @@ type CartContextType = {
   removeItem: (lineItemId: string) => Promise<void>
   itemCount: number
   isLoading: boolean
+  /** Called by per-seller pages to set the checkout currency. */
+  setRegionByCurrency: (currencyCode: string) => void
 }
 
 const CartContext = createContext<CartContextType | null>(null)
+
+// Cached region map: currency_code → region_id, populated on first lookup
+const regionCache: Record<string, string> = {}
+
+/** Resolves a Medusa region_id for a given currency code. Cached after first call. */
+async function resolveRegionId(currencyCode: string): Promise<string | null> {
+  const key = currencyCode.toLowerCase()
+  if (regionCache[key]) return regionCache[key]
+  try {
+    const { regions } = await medusa.store.region.list()
+    for (const r of regions) {
+      if (r.currency_code) regionCache[r.currency_code.toLowerCase()] = r.id
+    }
+    return regionCache[key] ?? null
+  } catch {
+    return null
+  }
+}
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<StoreCart | null>(null)
   const [cartId, setCartId] = useState<string | null>(null)
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  // Defaults to INR; seller pages call setRegionByCurrency to override
+  const currencyRef = useRef<string>("inr")
+
+  const setRegionByCurrency = useCallback((currencyCode: string) => {
+    currencyRef.current = currencyCode.toLowerCase()
+  }, [])
 
   const getOrCreateCart = useCallback(async (): Promise<string> => {
     let id = cartId
-    try {
-      id = id ?? localStorage.getItem("bos_cart_id")
-    } catch {}
+    try { id = id ?? localStorage.getItem("bos_cart_id") } catch {}
 
     if (id) {
       try {
@@ -46,13 +71,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
         setCartId(id)
         return id
       } catch {
-        // Cart expired — create new
+        // Cart expired — fall through to create a new one
       }
     }
 
-    const { cart: newCart } = await medusa.store.cart.create({
-      region_id: "reg_01M7JGBEPKE7F7NFSHH5CXFNYR",
-    })
+    // Resolve region for the current seller's currency
+    const regionId = await resolveRegionId(currencyRef.current)
+
+    const { cart: newCart } = await medusa.store.cart.create(
+      regionId ? { region_id: regionId } : {}
+    )
     try { localStorage.setItem("bos_cart_id", newCart.id) } catch {}
     setCart(newCart)
     setCartId(newCart.id)
@@ -60,7 +88,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [cartId])
 
   useEffect(() => {
-    // Hydrate cart from localStorage silently
     const stored = (() => { try { return localStorage.getItem("bos_cart_id") } catch { return null } })()
     if (stored) {
       medusa.store.cart.retrieve(stored)
@@ -115,6 +142,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       closeCart: () => setIsOpen(false),
       toggleCart: () => setIsOpen(prev => !prev),
       addItem, updateItem, removeItem,
+      setRegionByCurrency,
     }}>
       {children}
     </CartContext.Provider>
