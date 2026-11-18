@@ -2,15 +2,12 @@
 
 import Link from "next/link"
 import { motion } from "framer-motion"
+import { useEffect, useState } from "react"
 import {
   Plus, Package, TrendingUp, ShoppingBag, Download, IndianRupee,
   MoreHorizontal, ArrowUpRight, Store, Sparkles, Zap, Star,
 } from "lucide-react"
 import { FadeUp, staggerContainer, staggerItem } from "@/components/ui/animations"
-
-// ─── Mock state ───────────────────────────────────────────────────────────────
-// Flip this to `false` to preview the empty state
-const HAS_STORE = true
 
 const PRODUCTS = [
   {
@@ -269,5 +266,27 @@ function ActiveStore() {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function StorePage() {
-  return HAS_STORE ? <ActiveStore /> : <StoreEmptyState />
+  const [hasStore, setHasStore] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    fetch("/api/seller/me")
+      .then(r => r.json())
+      .then((data: { seller: { is_active?: boolean } | null }) => {
+        setHasStore(!!(data.seller?.is_active))
+      })
+      .catch(() => setHasStore(false))
+  }, [])
+
+  // Loading skeleton — matches the card shape
+  if (hasStore === null) {
+    return (
+      <div className="px-8 py-8 animate-pulse">
+        <div className="h-8 w-48 bg-slate-100 rounded-xl mb-4" />
+        <div className="h-4 w-72 bg-slate-100 rounded-lg mb-10" />
+        <div className="h-64 bg-slate-100 rounded-3xl" />
+      </div>
+    )
+  }
+
+  return hasStore ? <ActiveStore /> : <StoreEmptyState />
 }
