@@ -2,58 +2,33 @@
 
 import Link from "next/link"
 import { motion } from "framer-motion"
+import { useEffect, useState } from "react"
 import {
   Plus, Package, TrendingUp, ShoppingBag, Download, IndianRupee,
-  MoreHorizontal, ArrowUpRight, Store, Sparkles, Zap, Star,
+  MoreHorizontal, ArrowUpRight, Store, Sparkles, Zap, Star, Settings2,
 } from "lucide-react"
 import { FadeUp, staggerContainer, staggerItem } from "@/components/ui/animations"
 
-// ─── Mock state ───────────────────────────────────────────────────────────────
-// Flip this to `false` to preview the empty state
-const HAS_STORE = true
+type DashboardProduct = {
+  id: string
+  title: string
+  type: string
+  price: number
+  currency: string
+  status: string
+  coverImageUrl: string | null
+  createdAt: string | Date | null
+}
 
-const PRODUCTS = [
-  {
-    id: "1",
-    title: "UI Design System — Figma Kit",
-    type: "digital",
-    price: 1999,
-    sales: 47,
-    revenue: 93953,
-    status: "active",
-    change: "+12%",
-    gradient: "from-violet-100 to-pink-100",
-    iconColor: "text-violet-500",
-  },
-  {
-    id: "2",
-    title: "Brand Identity Template Pack",
-    type: "digital",
-    price: 2999,
-    sales: 23,
-    revenue: 68977,
-    status: "active",
-    change: "+8%",
-    gradient: "from-blue-100 to-cyan-100",
-    iconColor: "text-blue-500",
-  },
-  {
-    id: "3",
-    title: "Portfolio Review — 1 Hour Call",
-    type: "service",
-    price: 4999,
-    sales: 8,
-    revenue: 39992,
-    status: "active",
-    change: "+3%",
-    gradient: "from-emerald-100 to-teal-100",
-    iconColor: "text-emerald-500",
-  },
-]
-
-const totalRevenue = PRODUCTS.reduce((s, p) => s + p.revenue, 0)
-const totalSales   = PRODUCTS.reduce((s, p) => s + p.sales, 0)
 const REVENUE_BARS = [30, 55, 40, 70, 50, 80, 45, 65, 75, 90, 55, 85]
+
+const PRODUCT_GRADIENTS = [
+  { gradient: "from-violet-100 to-pink-100",   iconColor: "text-violet-500" },
+  { gradient: "from-blue-100 to-cyan-100",      iconColor: "text-blue-500"   },
+  { gradient: "from-emerald-100 to-teal-100",   iconColor: "text-emerald-500"},
+  { gradient: "from-rose-100 to-orange-100",    iconColor: "text-rose-500"   },
+  { gradient: "from-amber-100 to-yellow-100",   iconColor: "text-amber-500"  },
+]
 
 // ─── Empty state ──────────────────────────────────────────────────────────────
 
@@ -155,7 +130,10 @@ function StoreEmptyState() {
 
 // ─── Active store view ────────────────────────────────────────────────────────
 
-function ActiveStore() {
+function ActiveStore({ products }: { products: DashboardProduct[] }) {
+  const activeProducts = products.filter(p => p.status === "active")
+  const productsLive   = activeProducts.length
+
   return (
     <div className="px-8 py-8">
       <div className="flex items-center justify-between mb-8">
@@ -165,21 +143,27 @@ function ActiveStore() {
           </h1>
           <p className="text-slate-400 text-sm mt-1">Sell digital products and services globally</p>
         </div>
-        <Link
-          href="/dashboard/store/new"
-          className="btn-primary flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm shadow-md shadow-violet-200"
-        >
-          <Plus size={16} /> Add Product
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link href="/dashboard/store/settings"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 transition-colors">
+            <Settings2 size={15} /> Settings
+          </Link>
+          <Link
+            href="/dashboard/store/product/new"
+            className="btn-primary flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm shadow-md shadow-violet-200"
+          >
+            <Plus size={16} /> Add Product
+          </Link>
+        </div>
       </div>
 
-      {/* Stats */}
+      {/* Stats — revenue/sales are ₹0 until orders are wired */}
       <FadeUp>
         <div className="grid grid-cols-3 gap-4 mb-8">
           {[
-            { label: "Total Revenue", value: `₹${(totalRevenue / 100).toLocaleString("en-IN")}`, icon: IndianRupee, iconClass: "bg-emerald-50 text-emerald-600", change: "+34%", sub: "vs last month", accentColor: "#059669" },
-            { label: "Total Sales",   value: totalSales.toString(),                                icon: ShoppingBag, iconClass: "bg-violet-50 text-violet-600",  change: "+18%", sub: "vs last month", accentColor: "#7c3aed" },
-            { label: "Products Live", value: PRODUCTS.length.toString(),                          icon: Package,     iconClass: "bg-violet-50 text-violet-600", change: "Active", sub: "all selling",   accentColor: "#7c3aed" },
+            { label: "Total Revenue", value: "₹0",                   icon: IndianRupee, iconClass: "bg-emerald-50 text-emerald-600", change: "—",      sub: "orders coming soon", accentColor: "#059669" },
+            { label: "Total Sales",   value: "0",                    icon: ShoppingBag, iconClass: "bg-violet-50 text-violet-600",  change: "—",      sub: "orders coming soon", accentColor: "#7c3aed" },
+            { label: "Products Live", value: productsLive.toString(), icon: Package,     iconClass: "bg-violet-50 text-violet-600", change: "Active", sub: "in your store",      accentColor: "#7c3aed" },
           ].map(s => (
             <div key={s.label} className="card p-5">
               <div className="flex items-start justify-between mb-4">
@@ -207,46 +191,57 @@ function ActiveStore() {
         <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
           <div>
             <h2 className="font-semibold text-slate-900">Products</h2>
-            <p className="text-xs text-slate-400 mt-0.5">{PRODUCTS.length} items · all active</p>
+            <p className="text-xs text-slate-400 mt-0.5">{products.length} item{products.length !== 1 ? "s" : ""}</p>
           </div>
-          <span className="badge badge-green text-[10px]">All selling</span>
+          {productsLive > 0 && <span className="badge badge-green text-[10px]">{productsLive} live</span>}
         </div>
-        <motion.div variants={staggerContainer} initial="hidden" animate="show">
-          {PRODUCTS.map((p, idx) => (
-            <motion.div
-              key={p.id}
-              variants={staggerItem}
-              className="px-6 py-4 border-b border-slate-50 last:border-0 flex items-center gap-4 hover:bg-slate-50/80 transition-colors group"
-            >
-              <div className="w-6 text-xs font-bold text-slate-200 shrink-0 text-center">{idx + 1}</div>
-              <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${p.gradient} flex items-center justify-center shrink-0`}>
-                <Download size={16} className={p.iconColor} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-slate-900 truncate">{p.title}</p>
-                <p className="text-xs text-slate-400 mt-0.5 capitalize">{p.type} · ₹{p.price.toLocaleString("en-IN")}</p>
-              </div>
-              <div className="w-16 h-7 hidden md:block">
-                <svg viewBox="0 0 100 60" preserveAspectRatio="none" className="w-full h-full">
-                  <polyline points="0,55 14,45 28,50 42,30 57,20 71,25 85,15 100,8" fill="none" stroke="#059669" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-              <div className="text-right shrink-0">
-                <p className="text-sm font-bold text-emerald-600">₹{(p.revenue / 100).toLocaleString("en-IN")}</p>
-                <p className="text-xs text-slate-400 mt-0.5">{p.sales} sales</p>
-              </div>
-              <span className="stat-up text-xs flex items-center gap-0.5 shrink-0">
-                <ArrowUpRight size={10} /> {p.change}
-              </span>
-              <span className="text-xs px-2 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 shrink-0 capitalize">
-                {p.status}
-              </span>
-              <button className="p-1.5 rounded-lg opacity-0 group-hover:opacity-100 hover:bg-slate-100 transition-all">
-                <MoreHorizontal size={15} className="text-slate-400" />
-              </button>
-            </motion.div>
-          ))}
-        </motion.div>
+
+        {products.length === 0 ? (
+          <div className="px-6 py-12 text-center text-slate-400">
+            <Package size={32} className="mx-auto mb-3 text-slate-200" />
+            <p className="text-sm font-medium">No products yet.</p>
+            <p className="text-xs mt-1">Add your first product to start selling.</p>
+          </div>
+        ) : (
+          <motion.div variants={staggerContainer} initial="hidden" animate="show">
+            {products.map((p, idx) => {
+              const style = PRODUCT_GRADIENTS[idx % PRODUCT_GRADIENTS.length]
+              const statusColor =
+                p.status === "active"   ? "bg-emerald-50 border-emerald-200 text-emerald-600" :
+                p.status === "archived" ? "bg-slate-50 border-slate-200 text-slate-500"       :
+                                          "bg-amber-50 border-amber-200 text-amber-600"
+              return (
+                <motion.div
+                  key={p.id}
+                  variants={staggerItem}
+                  className="px-6 py-4 border-b border-slate-50 last:border-0 flex items-center gap-4 hover:bg-slate-50/80 transition-colors group"
+                >
+                  <div className="w-6 text-xs font-bold text-slate-200 shrink-0 text-center">{idx + 1}</div>
+                  <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${style.gradient} flex items-center justify-center shrink-0 overflow-hidden`}>
+                    {p.coverImageUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={p.coverImageUrl} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      <Download size={16} className={style.iconColor} />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-slate-900 truncate">{p.title}</p>
+                    <p className="text-xs text-slate-400 mt-0.5 capitalize">
+                      {p.type} · {p.currency === "INR" ? "₹" : "$"}{(p.price / 100).toLocaleString("en-IN")}
+                    </p>
+                  </div>
+                  <span className={`text-xs px-2 py-1 rounded-full border shrink-0 capitalize ${statusColor}`}>
+                    {p.status}
+                  </span>
+                  <button className="p-1.5 rounded-lg opacity-0 group-hover:opacity-100 hover:bg-slate-100 transition-all">
+                    <MoreHorizontal size={15} className="text-slate-400" />
+                  </button>
+                </motion.div>
+              )
+            })}
+          </motion.div>
+        )}
       </div>
 
       {/* Payout info */}
@@ -255,7 +250,7 @@ function ActiveStore() {
           <TrendingUp size={20} className="text-emerald-600" />
         </div>
         <div className="flex-1">
-          <p className="font-semibold text-emerald-900">Next payout: ₹2,02,922</p>
+          <p className="font-semibold text-emerald-900">Payouts coming soon</p>
           <p className="text-xs text-emerald-700/60 mt-0.5">Auto-deposited to your bank account on the 1st via Razorpay</p>
         </div>
         <button className="text-sm text-emerald-700 hover:text-emerald-900 transition-colors font-semibold flex items-center gap-1 bg-white px-4 py-2 rounded-xl border border-emerald-200 shadow-sm">
@@ -269,5 +264,30 @@ function ActiveStore() {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function StorePage() {
-  return HAS_STORE ? <ActiveStore /> : <StoreEmptyState />
+  const [hasStore, setHasStore] = useState<boolean | null>(null)
+  const [storeProducts, setStoreProducts] = useState<DashboardProduct[]>([])
+
+  useEffect(() => {
+    // Fetch seller status and products in parallel
+    Promise.all([
+      fetch("/api/seller/me").then(r => r.json()).catch(() => ({ seller: null })),
+      fetch("/api/seller/products").then(r => r.json()).catch(() => ({ products: [] })),
+    ]).then(([sellerData, productsData]: [{ seller: { is_active?: boolean } | null }, { products: DashboardProduct[] }]) => {
+      setHasStore(!!(sellerData.seller?.is_active))
+      setStoreProducts(productsData.products ?? [])
+    }).catch(() => setHasStore(false))
+  }, [])
+
+  // Loading skeleton — matches the card shape
+  if (hasStore === null) {
+    return (
+      <div className="px-8 py-8 animate-pulse">
+        <div className="h-8 w-48 bg-slate-100 rounded-xl mb-4" />
+        <div className="h-4 w-72 bg-slate-100 rounded-lg mb-10" />
+        <div className="h-64 bg-slate-100 rounded-3xl" />
+      </div>
+    )
+  }
+
+  return hasStore ? <ActiveStore products={storeProducts} /> : <StoreEmptyState />
 }

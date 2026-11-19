@@ -2,11 +2,12 @@
 
 import { useState, useCallback, KeyboardEvent } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   X, ArrowRight, ArrowLeft, Check, Plus, Trash2,
   Code2, PenTool, Camera, Megaphone, Handshake, Video, FileText, Sparkles,
-  ChevronUp, ChevronDown, Eye, ExternalLink,
+  ChevronUp, ChevronDown, Eye, ExternalLink, Loader2,
 } from "lucide-react"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -535,10 +536,45 @@ const INITIAL_DATA: PortfolioData = {
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function PortfolioNewPage() {
+  const router = useRouter()
   const [step, setStep] = useState(0)
   const [dir, setDir] = useState(1)
   const [data, setData] = useState<PortfolioData>(INITIAL_DATA)
   const [showPreview, setShowPreview] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [launchError, setLaunchError] = useState("")
+
+  const handleLaunch = async () => {
+    setIsSubmitting(true)
+    setLaunchError("")
+    try {
+      const res = await fetch("/api/portfolio/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name:            data.name,
+          professionTitle: data.professionTitle,
+          tagline:         data.tagline,
+          bio:             data.bio,
+          skills:          data.skills,
+          projects:        data.projects.filter(p => p.title.trim()),
+          sections:        data.sections,
+          theme:           data.theme,
+          accentColor:     data.accentColor,
+        }),
+      })
+      const json = await res.json() as { portfolio?: { id: string; slug: string }; error?: string }
+      if (!res.ok || !json.portfolio) {
+        setLaunchError(json.error ?? "Something went wrong. Please try again.")
+        return
+      }
+      router.push(`/dashboard/portfolio?launched=${json.portfolio.slug}`)
+    } catch {
+      setLaunchError("Network error — please check your connection and try again.")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   const change = useCallback((key: keyof PortfolioData, value: unknown) => {
     setData(prev => {
@@ -641,10 +677,21 @@ export default function PortfolioNewPage() {
                     {step === TOTAL_STEPS - 2 ? "Finish" : "Continue"} <ArrowRight size={16} />
                   </button>
                 ) : (
-                  <button className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white"
-                    style={{ background: "#7c3aed", boxShadow: "0 4px 20px rgba(124,58,237,0.35)" }}>
-                    <Sparkles size={16} /> Launch Portfolio
-                  </button>
+                  <div className="flex flex-col items-end gap-2">
+                    {launchError && (
+                      <p className="text-xs text-red-500 text-right max-w-xs">{launchError}</p>
+                    )}
+                    <button
+                      onClick={handleLaunch}
+                      disabled={isSubmitting}
+                      className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white disabled:opacity-70 transition-opacity"
+                      style={{ background: "#7c3aed", boxShadow: "0 4px 20px rgba(124,58,237,0.35)" }}>
+                      {isSubmitting
+                        ? <><Loader2 size={16} className="animate-spin" /> Launching…</>
+                        : <><Sparkles size={16} /> Launch Portfolio</>
+                      }
+                    </button>
+                  </div>
                 )}
               </div>
             </div>

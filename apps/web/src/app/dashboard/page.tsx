@@ -2,7 +2,7 @@ import { currentUser } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { db, withRLS } from '@/lib/db'
 import { users, portfolios, analyticsEvents } from '@brandingos/db'
-import { eq, and, gte, count, isNull, desc } from 'drizzle-orm'
+import { eq, and, gte, count, isNull, desc, sql } from 'drizzle-orm'
 import DashboardClient from './_components/DashboardClient'
 
 // Dashboard is per-user — never statically generated at build time
@@ -19,6 +19,16 @@ export default async function DashboardPage() {
 
   try {
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+
+    // Auto-provision: if webhook missed (local dev, delivery failure), create the row now
+    const email = clerkUser.emailAddresses[0]?.emailAddress ?? ''
+    const fullName = [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(' ') || email.split('@')[0]
+    const baseUsername = clerkUser.username || email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '')
+    await db().execute(
+      sql`INSERT INTO users (id, username, email, full_name, avatar_url, tier, ai_credits_remaining, ai_credits_monthly_alloc, is_verified, created_at, updated_at)
+          VALUES (${clerkUser.id}, ${baseUsername + Math.floor(Math.random() * 1000)}, ${email}, ${fullName}, ${clerkUser.imageUrl || null}, 'free', 50, 50, false, NOW(), NOW())
+          ON CONFLICT (id) DO NOTHING`
+    )
 
     const [userRows, portfolioRows] = await Promise.all([
       withRLS(db(), clerkUser.id, (tx) =>

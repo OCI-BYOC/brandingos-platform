@@ -29,8 +29,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <ClerkProvider
-          afterSignInUrl="/dashboard"
-          afterSignUpUrl="/dashboard"
+          signInFallbackRedirectUrl="/dashboard"
+          signUpFallbackRedirectUrl="/dashboard"
         >
           {children}
         </ClerkProvider>

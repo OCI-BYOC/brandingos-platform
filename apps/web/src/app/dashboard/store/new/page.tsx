@@ -2,11 +2,12 @@
 
 import { useState, useCallback, KeyboardEvent } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   X, ArrowRight, ArrowLeft, Check, Plus, Trash2,
   BookOpen, Shirt, Brush, Dumbbell, Utensils, Code2, Heart, Sparkles,
-  Eye, ExternalLink,
+  Eye, ExternalLink, Loader2,
 } from "lucide-react"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -493,10 +494,13 @@ const INITIAL_DATA: StoreData = {
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function StoreNewPage() {
+  const router = useRouter()
   const [step, setStep] = useState(0)
   const [dir, setDir] = useState(1)
   const [data, setData] = useState<StoreData>(INITIAL_DATA)
   const [showPreview, setShowPreview] = useState(false)
+  const [launching, setLaunching] = useState(false)
+  const [launchError, setLaunchError] = useState<string | null>(null)
 
   const change = useCallback((key: keyof StoreData, value: unknown) => {
     setData(prev => ({ ...prev, [key]: value }))
@@ -508,6 +512,38 @@ export default function StoreNewPage() {
     if (step === 0) return data.storeName.trim().length > 0
     if (step === 1) return data.sellCategory.length > 0
     return true
+  }
+
+  const handleLaunch = async () => {
+    setLaunching(true)
+    setLaunchError(null)
+    try {
+      const res = await fetch("/api/seller/provision", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          store_name: data.storeName,
+          sell_category: data.sellCategory,
+          niche: data.nicheCustom || data.niche,
+          audience_description: data.audienceDescription,
+          audience_age: data.audienceAge,
+          audience_goal: data.audienceGoal,
+          pricing_model: data.pricingModel,
+          primary_currency: data.primaryCurrency,
+          theme_style: data.themeStyle,
+          theme_color: data.themeColor,
+          payment_provider: data.paymentProvider === "skip" ? "razorpay" : data.paymentProvider,
+        }),
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        throw new Error((err as { message?: string }).message ?? "Launch failed")
+      }
+      router.push("/dashboard/store")
+    } catch (err) {
+      setLaunchError(err instanceof Error ? err.message : "Something went wrong. Try again.")
+      setLaunching(false)
+    }
   }
 
   const steps = [
@@ -591,10 +627,23 @@ export default function StoreNewPage() {
                     {step === TOTAL_STEPS - 2 ? "Finish" : "Continue"} <ArrowRight size={16} />
                   </button>
                 ) : (
-                  <button className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white"
-                    style={{ background: "#7c3aed", boxShadow: "0 4px 20px rgba(124,58,237,0.35)" }}>
-                    <Sparkles size={16} /> Launch Store
-                  </button>
+                  <div className="flex flex-col items-end gap-2">
+                    {launchError && (
+                      <p className="text-xs text-red-500">{launchError}</p>
+                    )}
+                    <button
+                      onClick={handleLaunch}
+                      disabled={launching}
+                      className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white disabled:opacity-70"
+                      style={{ background: "#7c3aed", boxShadow: "0 4px 20px rgba(124,58,237,0.35)" }}
+                    >
+                      {launching ? (
+                        <><Loader2 size={16} className="animate-spin" /> Launching…</>
+                      ) : (
+                        <><Sparkles size={16} /> Launch Store</>
+                      )}
+                    </button>
+                  </div>
                 )}
               </div>
             </div>

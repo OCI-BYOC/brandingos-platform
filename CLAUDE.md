@@ -188,7 +188,6 @@ Rules:
 - After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
 - A committed graphify-out/graph.json is rewritten whole on every build, so a large diff to it in a pull request is expected. Do not flag it as churn or suggest skipping the graph rebuild or its hooks.
 
-
 ## Compound Engineering Skills
 
 37 engineering skills installed in `.claude/skills/`. Config in `.compound-engineering/config.yaml`.

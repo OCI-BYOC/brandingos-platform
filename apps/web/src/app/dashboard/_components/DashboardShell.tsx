@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
+import { useClerk } from "@clerk/nextjs"
 import {
   LayoutDashboard, Briefcase, ShoppingBag, BookOpen,
   BarChart2, Settings, Zap, LogOut, Bell, Target,
@@ -25,6 +26,7 @@ interface Props {
 
 export default function DashboardShell({ children, user }: Props) {
   const path = usePathname()
+  const { signOut } = useClerk()
 
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden">
@@ -87,7 +89,11 @@ export default function DashboardShell({ children, user }: Props) {
             <p className="text-xs font-semibold text-slate-900 truncate">{user?.firstName || user?.email?.split("@")[0] || "User"}</p>
             <p className="text-[10px] text-slate-400 truncate">Free plan</p>
           </div>
-          <button className="p-1.5 rounded-lg hover:bg-slate-100 transition-colors">
+          <button
+            onClick={() => signOut({ redirectUrl: "/sign-in" })}
+            className="p-1.5 rounded-lg hover:bg-red-50 hover:text-red-500 transition-colors"
+            title="Sign out"
+          >
             <LogOut size={13} className="text-slate-400" />
           </button>
         </div>
